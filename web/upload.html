@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Share a passport · Agent Passport</title>
+<meta name="description" content="Drop an Agent Passport file here and get a link to send to whoever is installing the agent. No account, no email.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F8F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#071B23" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Passport">
+<meta property="og:title" content="Share a passport">
+<meta property="og:description" content="Drop an Agent Passport file here and get a link to send to whoever is installing the agent. No account, no email.">
+<meta property="og:url" content="https://app.phaeacia.ai/upload">
+<meta property="og:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An Agent Passport cover: the Phaeacia mark, the document type, and two entry stamps reading granted and not granted.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<link rel="icon" href="/assets/favicon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon/favicon-32.png" sizes="32x32">
+<link rel="icon" href="/assets/favicon/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/schibsted-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/ship.css">
+<link rel="stylesheet" href="/assets/card.css">
+<script>(function(){try{var t=localStorage.getItem('phaeacia-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header><a class="brand" href="/" aria-label="Phaeacia Agent Passport home"><img src="/assets/mark/phaeacia-mark-mono-tight.svg" width="30" height="36" alt=""><span>Phaeacia</span><span class="product">Agent Passport</span></a><nav aria-label="Main navigation"><a href="/">Create</a><a href="/upload" aria-current="page" >Share</a><a href="/gallery">Gallery</a></nav><button class="theme" type="button" data-theme-toggle><span class="sr-only">Theme: </span><span data-theme-label>Auto</span></button></header>
+
+<main id="main" class="share-main">
+
+
+  <div id="front">
+
+    <section class="intro"><h1>Share a passport.</h1><p>Upload your passport file to create a link.</p></section>
+    <section class="deck" aria-label="Passport upload">
+          <noscript>
+            <p class="help"><b>This page needs JavaScript.</b> It reads the file you choose or the
+            text you paste, checks it, and publishes it: none of that happens without it. You can
+            still choose a file or paste text, but every button below stays disabled and does
+            nothing when you click it, because this page's own script is what turns them on.</p>
+          </noscript>
+          <div class="drop berth" id="drop" data-berth="idle" tabindex="-1">
+            <div class="berth-water" aria-hidden="true">
+
+              <svg class="ship" viewBox="0 0 200 104">
+
+                <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                  <path d="M44 72 L31 104"/>
+                  <path d="M60 74 L47 106"/>
+                  <path d="M76 75 L63 107"/>
+                  <path d="M92 76 L79 108"/>
+                  <path d="M108 76 L95 108"/>
+                  <path d="M124 75 L111 107"/>
+                  <path d="M140 74 L127 106"/>
+                  <path d="M156 72 L143 104"/>
+                </g>
+
+                <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M96 6 L96 64"/>
+                  <path d="M54 17 L142 17"/>
+                </g>
+
+                <g fill="currentColor">
+                  <path d="M16 64 L184 64 C176 86 148 94 100 94 C52 94 24 84 16 64 Z"/>
+                  <path d="M58 18 L138 18 C143 27 143 39 138 47 C120 41 76 41 58 47 C53 39 53 27 58 18 Z"/>
+                </g>
+
+                <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M16 64 C3 53 0 31 12 21 C19 15 28 18 27 27"/>
+                  <path d="M184 64 C193 56 195 45 190 38"/>
+                </g>
+
+                <g class="cargo" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linejoin="round" stroke-linecap="round">
+                  <path d="M157 41 L176 41 L176 64 L150 64 L150 48 Z"/>
+                  <path d="M157 41 L157 48 L150 48"/>
+                  <path d="M156 54 L170 54"/>
+                  <path d="M156 59 L170 59"/>
+                </g>
+              </svg>
+            </div>
+
+            <div class="berth-words">
+              <h2 class="hint">Drop your passport file here</h2><label class="primary file-label">Choose a file<input type="file" id="file" accept=".md,.markdown,.txt,.html,text/*"></label><p class="token-note">One passport file, up to 256 KB.</p>
+
+              <p class="picked" id="picked" hidden></p>
+            </div>
+          </div>
+
+          <details class="paste"><summary>Paste passport text instead</summary><label class="sr-only" for="paste">Passport text</label>
+            <textarea class="paste" id="paste" placeholder="---&#10;passport: &quot;0.1&quot;&#10;name: ..."></textarea></details>
+
+          <div class="leak-warn" id="leak-warn" role="alert" aria-live="assertive" tabindex="-1" hidden>
+            <p class="lh">This might name a real person, a place, an amount, a key or an address</p>
+            <p id="leak-warn-msg"></p>
+            <div class="blockbox tall" id="leak-warn-lines"></div>
+            <label class="checkrow">
+              <input type="checkbox" id="leak-warn-ack">
+              <span>These lines are meant to be public.</span>
+            </label>
+          </div>
+
+          <div class="errors" id="errors" role="alert" aria-live="assertive" hidden></div>
+
+          <div class="errors" id="write-help" role="alert" aria-live="assertive" tabindex="-1" hidden>
+            <div class="eh">Not published.</div>
+            <p class="emsg" id="write-help-msg">Delete these lines from your paste, then upload it again. This page never edits the paste for you.</p>
+            <div class="blockbox tall" id="write-help-lines"></div>
+            <p class="fixed">Also check the consent table for a closing sentence that still describes this
+            capability. The validator cannot see prose, so if you wrote one, remove that line too.</p>
+          </div>
+
+          <div class="gate" id="gate" hidden tabindex="-1">
+
+            <div id="gate-owner" hidden>
+              <p class="gh">Not reviewed by its owner</p>
+              <p id="gate-owner-msg"></p>
+              <p>Capture ends by showing the owner what it understood and what it redacted, and it writes
+              down whether they answered. This file says nobody did.</p>
+              <label class="checkrow">
+                <input type="checkbox" id="gate-owner-ack">
+                <span>I understand this passport was never reviewed, and I am publishing it anyway.</span>
+              </label>
+            </div>
+
+            <div id="gate-write" hidden>
+              <p class="gh">Marked as a write this agent was told not to make</p>
+              <p id="gate-write-msg"></p>
+              <div class="blockbox tall" id="gate-write-lines"></div>
+              <p>Two things this page cannot see: editing "no, declared only" to plain "yes" gets past it,
+              and a real write the interview never asked about leaves no marker here to find.</p>
+              <p><strong>Does this agent really do this?</strong></p>
+              <div class="actions">
+                <button class="btn ghost" id="gate-write-yes" type="button" aria-pressed="false">Yes, it does</button>
+                <button class="btn ghost" id="gate-write-no" type="button" aria-pressed="false">No, it does not</button>
+              </div>
+            </div>
+
+            <p class="token-note" id="gate-ttl"></p>
+
+            <div class="actions">
+              <button class="btn" id="gate-go" type="button" disabled>Publish it unreviewed</button>
+
+              <a class="textlink" href="#drop" id="gate-back">Go back and use a different file</a>
+            </div>
+          </div>
+
+          <p class="public-note">Anyone with the link can read the passport. Review the file before publishing it.</p>
+
+
+          <div class="listbox">
+            <label class="checkrow">
+              <input type="checkbox" id="list-in-gallery" checked>
+              <span>List in the public gallery<span class="sub">Make it discoverable so others can find and install your agent.</span>
+              </span>
+            </label>
+            <p class="visibility-detail">Listed passports can appear in search results and do not expire. Unlisting removes them from the gallery and starts a 30-day expiry period. Unlisted passports expire after 30 days unless you renew them.</p>
+<div class="formrow" id="list-category-row">
+              <label for="list-category">What is it for?</label>
+              <select class="field" id="list-category" required>
+                <option value="">Pick one</option>
+                <option value="research-and-monitoring">Research and monitoring</option>
+                <option value="writing-and-editing">Writing and editing</option>
+                <option value="personal-and-planning">Personal and planning</option>
+                <option value="operations-and-admin">Operations and admin</option>
+                <option value="engineering-and-dev-tools">Engineering and dev tools</option>
+                <option value="sales-and-customers">Sales and customers</option>
+                <option value="finance-and-legal">Finance and legal</option>
+                <option value="other">Something else</option>
+              </select>
+
+
+              <p class="fielderr" id="list-category-err" role="alert" hidden></p>
+            </div>
+          </div>
+
+          <div><button class="btn" id="publish" type="button" disabled>Publish this passport</button></div>
+
+
+
+          <p class="waitline" id="waiting" role="status" aria-live="polite"></p>
+<p class="token-note">When you publish, save your delete token. You need it to manage or delete the passport, and it cannot be recovered.</p>
+<a class="text-link" href="/create">Create a passport first</a>
+</section></div>
+  <section class="landed" id="published" hidden tabindex="-1" aria-labelledby="published-h">
+
+
+    <div class="landed-head">
+      <div class="landed-words">
+        <p class="eyebrow brass">Published</p>
+        <h1 id="published-h">It is live.</h1>
+        <p class="lede" id="published-lede">Your passport is ready to share. Copy its link below.</p>
+      </div>
+
+    </div>
+
+
+
+
+    <section aria-labelledby="link-h">
+      <div class="copyrow">
+        <h2 id="link-h">The link</h2>
+        <div class="blockbox" id="result-url"></div>
+        <button class="boat-copy" type="button" data-app-copy="#result-url"><span class="harbour" id="landed-harbour" aria-hidden="true"></span><span data-copy-label>Copy link</span></button>
+      </div>
+      <p class="body"><a id="result-open" href="#">Open the passport page</a> to see exactly what the
+      other person will see.</p>
+
+    </section>
+
+    <section aria-labelledby="token-h">
+      <div class="copyrow">
+        <h2 id="token-h">The delete token</h2>
+        <div class="blockbox" id="result-token"></div>
+        <button class="btn ghost" type="button" data-copy="#result-token">Copy delete token</button>
+      </div>
+      <div class="callout warn">
+        <p class="t">Shown once, here and nowhere else</p>
+        <p>This token is not stored anywhere in a form that can be read back, and it cannot be recovered
+        or reissued. Nothing emails it to you unless you ask for a copy in the form below. Save it now,
+        in whatever you use for passwords or notes.</p>
+        <p>Without it you cannot manage or delete the passport. Listed passports do not expire; unlisted passports come down when their expiry date arrives.</p>
+      </div>
+      <p class="body"><a id="result-manage" href="/manage">Manage this passport</a> to renew it, check it
+      or delete it. That management link carries the token in it, so treat it exactly like the token.</p>
+      <div class="meter" id="result-life">
+        <div class="track"><div class="fill" id="result-life-fill" style="width:100%"></div></div>
+        <p class="cap" id="result-life-cap"></p>
+      </div>
+
+      <p class="body" id="result-listed" hidden><a href="/gallery">Listed in the gallery</a></p>
+    </section>
+
+    <section class="cardbox" id="cardbox" aria-label="Passport card">
+      <div id="card-mount" data-passport-card></div>
+    </section>
+
+    <section aria-labelledby="send-h">
+      <h2 id="send-h">Or let us hand it over</h2>
+      <div class="sendbox" data-sendbox hidden>
+        <p class="sh">One message, one address</p>
+        <p class="help">Optional, and it changes nothing about the passport. One message goes to one
+        address, saying who sent it, what the agent is, and where the link is. The address is used for
+        that message, and named in your own copy if you ask for one, and is not stored. A one-way hash
+        of it counts that day's messages, so that nobody can flood one inbox through us; it stops
+        counting at midnight UTC and a later cleanup deletes it.</p>
+        <div class="formrow">
+          <label for="send-to">Send the link to</label>
+          <input class="field" type="email" id="send-to" data-send-to autocomplete="off" spellcheck="false"
+                 placeholder="them@example.com">
+        </div>
+        <div class="formrow">
+          <label for="send-from">Your name, optional</label>
+          <input class="field" type="text" id="send-from" data-send-from maxlength="60" autocomplete="off"
+                 placeholder="Someone">
+          <p class="help">Shown in the message, beside the agent's name, under a line saying we did not
+          write either of them. Leave it blank and it says "Someone". It is not in the subject: the
+          subject is the same fixed line on every message we send, because a subject line is the most
+          convincing part of an email and none of it is a stranger's to write.</p>
+        </div>
+        <label class="checkrow">
+          <input type="checkbox" data-send-copy>
+          <span>Send me a copy
+            <span class="sub">Your copy carries the delete token. Anyone who reads that message can take the passport down.</span>
+          </span>
+        </label>
+        <div class="formrow" data-send-copy-row hidden>
+          <label for="send-copy-to">Your email address</label>
+          <input class="field" type="email" id="send-copy-to" data-send-copy-to autocomplete="off"
+                 spellcheck="false" placeholder="you@example.com">
+        </div>
+        <div class="errors" data-send-errors role="alert" aria-live="assertive" hidden></div>
+        <div><button class="btn ghost" type="button" data-send-btn>Send the link</button></div>
+      </div>
+      <p class="caption" data-send-off hidden>Sending email is not switched on for this deployment. Copy
+      the link above and send it however you normally would; nothing about the passport depends on it.</p>
+    </section>
+
+
+    <section aria-labelledby="keep-h" data-subbox hidden>
+      <h2 id="keep-h">Tell me what comes next</h2>
+      <div class="sendbox">
+        <p class="sh">Optional, and nothing above depends on it</p>
+        <p class="body">Your passport is published and the link works. If you want to hear when this
+        stops being a testbuild, leave an address. It goes on one list, it is used for occasional notes
+        about what changed, and every one of those carries an unsubscribe link.</p>
+        <div class="formrow">
+          <label for="sub-email">Your email address</label>
+          <input class="field" type="email" id="sub-email" data-sub-email autocomplete="off"
+                 spellcheck="false" placeholder="you@example.com">
+        </div>
+        <label class="checkrow">
+          <input type="checkbox" data-sub-consent>
+          <span>Yes, keep my address for this
+            <span class="sub">Held by Resend, who send the mail. Not sold, not shared, and not used for
+            anything else. Unsubscribe from any message, or ask and it is deleted.</span>
+          </span>
+        </label>
+        <div class="errors" data-sub-errors role="alert" aria-live="assertive" hidden></div>
+        <div><button class="btn ghost" type="button" data-sub-btn disabled>Keep me posted</button></div>
+        <p class="caption" data-sub-done hidden>Done. You are on the list, and the unsubscribe link is in
+        every message.</p>
+      </div>
+    </section>
+
+  </section>
+
+  <section class="landed" id="held" hidden tabindex="-1" aria-labelledby="held-h">
+    <div class="landed-head">
+      <div class="landed-words">
+        <p class="eyebrow brass">Not published yet</p>
+        <h1 id="held-h">This one needs a person to look at it before it publishes.</h1>
+        <p class="lede">An automatic check asked for a person to read your passport first. It is not public in the meantime.</p>
+      </div>
+    </div>
+
+    <section aria-labelledby="held-next-h">
+      <h2 id="held-next-h">What happens next</h2>
+      <p class="body">We keep the text for up to <span id="held-days">5</span> days. If it is approved, it goes live like any other passport. If not, or if nobody decides in time, the text is deleted.</p>
+    </section>
+
+    <section aria-labelledby="held-hear-h">
+      <h2 id="held-hear-h">Want to hear back?</h2>
+      <div class="sendbox" data-holdbox>
+        <p class="body">Leave your email. If your passport is published, we write to you with its link and the link to delete or renew it. If it is not, we write to tell you why. Either way, the address is deleted once we have written.</p>
+        <div class="formrow">
+          <label for="hold-email">Your email address</label>
+          <input class="field" type="email" id="hold-email" data-hold-email autocomplete="off"
+                 spellcheck="false" placeholder="you@example.com">
+        </div>
+        <div class="errors" data-hold-errors role="alert" aria-live="assertive" hidden></div>
+        <div><button class="btn ghost" type="button" data-hold-btn disabled>Leave my email</button></div>
+        <p class="caption" data-hold-done role="status" hidden>Saved. We write once to this address, with the link if your passport is published or the reason if it is not, and then delete it.</p>
+      </div>
+      <p class="body" data-hold-noaddress hidden>This screen cannot take an address for this one. Without one we have no way to tell you what was decided, and if it is published you will not receive the link that lets you delete it.</p>
+    </section>
+
+    <p class="body"><a class="text-link" href="/upload">Upload a different file</a></p>
+  </section>
+
+</main>
+
+<footer><a href="https://phaeacia.ai/">Phaeacia</a><div><a href="/manage">Manage a passport</a><a href="/about">Help</a><a href="/privacy">Privacy</a><a href="/imprint">Imprint</a><a href="https://phaeacia.ai/#access">Get updates about Phaeacia</a></div></footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/send.js"></script>
+<script src="/assets/subscribe.js"></script>
+<script src="/assets/hold.js"></script>
+<script src="/assets/card.js"></script>
+<script src="/assets/leak-scan.js"></script>
+<script src="/assets/share.js"></script>
+<script src="/assets/app-copy.js"></script>
+</body>
+</html>

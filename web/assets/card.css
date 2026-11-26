@@ -1,0 +1,82 @@
+/* The passport card, the part of it that is DOM.
+
+   The image itself is pixels drawn by assets/card.js and is deliberately one
+   fixed treatment in the light palette, because a downloaded PNG carries no
+   theme. Everything around it is ordinary page furniture and is theme-aware
+   like the rest of the site, so this file declares no colour of its own: every
+   value here is a token from tokens.css.
+
+   Loaded alongside base.css, never instead of it. `.btn` and `.btn.ghost` on
+   the two controls come from base.css unchanged. */
+
+/* min-width: 0 on both the figure and the frame, and it is load-bearing. A
+   flex or grid item's automatic minimum size is its content's min-content
+   size, and a canvas carries its BITMAP width as an intrinsic size, so a
+   2400px bitmap inside a 350px column pushed the column to 2400px and the
+   whole page scrolled sideways at 390. Percentage width on the canvas does
+   not save you from that; the floor has to be reset here. */
+.pc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ph-4);
+  margin: 0;
+  max-width: 720px;
+  min-width: 0;
+}
+
+/* The frame is what makes a light card sit properly on a night ground: the
+   card's own edge is a warm hairline that disappears against dark paper, so
+   the frame carries a token hairline of its own and a matching radius. It is
+   1px larger than the bitmap on every side, which is why the radius here is
+   the large token and the bitmap's own corner is drawn one step inside it. */
+.pc-frame {
+  min-width: 0;
+  border: 1px solid var(--ph-line);
+  border-radius: var(--ph-r-lg);
+  overflow: hidden;
+  line-height: 0;                    /* no descender gap under the canvas */
+  background: var(--ph-paper-deep);  /* the mat, so a slow paint is not a white flash */
+}
+
+/* Scaled down from a 2x or 3x bitmap. width:100% with an aspect ratio rather
+   than a height, so the element reserves its space before the canvas has been
+   sized and the page does not jump. 1200 by 630 is the bitmap's logical size,
+   the same 1.91:1 the social card already uses. */
+.pc-canvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+}
+
+.pc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ph-3);
+}
+
+/* aria-live, so a copy that succeeded or was refused is announced rather than
+   only shown. Empty until something happens; it must not reserve a line. */
+.pc-status {
+  font-size: var(--ph-t-small);
+  color: var(--ph-mute);
+}
+.pc-status:empty { display: none; }
+
+.pc-note {
+  font-family: var(--ph-mono);
+  font-size: var(--ph-t-micro);
+  letter-spacing: var(--ph-tr-micro);
+  text-transform: uppercase;
+  color: var(--ph-mute);
+  margin: 0;
+  max-width: none;
+}
+
+/* Below the phone breakpoint the two controls go full width rather than
+   wrapping into a ragged row. 44px minimum is already on .btn. */
+@media (max-width: 640px) {
+  .pc-actions .btn { flex: 1 1 100%; }
+}

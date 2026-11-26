@@ -1,0 +1,41 @@
+name: gitleaks
+
+# Scans the full git history on every push and pull request, and fails the build
+# if a secret is found. Config and the reasoning behind every allowlist entry are
+# in .gitleaks.toml at the repo root.
+#
+# This installs the binary rather than using gitleaks/gitleaks-action, because
+# that action requires a paid GITLEAKS_LICENSE for organisation-owned repos and
+# Phaeacia-ai is an org. The binary has no such condition.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GITLEAKS_VERSION: 8.30.1
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history. A shallow clone would scan only the tip commit, which
+          # is the one place a secret is least likely to still be visible.
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        run: |
+          curl -sSfL \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          sudo install -m 0755 gitleaks /usr/local/bin/gitleaks
+          gitleaks version
+
+      - name: Scan history
+        run: gitleaks git . --redact --no-banner --exit-code 1

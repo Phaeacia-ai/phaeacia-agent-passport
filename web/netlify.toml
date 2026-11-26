@@ -1,0 +1,294 @@
+# This file lives in web/, so every path here is relative to web/.
+# Set the site's base directory to "web" in Netlify, and this is the config it reads.
+[build]
+  # ONLY dist/ IS PUBLISHED, and tools/build-dist.py builds it from an
+  # allowlist. This was `publish = "."` until 2026-09-30, with eight force = 404
+  # rules hiding lib/, netlify/, tools/, README.md, build.sh and the manifests.
+  # Netlify matches a rule's `from` case-sensitively and finds a static file
+  # case-insensitively, so /LIB/_store.mjs and /README.MD served the whole
+  # server source (security review 2026-09-30, H1). A file that is not in the
+  # publish directory is not deployed, so no spelling reaches it; the one
+  # exception, this file, is Netlify's own (build-dist.py's docstring says what
+  # was measured). build-dist.py fails the build if this line says anything but
+  # "dist", if a [context.*] table overrides it, or if a key or table holding
+  # publish is written with capitals, which Netlify folds for some names. It
+  # runs only from the command below, so a [context.*] table that overrides
+  # `command` as well skips it; and it reads this file line by line, so an
+  # override spelled to dodge it gets through (its docstring says how).
+  # Functions, edge functions and included_files are resolved
+  # from the base directory, web/, not from here, so moving this moves none of
+  # them.
+  publish = "dist"
+
+  # build.sh, then substitute.py, composed HERE rather than inside build.sh.
+  #
+  # substitute.py rewrites tracked source in place: it fills {{CONTACT_EMAIL}} and
+  # the entity fields in *.html and lib/*.mjs. build.sh runs on developer
+  # machines, and a build step that rewrites tracked source there is a build step
+  # that eventually gets committed with somebody's local values in it. In a
+  # deploy the checkout is thrown away, so rewriting in place is free. The same
+  # reasoning is written at tools/substitute.py:4-8, and it is why this pair must
+  # not be collapsed into build.sh for tidiness.
+  #
+  # Order matters and is not alphabetical: build.sh's placeholder audit reports
+  # what is still unfilled, so it has to run before anything fills them.
+  #
+  # THEN build-dist.py, after everything that writes or fills a served file and
+  # before the two stages below, which run on dist/ so that what they check is
+  # byte for byte what Netlify publishes. What it copies, and the two guards it
+  # fails the build on, are in its docstring.
+  #
+  # THE LAST TWO STAGES: THE COMMENTARY DOES NOT SHIP.
+  #
+  # Raffael's ruling, 2026-09-02: internal engineering commentary must not be
+  # served to the public. Measured on this repository the same morning, before
+  # anything changed: 157,025 bytes of comments across the served tree.
+  # create.html was 63% comments, ship.css 68%, share.js 64%.
+  #
+  # strip-served-comments.py removes them from dist/ only, the copy build-dist.py
+  # just made, never from the repository and, since dist/ exists, not from the
+  # checkout either. The reasoning stays in git, where it is what stops the next
+  # person undoing a deliberate choice.
+  #
+  # check-served-clean.py is the half that lasts: a strip decays the first time
+  # somebody writes a helpful comment. It fails the build on any comment in any
+  # served text file, and separately on internal identifiers in LIVE text,
+  # which no stripper reaches. `--self-test` asserts each dirty control fails
+  # FOR THE RULE IT NAMES, accepts known-clean inputs, and runs stripper
+  # fixtures with exact expected output, because an instrument nobody has
+  # watched fail cannot be told apart from one that cannot fail. Most dirty
+  # controls are leaks that passed an earlier version during review, pinned as
+  # executable controls rather than described. No count here: it was stale
+  # twice in one day and the suite prints its own.
+  #
+  # AFTER build.sh, not before: build.sh GENERATES served files, including
+  # assets/example.json and the route table, so a strip ahead of it would miss
+  # them and the gate would then fail the build on output that appeared after
+  # it looked. The strip cannot touch lib/ or netlify/, which the functions are
+  # bundled from, because dist/ holds neither.
+  #
+  # WHAT THIS DOES NOT REACH, said here because it is invisible otherwise:
+  # /p/<id> is rendered per request by netlify/functions/passport.mjs, so its
+  # markup never exists as a file at build time, and no lexer running at build
+  # time, including strip-served-comments.py and check-served-clean.py above,
+  # ever sees it. lib/_render.mjs used to emit ~13 HTML comments into every
+  # passport page from inside its template literals. It no longer does: they
+  # were moved out of the template into ordinary JS comments (`${/* ... */''}`,
+  # evaluates to nothing), which are never served because lib/ is not in dist/
+  # in any case. Landed 2026-09-02, commit 2295698 (plus the escape
+  # fix in 8bf9e7b/30aec8a on the same file). ROW-144 verified this against the
+  # rendered output directly, both a synthetic row and the real example body
+  # (which carries the one whitelisted `<!--` in a passport, the installer
+  # placeholder from _validate.mjs's INSTALLER_PLACEHOLDER): zero `<!--` or
+  # `-->` reach the page either way, and web/tools/run-tests.mjs now asserts
+  # that on every render rather than leaving it to be checked by hand again.
+  #
+  # NOT THE SAME THING AS BEING BLIND TO SCRIPT BODIES, which is how this was
+  # once described to me and is worth refusing in writing. served_text.py LEXES
+  # each <script> and <style> body and collects its comment spans, so a comment
+  # inside an inline script in a served FILE is found and stripped like any
+  # other. A reader who believes otherwise will skip a check that does run.
+  #
+  # It scans ONCE, left to right, parsing tags with quote awareness: whichever
+  # construct starts first consumes its own extent. An earlier description here
+  # spoke of "blanking" bodies before a separate markup pass; that machinery
+  # was removed by the single-pass rewrite and the sentence outlived it in five
+  # files.
+  # tools/archive-dist.mjs sits between build-dist.py and the strip: with
+  # ARCHIVE_MODE set it puts the archive notice on every page in dist/ and
+  # replaces the create and upload forms, and with it unset it changes
+  # nothing. After build-dist.py because it rewrites dist/ only; before the
+  # strip and the gate so they check what it wrote. lib/_archive.mjs says what
+  # archive mode does.
+  command = "./build.sh && python3 tools/substitute.py && python3 tools/build-dist.py && node tools/archive-dist.mjs dist && python3 tools/strip-served-comments.py dist --deploy && python3 tools/check-served-clean.py dist"
+
+  # WHAT REPLACED THE PATH FILTER, and this rule is not decoration.
+  #
+  # .github/workflows/deploy-web.yml used to gate deploys on four paths, so that
+  # editing the spec or the capture skill did not redeploy the app. That file is
+  # gone and this line carries that load now. Deleting it means every commit to
+  # main rebuilds and republishes the app, including commits that only touch a
+  # document.
+  #
+  # NETLIFY'S POLARITY IS INVERTED from the intuitive reading: exit 0 means SKIP
+  # the build, non-zero means run it. `git diff --quiet` exits 0 when nothing
+  # changed, so it already says exactly the right thing and needs no wrapper.
+  #
+  # Paths are relative to the BASE directory, which is web/. So `.` is web/** and
+  # the other three reach up one level.
+  #
+  # The error case is fail-safe by construction. An unusable or empty
+  # $CACHED_COMMIT_REF, which is what the first build after connecting has, makes
+  # git exit non-zero and the build runs. Uncertainty builds rather than skips.
+  #
+  # `../installer` is the whole directory rather than the two things build.sh
+  # actually copies from it (core.md and branches/*.md). That over-triggers: a
+  # change to installer/LICENSE.md rebuilds the app for nothing. Deliberate. The
+  # old filter was `installer/**` too, and the failure directions are not
+  # symmetric — an extra build costs a few minutes and is idempotent, while a
+  # missed one ships stale installer text to everyone who installs from the site.
+  #
+  # Verified against the last twelve commits before this one: every skills-only
+  # and spec-only commit skips, every web/, installer/ and examples/ commit
+  # builds, and a verification/ commit that does not touch judge-prompt.md skips.
+  #
+  # ROW-262/ROW-485: build.sh gained a second external read, ../capture/
+  # path-w-prompt.md (the browser-chat copy button's source), the same shape
+  # as judge-prompt.md above it, so it is listed the same way: one file, not
+  # the whole directory. Without this a passport-engineer edit to that file
+  # alone would report no diff against the old path list, Netlify would skip
+  # the rebuild, and the live site would keep serving the extraction from
+  # before the edit. Verified with `git diff --quiet` against a whitespace-only
+  # commit to that file, in a throwaway clone: exits 0 (skip) against the old
+  # path list, 1 (build) against this one. Full test in record/findings/
+  # netlify-build-skip-does-not-know-about-a-new-source-dependency.md. This
+  # is web-backend's file; edited here under HAL's explicit assignment for
+  # this branch only, since no web-backend session is running and this is a
+  # one-path change.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../installer ../examples ../verification/judge-prompt.md ../capture/path-w-prompt.md"
+
+# `netlify dev` on a developer's machine serves THIS directory, as it did before
+# dist/ existed. Without this line it takes [build] publish and serves dist/,
+# which only exists after build-dist.py has run and goes stale on the next edit
+# to a page. Read only by `netlify dev`: a deploy never looks at [dev], and
+# build-dist.py allows a publish key here and in [build] and nowhere else.
+[dev]
+  publish = "."
+
+[functions]
+  directory    = "netlify/functions"
+  node_bundler = "esbuild"
+
+# og.mjs (ROW-169) reads four things off disk at runtime rather than
+# importing them, so esbuild's "bundle what is statically imported" never
+# sees them and they would otherwise be absent from the deployed function:
+# the generic fallback card, the five static TTFs tools/build-og-fonts.mjs
+# produced (satori reads none of the shipped WOFF2s and cannot use the
+# variable Schibsted face directly, see lib/og-template.mjs's header),
+# @resvg/resvg-wasm's wasm binary, and harfbuzzjs's hb.wasm, which satori
+# loads through its emscripten glue by __dirname + "hb.wasm". satori's own
+# yoga.wasm is base64-embedded in its JS and needs no line here.
+#
+# THE FOURTH LINE WAS MISSING and the function shipped, in this branch's
+# first five commits, as one that could never draw a card: harfbuzz aborted
+# on ENOENT, og.mjs caught it, and every request got the generic card with
+# status 200, indistinguishable from outside from a working deploy. Ten
+# tests passed because they run from the checkout, where the file exists.
+# A second critic found it by bundling with @netlify/zip-it-and-ship-it,
+# unzipping, and calling the bundled function from cwd=/. That exact check
+# is now tools/run-og-bundle-test.mjs, run by build.sh, and it reads THIS
+# list rather than a copy of it, so a wasm this list forgets fails the
+# build instead of the deploy. Paths are relative to web/; the function
+# finds them at runtime through lib/_og-render.mjs's assetRoot(), which
+# tries process.cwd() and the bundle's own location, because no Netlify
+# document says which one holds.
+[functions."og"]
+  included_files = [
+    "assets/og/og-card.png",
+    "assets/fonts/og/*.ttf",
+    "node_modules/@resvg/resvg-wasm/index_bg.wasm",
+    "node_modules/harfbuzzjs/hb.wasm",
+  ]
+
+# Routing lives in each function's `export const config = { path }`. /api/upload,
+# /api/delete and /p/:id are declared in code. The redirects here are old page
+# paths, kept so a link somebody already sent still lands.
+#
+# /share was the upload wizard, then it WAS the upload, and since the router
+# landed the upload is at /upload. It is in the wild, in emails and in at least
+# one skill's output, and it now lands on the router, one click from the drop
+# box. Left pointing at / rather than repointed at /upload: somebody following an
+# old /share link is as likely to want the capture side as the upload side, and
+# the router asks them which.
+#
+# /create.html IS NOT AN OLD PATH ANY MORE AND THIS ONE CHANGED FOR A REASON.
+# It used to point at /share, giving two hops to a page nobody had used since a
+# rename, and an earlier version of this comment said rewriting it would "hide
+# which redirect is the old one". That reasoning expired the moment web/create.html
+# came into existence.
+#
+# force = true is precisely the flag that makes a redirect WIN OVER AN EXISTING
+# STATIC FILE. So with /create.html now a real page, this rule was sending the
+# .html twin of a live route to the router, permanently and cached, away from
+# the page it names. That is not a stale path, it is a name collision, and it is
+# one this branch created. A critic found it by reading the flag rather than the
+# comment.
+[[redirects]]
+  from = "/create.html"
+  to = "/create"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/share"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/share.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/spec.html"
+  to = "/"
+  status = 301
+  force = true
+
+# THE EIGHT force = 404 RULES THAT STOOD HERE ARE GONE, deliberately, 2026-09-30.
+# They answered 404 for /README.md, /netlify/*, /lib/*, /tools/*, /build.sh,
+# /package.json, /package-lock.json and /deno.lock while publish = "." handed
+# Netlify the whole of this directory, and a capitalised path walked round
+# every one of them (H1, see [build] above). With dist/ published, no file
+# exists at any of those paths in any spelling, so the rules would only repeat
+# the 404 Netlify gives for a missing file anyway, and keeping them would keep a
+# mechanism that reads as the protection and is not. What replaced them is
+# tools/build-dist.py's Guard B:
+# the build fails if dist/ holds anything under lib/, netlify/ or tools/, any
+# manifest, or any Markdown but the installer text, compared case-insensitively.
+#
+# The reasons they were written still hold. README.md is for whoever maintains
+# this directory, not for a visitor, and the source hands its reader a free map
+# of the endpoints, the rate limits and the store's layout. Serving it would be
+# disclosure rather than a breach (the delete token is 20 random bytes compared
+# in constant time), and there is still no reason to hand it over.
+
+# This site renders Markdown that strangers uploaded. The escaping in
+# lib/_render.mjs is complete and the upload gate refuses HTML outright, so the
+# policy below is the second layer rather than the first, and it is written to
+# be enforceable rather than aspirational:
+#
+#   'unsafe-inline' on script-src is REQUIRED and not laziness. Two inline
+#   scripts have to run: the theme snippet in every <head>, which must execute
+#   before first paint or the page flashes light, and the window.__BODY handoff
+#   on a passport page. A nonce cannot reach them, because these headers are
+#   static and the pages are not all rendered by a function. What that costs is
+#   understood: script-src stops loading from another origin, not injection.
+#   Injection is stopped upstream, by escaping every value on the way out.
+#
+#   'unsafe-inline' on style-src covers the handful of style="" attributes
+#   still in the markup, including the per-row --tilt on the entry stamps.
+#
+#   default-src 'self' is what actually earns its keep here: no third-party
+#   script, font, image, frame or fetch can load, which is the same promise the
+#   privacy page makes in prose. frame-ancestors 'none' refuses clickjacking of
+#   the delete form, and X-Frame-Options says it again for anything old enough
+#   to need it. base-uri 'none' stops an injected <base> from re-pointing every
+#   relative URL on the page.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options  = "nosniff"
+    Referrer-Policy         = "no-referrer"
+    Permissions-Policy      = "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+    X-Frame-Options         = "DENY"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+
+# The link being unguessable is load bearing. A directory of passport links
+# would remove the only secret in the system.
+[[headers]]
+  for = "/assets/installer/*"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"

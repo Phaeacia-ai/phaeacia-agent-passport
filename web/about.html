@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What a passport is · Agent Passport</title>
+<meta name="description" content="One file that describes an agent well enough for someone on a different setup to rebuild it, and an honest account of what did not survive the move.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F8F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#071B23" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Passport">
+<meta property="og:title" content="What an Agent Passport is">
+<meta property="og:description" content="One file that describes an agent well enough for someone on a different setup to rebuild it, and an honest account of what did not survive the move.">
+<meta property="og:url" content="https://app.phaeacia.ai/about">
+<meta property="og:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An Agent Passport cover: the Phaeacia mark, the document type, and two entry stamps reading granted and not granted.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<link rel="icon" href="/assets/favicon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon/favicon-32.png" sizes="32x32">
+<link rel="icon" href="/assets/favicon/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/schibsted-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/ship.css">
+<script>(function(){try{var t=localStorage.getItem('phaeacia-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="ph-lockup" href="/">
+      <svg viewBox="-0.20 -5.00 88.20 95.40" aria-hidden="true"><g fill="currentColor" transform="rotate(138 50 50)"><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V115.5A6.5 6.5 0 0 1 43.5 115.5Z" fill-opacity=".58"/><path d="M43.5 57C43.5 46 37.5 38 37 26C36.5 12 41 2.5 50 2.5C59 2.5 63.5 12 63 26C62.5 38 56.5 46 56.5 57Z" fill-opacity=".58"/><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V57H43.5Z"/></g></svg>
+      <span class="ph-wordmark">Phaeacia</span>
+      <span class="ph-product">Agent Passport</span>
+    </a>
+    <nav class="topnav" aria-label="Primary">
+      <a class="navlink" href="/upload">Upload</a>
+      <a class="navlink" href="/about" aria-current="page">About</a>
+      <a class="navlink drop-sm" href="/manage">Manage</a>
+      <a class="navlink" href="/gallery">Gallery</a>
+      <a class="navlink drop-md" href="https://phaeacia.ai">Phaeacia</a>
+      <button class="themetoggle" type="button" data-theme-toggle><span class="vh">Theme: </span><span data-theme-label>Auto</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-top">
+      <div class="left">
+        <p class="eyebrow brass">Agent Passport · spec 0.1</p>
+        <h1>A travel document for an agent.</h1>
+        <p class="lede">One Markdown file, about 7 KB. It describes an agent well enough for someone on a
+        different setup to rebuild it with their own accounts, and it is explicit about what did not come
+        across.</p>
+        <div class="actions">
+          <a class="btn" href="/p/example">Open a passport</a>
+          <a class="textlink" href="/upload">Upload one</a>
+        </div>
+      </div>
+      <div class="right">
+        <div class="callout quiet">
+          <p class="t">This is the app</p>
+          <p>Publishing a passport, opening one, copying an install block and deleting one work here with
+          no account and no email. The capture step that writes a passport in the first place goes out by
+          request. The company, and the reason any of this exists, is at
+          <a href="https://phaeacia.ai">phaeacia.ai</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec first">
+    <div class="rail"><span class="num">01</span><span class="label">The document</span></div>
+    <div class="col">
+      <h2>Every page of it is read off the file.</h2>
+      <p class="lede">A passport page is a document, not a dashboard. The cover carries the envelope, the
+      bearer page carries the fields, the machine-readable zone encodes the passport rather than
+      decorating it, and the permissions page stamps one row per capability.</p>
+      <div class="body">
+        <p>The losses table is the one thing that page does not print, and that is the deliberate part.
+        It is the written list of what transferred, what was substituted and what was lost, and it is
+        filled in during the install by the recipient's own assistant. At the moment somebody reads the
+        page, nothing has been installed yet, so there is nothing in it: it used to be printed empty, on
+        a page of its own, which is a blank promise dressed up as a document.</p>
+        <p>It still always renders. It renders at the end of every install, even when every row says
+        delivered, which is the half of the rule that was ever load bearing. A tool that says plainly what
+        you did not get is the whole trust wedge here, and that sentence is about the install rather than
+        about the page describing it.</p>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" href="/p/example">Open the example passport</a>
+      </div>
+      <p class="caption">The example is a specimen. Its golden example is synthetic, written to exercise
+      the format rather than captured from a run, and the page says so where the file says so.</p>
+    </div>
+  </section>
+
+  <!-- id="rules" is linked from the router at / , by the one sentence for
+       somebody who was sent a link and wants to know what opening it will do
+       before they click. This section is that answer: it is the only place on
+       the site that says what an install may and may not do. -->
+  <section class="sec" id="rules">
+    <div class="rail"><span class="num">02</span><span class="label">The rules</span></div>
+    <div class="col">
+      <h2>Three rules, and none of them is a setting.</h2>
+      <ul class="rules">
+        <li>
+          <span class="h">01 · Secrets never travel, capabilities do</span>
+          <span class="p">A passport names the kind of access an agent needs and never a value. Access is
+          granted by the recipient, on their own platform's consent screen, with their own account. The
+          format has no field for a credential value, and an upload that still writes a recognisable one
+          into the file is refused and not stored.</span>
+        </li>
+        <li>
+          <span class="h">02 · Read and notify</span>
+          <span class="p">Version 0.1 installs agents that read and report. Anything that writes to the
+          world is shown in full and stamped not granted, so a shared agent cannot send, post or spend on
+          the recipient's behalf. Widening that is a change to the format, reviewed once, rather than a
+          choice made per upload.</span>
+        </li>
+        <li>
+          <span class="h">03 · The losses table always renders</span>
+          <span class="p">Every install ends with a written list of what transferred, what was
+          substituted and what was lost. It renders even when nothing was lost, so a clean move looks
+          deliberate rather than unreported.</span>
+        </li>
+      </ul>
+      <p class="body">The agent never runs on our side, and neither capture nor install calls a model
+      on our side: capture runs inside the owner's own assistant, install inside the recipient's. What
+      does run on our side, once you upload, is a check on the passport text itself, detailed on the
+      privacy page. Uploading the passport is what reaches us, and once published, it is stored and
+      served at its link; it names capability kinds rather than credential values, and an upload that
+      still carries a recognisable credential is refused rather than stored.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="capture">
+    <div class="rail"><span class="num">03</span><span class="label">Getting the file</span></div>
+    <div class="col">
+      <h2>Your own assistant reads the agent and builds the passport.</h2>
+      <p class="lede">Capture runs inside the assistant you already use. It reads the agent, works out
+      what it does, asks you about the few parts it could not read, shows you every value it redacted,
+      and produces the passport: a file in the agent's folder for the first shape below, a block in
+      your chat for the second. None of that calls a model on our side or sends anything to us; it
+      reaches us only if and when you upload it.</p>
+      <p class="body">There are two shapes of agent and capture handles them differently. If you can
+      point at a folder, the first one is yours.</p>
+
+      <div class="pathpanel">
+        <h3>Files on your computer</h3>
+        <p class="body">Scripts, config files, a scheduled job, a folder of prompts: something you run
+        from a terminal or that runs itself. Capture is an Agent Skill. You install it once into the
+        coding assistant you already use, open that assistant in the folder your agent lives in, and ask
+        it to capture. It needs no network access and no keys.</p>
+        <ol class="steps">
+          <li>Open your assistant in the folder where your agent lives.</li>
+          <li>Ask it to capture this agent as a passport.</li>
+          <li>It will show you everything it found, ask you about the parts it was unsure of, and show
+          you every value it redacted. Confirm those, and it writes the passport file into that folder.</li>
+        </ol>
+        <p class="body">The capture reads config files, entry points and recent outputs. It refuses to
+        read anything that looks like a credential store: files named for keys, tokens, secrets or
+        environments, private key files, browser profiles, and any folder locked to your user account.
+        Those are named in the passport as refused, and their contents never enter the file.</p>
+      </div>
+
+      <!-- THIS PANEL DESCRIBES A PATH THAT IS NOT OUT, and it says so in the
+           first line rather than in a footnote after four present-tense steps.
+           Raffael's ROW-106 call is launch path F only. The steps below stay
+           written in the present tense on purpose: they are correct about what
+           the interview does, they become live wholesale when it ships, and
+           rewriting them into the future tense and back is how a page acquires
+           two versions of the same instruction. What was NOT acceptable was
+           step 2 saying "paste the interview prompt" with no line anywhere on
+           this page saying there is no prompt to paste. -->
+      <div class="pathpanel">
+        <h3>An agent that lives in a chat window</h3>
+        <p class="body"><strong>Not released yet.</strong> The interview is written and is being held
+        back: on its first full run it skipped questions it is required to ask. This is what it will do
+        when it lands.</p>
+        <p class="body">A custom GPT, a Project, or a long-running conversation with instructions you
+        wrote. There are no files to read, so capture works by interview instead. It asks you for your
+        agent's instructions and for real examples of its output, and it marks everything it could not
+        verify as low confidence so the person installing knows which parts to check.</p>
+        <ol class="steps">
+          <li>Open the ChatGPT or Claude conversation where your agent lives. For a custom GPT, open its
+          editor and copy the instructions. For a Project, copy the custom instructions.</li>
+          <li>Paste the interview prompt, then paste your agent's instructions when it asks.</li>
+          <li>Paste one to three real outputs. This part is not optional. Without real output there is no
+          evidence of what your agent actually does, and the capture will stop.</li>
+          <li>Answer the confirmation questions. It ends by printing the whole passport in one block.
+          Copy that block and paste it into the upload box.</li>
+        </ol>
+      </div>
+
+      <!-- THIS CALLOUT SAID "The capture skill and the interview prompt go out
+           with access, in small batches". That was true when it was written on
+           2026-08-23 and both were gated. The skill is not gated any more: the
+           /create page hands its install block to anybody, no account, no email,
+           no waiting. So this page was telling a reader to join a waitlist for a
+           thing sitting one click away on another page of the same site, which
+           is worse than saying nothing.
+
+           A critic found it. My own sweep for this had been scoped to sentences
+           about TWO capture tools and missed a sentence about ONE, on a page I
+           had not opened. An absence claim is only as wide as the grep behind
+           it, and mine was narrower than the claim I made from it. -->
+      <div class="callout">
+        <p class="t">How to get the capture step</p>
+        <p>The files capture is open. Nobody vets you and there is nothing to join:
+        <a href="/create">the create page</a> carries the block that installs it. The interview for the
+        chat path is the half that is still gated, and the waitlist for it is the access form on the
+        company site.</p>
+        <p>Everything after capture is open and always will be: publishing a passport, opening one,
+        copying an install block and deleting one need no account and no email.</p>
+        <div class="actions">
+          <a class="btn ghost" href="/create">Get the capture step</a>
+          <a class="textlink" href="https://phaeacia.ai">Waitlist for the chat path</a>
+          <a class="textlink" href="/upload">Already have a passport file</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="publishing">
+    <div class="rail"><span class="num">04</span><span class="label">Before you upload</span></div>
+    <div class="col">
+      <h2>Publishing is public.</h2>
+      <div class="callout warn">
+        <p class="t">Read the file first</p>
+        <p>Publishing a passport puts it on a public web page. The link is long and random, so it will not
+        turn up in search and nobody can guess it, but anyone who has the link can read the whole passport.
+        There are no accounts and no permissions. Treat it the way you would treat a public document you
+        have not announced.</p>
+        <p>The capture is built to keep secrets out, and it will have shown you everything it redacted. It
+        is not perfect. Read the file before you upload it. If your agent's instructions contain something
+        you would not want a stranger to read, that is your last chance to take it out.</p>
+        <p>You can delete a passport later. You cannot un-publish something a person already read.</p>
+      </div>
+      <p class="body">The file is checked before it is stored, and nothing is published if the check
+      fails. What comes back is a link and a delete token, shown exactly once.</p>
+      <div class="actions">
+        <a class="btn" href="/upload">Upload a passport</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail"><span class="num">05</span><span class="label">What you can do here</span></div>
+    <div class="col">
+      <h2>The whole app, route by route</h2>
+      <div class="scroll"><table>
+        <thead><tr><th>Route</th><th>What it does</th><th>Needs an account</th></tr></thead>
+        <tbody>
+          <!-- REWRITTEN BY HAND when / stopped being the upload page, which is
+               the half tools/check-route-table.py cannot do. Every route still
+               existed and every row still matched one, so the checker passed
+               green while this row said the front door took a file. -->
+          <tr>
+            <td class="capname"><a href="/">/</a></td>
+            <td>Create a passport: install the capture skill, capture and review your agent, then share it. Nothing on this page uploads a file.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <!-- /create is in this table and in no nav and no sitemap, and those
+               are not in tension. The table is the app's complete self-
+               description and a route missing from it is exactly what
+               tools/check-route-table.py exists to catch. The nav is a
+               recommendation. -->
+          <tr>
+            <td class="capname"><a href="/create">/create</a></td>
+            <td>The same creation steps as the front door, with setup instructions for a file-capable assistant. Nothing on it uploads a file.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/upload">/upload</a></td>
+            <td>Upload a passport file and publish it. You get the link, a card of the passport, and a
+            delete token shown once.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/about">/about</a></td>
+            <td>This page. What a passport is, the three rules, how capture writes one, and this table.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <!-- NO ROWS FOR /api/vote OR /api/copied, AND THAT IS NOT AN OVERSIGHT.
+               tools/check-route-table.py matches these rows against the page
+               files, and counts the endpoints separately off the function
+               files. An /api/ row here lands in neither half and fails the
+               check. The caption below is where the endpoints are described.
+
+               MIND THE WORDING OF ANY COMMENT ADDED HERE. That checker finds
+               the caption's counts by searching the WHOLE flattened file for
+               "<word> pages and <word> endpoints", so a comment containing that
+               shape is read as the caption and the check fails on prose. The
+               first draft of this very comment did it. Two findings in the
+               record are the same mechanism, one where the checker read a path
+               out of the comment explaining that the path was removed. -->
+          <tr>
+            <td class="capname"><a href="/gallery.json">/gallery.json</a></td>
+            <td>Public gallery data, including card descriptions and links, for sites that display listed passports.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/gallery">/gallery</a></td>
+            <td>Every passport whose owner chose to list it, as cards you can filter by what it is for
+            and sort by newest, most useful or most copied. Voting is here and on a listed passport's own
+            page. Nobody reviews what appears; listing is the owner's decision and unlisting is too.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/p/example">/p/&hellip;</a></td>
+            <td>A published passport, as its recipient sees it. The link is long and unguessable, and the
+            page asks search engines not to index it.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/og/example.png">/og/&hellip;.png</a></td>
+            <td>The picture a chat or a feed shows beside a passport's link: its title, the first line of its
+            description, the two stamps and its strip, drawn from the passport when the picture is asked for
+            and stored nowhere. A link that no longer leads to a passport gets a specimen card instead.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/manage">/manage</a></td>
+            <td>The status behind a delete token: how many people opened it, when it comes down, and the
+            buttons to renew it, email the link, or delete it.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/delete">/delete</a></td>
+            <td>Remove a published passport with its link and its token. Immediate and permanent.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/changelog">/changelog</a></td>
+            <td>What has changed on this site that a reader could notice, newest first, in plain words.
+            Written by hand rather than generated, so most commits never appear on it.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/privacy">/privacy</a></td>
+            <td>What is stored and what is not, on every path and not only when you publish.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+          <tr>
+            <td class="capname"><a href="/imprint">/imprint</a></td>
+            <!-- "Placeholders until the operating entity exists" came out 2026-09-02,
+                 ROW-137: false twice over. The imprint's placeholder rows are gone, and its
+                 one remaining token is CONTACT_EMAIL, which substitute.py fills at deploy. -->
+            <td>Who operates this site and how to reach them.</td>
+            <td class="dim"><span class="chip ok">no</span></td>
+          </tr>
+        </tbody>
+      </table></div>
+      <p class="caption">Thirteen pages and ten endpoints, for publishing, deleting, checking a passport's
+      status, sending its link, the optional box that asks to hear what comes next, voting on a passport
+      somebody listed in the gallery, counting the presses of a passport's copy control, counting
+      the presses of the buttons that copy the setup instructions or the capture prompt, checking whether
+      an upload has been held, and leaving an email address in case one has. That is all of
+      it. All of them work without an account. The send box uses an address for a message, names it
+      in the sender's own copy if they ask for one, and does not store it; a one-way hash of it counts
+      that day's messages, so that nobody can flood one inbox through us, stops counting at midnight
+      UTC and is deleted by a later cleanup. The optional mailing-list box hands its address to Resend to keep. The
+      old <span class="mono">/share</span> address now lands on the front door, one click from the upload.</p>
+      <p class="caption">The upload flow is openly marked as a testbuild. It exists to answer two questions
+      we cannot answer by reading: whether an owner will sit through the confirm step, and whether a
+      recipient will sit through a guided install that ends in a list of what they did not get.</p>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="foot wrap">
+  <div class="fmark">
+    <a class="ph-lockup" href="/">
+      <svg viewBox="-0.20 -5.00 88.20 95.40" aria-hidden="true"><g fill="currentColor" transform="rotate(138 50 50)"><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V115.5A6.5 6.5 0 0 1 43.5 115.5Z" fill-opacity=".58"/><path d="M43.5 57C43.5 46 37.5 38 37 26C36.5 12 41 2.5 50 2.5C59 2.5 63.5 12 63 26C62.5 38 56.5 46 56.5 57Z" fill-opacity=".58"/><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V57H43.5Z"/></g></svg>
+      <span class="ph-wordmark">Phaeacia</span>
+    </a>
+  </div>
+  <div class="fbody">
+    <p>Agent Passport is a product beneath Phaeacia. Publishing a passport, opening one and deleting one
+    need no account and no email.</p>
+    <div class="flinks">
+      <a href="https://phaeacia.ai">Phaeacia</a>
+      <a href="/gallery">Gallery</a>
+      <a href="/upload">Upload a passport</a>
+      <a href="/about">About</a>
+      <a href="/p/example">Example passport</a>
+      <a href="/manage">Manage a passport</a>
+      <a href="/delete">Delete a passport</a>
+      <a href="/changelog">What changed</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/imprint">Imprint and contact</a>
+    </div>
+    <p class="meta">Agent Passport 0.1 · no accounts, no tracking, and one cookie only if you vote</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

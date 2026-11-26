@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create a passport · Phaeacia</title>
+<meta name="description" content="Turn a working agent into one passport file, from a folder on your computer or from inside a chat, and hand the result to somebody on another platform.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F8F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#071B23" media="(prefers-color-scheme: dark)">
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Passport">
+<meta property="og:title" content="Create a passport">
+<meta property="og:description" content="Capture your agent’s setup in one file, ready to share.">
+<meta property="og:url" content="https://app.phaeacia.ai/create">
+<meta property="og:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An Agent Passport cover: the Phaeacia mark, the document type, and two entry stamps reading granted and not granted.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<link rel="icon" href="/assets/favicon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon/favicon-32.png" sizes="32x32">
+<link rel="icon" href="/assets/favicon/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/schibsted-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/ship.css">
+<script>(function(){try{var t=localStorage.getItem('phaeacia-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+
+<link rel="stylesheet" href="/assets/app.css">
+<style>
+/* /create split by capture path, ROW-485
+   (record/decisions/create-page-splits-by-path-2026-09-16.md rulings 9-12).
+   CSS-only radio switch: no JavaScript drives the split, so a JS-off reader
+   or a crawler gets both panels' real markup, not one injected by a script.
+   Sibling selectors, not :has(), so an old browser with no :has() support
+   still shows SOMETHING (both panels, unstyled) rather than neither. */
+.path-radio{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.path-switch{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 32px}
+.path-switch label{display:inline-flex;align-items:center;min-height:44px;padding:10px 22px;border:1px solid var(--line);border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);transition:background 150ms ease-out,color 150ms ease-out}
+.path-switch label:hover{color:var(--fg)}
+.path-panel-w,.path-panel-f{display:none}
+#path-w:checked~.path-panel-w{display:block}
+#path-w:checked~div.path-panel-w{display:grid}
+#path-f:checked~.path-panel-f{display:block}
+#path-f:checked~div.path-panel-f{display:grid}
+#path-w:checked~.path-switch label[for="path-w"],
+#path-f:checked~.path-switch label[for="path-f"]{background:var(--button);color:var(--button-ink);border-color:var(--button)}
+#path-w:focus-visible~.path-switch label[for="path-w"],
+#path-f:focus-visible~.path-switch label[for="path-f"]{outline:3px solid var(--accent);outline-offset:3px}
+.help{grid-template-columns:1fr}
+/* ROW-W-TOGGLE: the capture prompt was a fetch-on-copy black box, so a
+   reader had no way to see what they were about to paste into their chat
+   before doing it -- a real asymmetry against Path F, whose block is a
+   plain visible <pre>. This does not fetch on page load (measured: inlining
+   this file would add ~10KB gzip to every /create and /index load, W being
+   the default panel, for content most visitors will read on demand at
+   most); the toggle now fetches lazily, once, on first open OR first copy,
+   whichever happens first, and both share the one cached result. */
+.toggle-label{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:8px 4px;margin:-8px 0 -8px -4px;color:var(--fg);font:inherit;font-size:14px;min-height:44px}
+.toggle-label:hover{color:var(--accent)}
+.toggle-label .chev{width:16px;height:16px;transition:transform 150ms ease-out;transform:rotate(-90deg)}
+.toggle-label[aria-expanded="true"] .chev{transform:rotate(0deg)}
+@media(max-width:760px){.path-switch{margin-bottom:27px}}
+</style>
+</head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header><a class="brand" href="/" aria-label="Phaeacia Agent Passport home"><img src="/assets/mark/phaeacia-mark-mono-tight.svg" width="30" height="36" alt=""><span>Phaeacia</span><span class="product">Agent Passport</span></a><nav aria-label="Main navigation"><a href="/" aria-current="page">Create</a><a href="/upload" >Share</a><a href="/gallery">Gallery</a></nav><button class="theme" type="button" data-theme-toggle><span class="sr-only">Theme: </span><span data-theme-label>Auto</span></button></header>
+<main id="main"><section class="intro"><h1>Create a passport.</h1><p>Capture your agent’s setup in one file, ready to share.</p></section><input type="radio" name="path" id="path-w" class="path-radio" checked><input type="radio" name="path" id="path-f" class="path-radio"><div class="path-switch" role="radiogroup" aria-label="How does your agent run?"><label for="path-w">My agent lives in a chat</label><label for="path-f">My agent lives in a folder on my computer</label></div><section class="setup path-panel-w" aria-labelledby="setup-title-w"><div class="section-heading"><span class="step" aria-hidden="true">1</span><div><h2 id="setup-title-w">Copy the capture prompt</h2><p>This works the same way, in a chat instead of a folder, though it produces less: no code, no schedule and no error history, only what your agent tells the interviewer about itself.</p></div></div><div class="instructions"><div class="instructions-bar"><button type="button" class="toggle-label" id="toggle-path-w-block" aria-expanded="false" aria-controls="path-w-block" data-toggle-fetch="/assets/installer/path-w-block.txt"><svg class="icon chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg><span>Capture prompt</span></button><button class="primary" type="button" id="copy-path-w" data-copy-fetch="/assets/installer/path-w-block.txt" data-status="copy-path-w-status" data-fallback="path-w-block" data-count-as="w"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg><span>Copy capture prompt</span></button></div><pre id="path-w-block" tabindex="0" aria-label="Capture prompt, select and copy by hand" hidden></pre></div><noscript><p class="setup-note">JavaScript is off, so the buttons above cannot fetch or copy the prompt for you. <a href="/assets/installer/path-w-block.txt">Open the capture prompt</a> instead, copy it by hand, and start it with a line reading "Today is YYYY-MM-DD." with today's actual date in place of YYYY-MM-DD, before you paste it into your chat.</p></noscript><p class="setup-note">Use a capable everyday model for this, not the fastest or lightest one your chat offers.</p><p class="copy-status" role="status" id="copy-path-w-status"></p></section><section class="setup path-panel-f" aria-labelledby="setup-title-f"><div class="section-heading"><span class="step" aria-hidden="true">1</span><div><h2 id="setup-title-f">Add the capture skill</h2><p>Paste these instructions into an assistant that can read files and run commands on your computer, such as Codex, Claude Code or Cursor.</p></div></div><div class="instructions"><div class="instructions-bar"><span>Agent Passport <span class="muted">/ setup instructions</span></span><button class="primary" id="copy-setup" data-copy="#path-f-block" data-count-as="f" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg><span>Copy setup instructions</span></button></div><pre id="path-f-block" tabindex="0" aria-label="Full setup instructions, scroll to read">Please install the Agent Passport capture skill for me. Everything you need is below.
+I can read all of it, and so can you, so do not run anything that is not written here.
+
+STEP 1. Check that you can actually do this, before changing anything.
+
+You need to be able to run shell commands on my machine and read and write files.
+If you are running in a browser tab with no file access, stop here and tell me:
+&quot;I can&#x27;t install this. It needs a tool that runs on your computer, such as Claude
+Code, Codex or Cursor, because the capture step reads your agent&#x27;s actual files.&quot;
+
+If you can run commands, check the one thing the skill depends on:
+
+python3 --version
+
+It needs Python 3.7 or newer. If that command errors, or prints something older
+than 3.7, stop and tell me what it printed. Do not continue and do not work
+around it. The skill would run for several minutes and then fail partway through,
+which is worse than not starting.
+
+Then tell me two things about yourself, in one line each, before you write
+anything:
+
+  - which agent you are
+  - the folder you load skills from
+
+Do not guess the folder. If you do not know where you load skills from, say so
+and stop; that is a question about you, not about this skill, and I would rather
+find out than have you write into a folder you picked. Everything below writes
+into that folder, and I want to know where before you start.
+
+If you are Claude Code the folder is ~/.claude/skills, and that is the only one
+this skill has been installed into so far. If you are something else, use your
+own and say which; nothing below depends on the path being that one.
+
+Wherever it is, call the folder SKILLS below.
+
+STEP 2. Look at where it goes before writing to it.
+
+ls -ld SKILLS/agent-passport
+
+If that prints &quot;No such file or directory&quot;, good, continue to step 3.
+
+If it prints anything else, something is already there and I need to decide, so
+stop and tell me which of these it is:
+  - a line starting with &quot;l&quot; and containing &quot;-&gt;&quot;: it is a link to a copy I already
+have somewhere else. Show me where it points.
+  - anything else: it is an existing folder. Show me what is in it.
+Do not delete it, move it or clone over it. Ask me.
+
+STEP 3. Get the skill.
+
+git clone https://github.com/Phaeacia-ai/phaeacia-agent-passport-skill SKILLS/agent-passport
+
+The repository name and the folder it goes into are deliberately different. The
+last path segment must be agent-passport whatever SKILLS is, because the skill
+declares that name and the format requires the folder to match it. Change the
+folder it sits in if you must; do not change what it is called.
+
+If that fails asking for a username or password, the repository is not public yet.
+Say so and stop; it is not something I can fix by logging in.
+
+STEP 4. Check what arrived, and tell me if it is wrong.
+
+ls SKILLS/agent-passport
+
+I expect SKILL.md, README.md, NOTICE, a references folder, a scripts folder, and
+several LICENSE files.
+Then confirm the eleven things the skill checks for itself before it will run:
+
+cd SKILLS/agent-passport &amp;&amp; ls -d references/spec-schema.md \
+  references/vocabulary.md references/passport-template.md \
+  references/installer-core.md references/judge-prompt.md \
+  references/installer-branches/ \
+  scripts/scrub.py scripts/validate.py scripts/preflight.py \
+  scripts/assemble.py scripts/publish.py
+
+Every one must exist. If any is missing, tell me which; do not try to repair it.
+
+STEP 5. Tell me what to do next, and nothing more.
+
+Say that it is installed, and tell me how to start it in you specifically, since
+that is the other thing that differs between agents. If you have a command for
+invoking a skill by name, give me the exact command. If you do not, tell me to
+open you in the folder containing the agent I want to share and ask you to
+capture that agent as a passport.
+
+In Claude Code the command is /agent-passport. Do not tell me that is the command
+unless you are Claude Code.
+
+Then stop. Do not run it for me, do not read my agent&#x27;s files, and do not start a
+capture. I will do that myself when I am ready.
+
+---
+
+What this actually does, so I can check it rather than trust it:
+
+It clones one public repository into the folder you told me you load skills from.
+That is the whole install. Nothing is downloaded from anywhere else, nothing runs
+during installation, and no script from the repository is executed by these steps.
+
+Once I do run it, the skill reads the agent I point it at and writes a passport
+describing it. It writes more than that one file, so do not tell me it writes
+only the passport. Named: corrections.tsv, a tab-separated line for every value
+I corrected during the review; and, only if I publish, a .link.md file holding
+the public link, a management link, the expiry date and a delete token that can
+never be reissued. Unnamed: the secret-scanning step takes an output path and a
+report path as arguments and writes both wherever you point them, so tell me
+where you put those before you run it. Everything in this paragraph is a local
+file on my machine. publish.py never opens any of them; publishing sends the
+passport and nothing else.
+
+There is one network call site, scripts/publish.py, and it opens only when a
+passport is being published to a link: it POSTs to app.phaeacia.ai. One call site
+is not the same as one request. A passport the site refuses for owner review can
+be sent a second time with an acknowledgement ticket, and only if I asked for
+that. If I decline publishing, nothing is sent. That is checkable after the clone
+with:
+
+grep -rln urllib SKILLS/agent-passport/scripts
+
+One file comes back, scripts/publish.py. Keep the -l. Without it the same search
+prints six lines rather than one filename, because publish.py names urllib six
+times, and a reader checking the sentence above would see six and think it was
+wrong. Point it at the whole folder rather than scripts and two files come back,
+because README.md quotes this very command.
+
+Two things redirect that upload if I want them to, the --endpoint flag and the
+PHAEACIA_UPLOAD_ENDPOINT environment variable. And the rule that it only uploads
+when I asked is written in the skill&#x27;s instructions rather than enforced by the
+script, which is worth knowing when deciding how much to trust it.</pre><div class="instructions-bottom"><span>Or point your assistant directly at the</span><a href="https://github.com/Phaeacia-ai/phaeacia-agent-passport-skill">Public GitHub repo <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a></div></div><p class="setup-note">The setup installs the skill. You start the capture separately.</p><p class="copy-status" role="status" id="copy-status"></p></section><div class="next-steps path-panel-w"><section aria-labelledby="review-title-w"><span class="step" aria-hidden="true">2</span><div><h2 id="review-title-w">Paste it and answer its questions</h2><p>Paste it into a new message in the ChatGPT or claude.ai conversation where your agent lives, or start a fresh chat and paste your agent’s instructions in first, then send it. It asks its own questions, in plain language, and it asks a lot of them: running it ourselves, it felt like a long interview. Answer as accurately as you can and review what will be shared.</p></div></section><section aria-labelledby="share-title-w"><span class="step" aria-hidden="true">3</span><div><h2 id="share-title-w">Share it</h2><p>A browser chat can’t publish a link on its own, so copy what it writes and share it yourself. Either way, a passport can still be received and used inside a chat assistant.</p><a class="text-link" href="/upload">Already have a file? Share a passport <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a></div></section></div><div class="next-steps path-panel-f"><section aria-labelledby="review-title-f"><span class="step" aria-hidden="true">2</span><div><h2 id="review-title-f">Create and review</h2><p>Open your assistant in your agent’s folder. Ask it to capture that agent as a passport, answer its questions and review what will be shared.</p></div></section><section aria-labelledby="share-title-f"><span class="step" aria-hidden="true">3</span><div><h2 id="share-title-f">Share it</h2><p>Your assistant can directly publish a link with your permission, or you can share the file yourself. Either way, a passport can still be received and used inside a chat assistant.</p><a class="text-link" href="/upload">Already have a file? Share a passport <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a></div></section></div><section class="help" aria-label="Capture help"><details><summary>What should I check before sharing?</summary><p>Read the passport, including its examples. We work to keep sensitive information out: capture filters what it finds, and our upload checks reject recognised password and credential patterns. These checks can miss things, so review the file too. Remove anything you want to keep private and check that it describes your agent accurately.</p><p>Capture depends on what your assistant can do. End-to-end capture has been tested in one assistant so far. The setup instructions check the prerequisites before installing.</p></details></section></main>
+<footer><a href="https://phaeacia.ai/">Phaeacia</a><div><a href="/manage">Manage a passport</a><a href="/about">Help</a><a href="/privacy">Privacy</a><a href="/imprint">Imprint</a><a href="https://phaeacia.ai/#access">Get updates about Phaeacia</a></div></footer>
+<script src="/assets/site.js"></script>
+</body></html>

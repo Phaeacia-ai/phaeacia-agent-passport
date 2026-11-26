@@ -1,0 +1,232 @@
+{
+  "_why": [
+    "The vectors behind the vendor-prefix rules added 2026-08-31 for ROW-108, in",
+    "the tree so they can be re-run rather than believed. Written under the rule",
+    "adopted 2026-08-18: if a commit message states a measurement, the set it was",
+    "measured against must be in the tree.",
+    "",
+    "Read by BOTH engines from this one file, on purpose. web/tools/parity.mjs",
+    "compares regex SOURCE and flags, never behaviour, so two engines can hold",
+    "byte-identical patterns and still disagree on a string; that is ROW-109 and",
+    "record/findings/parity-compares-regex-source-not-behaviour.md. Feeding one",
+    "set of strings through both is the only form of this check that can see it.",
+    "Adding a vector here tests both sides or neither.",
+    "",
+    "These live in tools/fixtures/ because that is the one path .gitleaks.toml",
+    "allowlists for deliberately fake credentials. Do not move them into a file",
+    "that holds real code, and do not widen the allowlist to follow them.",
+    "",
+    "Every string below is synthetic. The Notion token is the scripted-owner",
+    "plant from verification/path_w/fixtures/monday-update/instructions.txt."
+  ],
+  "must_fire": {
+    "_note": "Each must produce E_SECRET_FOUND in preflight.py AND at the endpoint. A miss here publishes a live credential.",
+    "notion token, the run-4 plant, 47 after the prefix": "My integration token is ntn_51829377402aBcDeFgHiJkLmNoPqRsTuVwXyZ0123456789 in case that matters.",
+    "notion token at the documented length, 46 after the prefix": "token ntn_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3 here",
+    "notion token at the lower bound, 40 after the prefix": "token ntn_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0 here",
+    "notion legacy token": "the old one was secret_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1 before we rotated",
+    "stripe live key bare in prose": "the key sk_live_51HxYzAbCdEfGhIjKlMnOpQrSt is live",
+    "stripe restricted key bare in prose": "use rk_live_51HxYzAbCdEfGhIjKlMnOpQrSt for reads",
+    "slack webhook as a full url": "post to https://hooks.slack.com/services/T024BE7LD/B01ABCDEFG/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "slack webhook without a scheme": "hooks.slack.com/services/T024BE7LD/B01ABCDEFG/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "PH-534: slack webhook without a scheme, explicit :443 port": "hooks.slack.com:443/services/T024BE7LD/B01ABCDEFG/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "PH-534: slack webhook URL with :443, ids not in the T/B shape": "Hook: https://hooks.slack.com:443/services/X00000000/Y00000000/abcdefghijklmnopqrstuv",
+    "PH-534: Discord webhook with :443": "Hook: https://discord.com:443/api/webhooks/123456789012345678/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7qRk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: Teams webhook with :443": "Hook: https://acme.webhook.office.com:443/webhookb2/aaaaaaaa-bbbb/IncomingWebhook/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: Outlook webhook with :443": "Hook: https://outlook.office.com:443/webhook/1234/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: Zapier webhook with a five-digit port": "Hook: https://hooks.zapier.com:65535/hooks/catch/123456/abcdefg1234567/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: Telegram bot URL with :443": "Bot: https://api.telegram.org:443/bot123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZ012345/getMe",
+    "PH-534: empty port, slack webhook without a scheme, explicit :443 port": "hooks.slack.com:/services/T024BE7LD/B01ABCDEFG/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "PH-534: leading zeros, six digits, slack webhook without a scheme, explicit :443 port": "hooks.slack.com:000443/services/T024BE7LD/B01ABCDEFG/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "PH-534: empty port, slack webhook URL with :443, ids not in the T/B shape": "Hook: https://hooks.slack.com:/services/X00000000/Y00000000/abcdefghijklmnopqrstuv",
+    "PH-534: leading zeros, six digits, slack webhook URL with :443, ids not in the T/B shape": "Hook: https://hooks.slack.com:000443/services/X00000000/Y00000000/abcdefghijklmnopqrstuv",
+    "PH-534: empty port, Discord webhook with :443": "Hook: https://discord.com:/api/webhooks/123456789012345678/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7qRk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: leading zeros, six digits, Discord webhook with :443": "Hook: https://discord.com:000443/api/webhooks/123456789012345678/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7qRk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: empty port, Teams webhook with :443": "Hook: https://acme.webhook.office.com:/webhookb2/aaaaaaaa-bbbb/IncomingWebhook/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: leading zeros, six digits, Teams webhook with :443": "Hook: https://acme.webhook.office.com:000443/webhookb2/aaaaaaaa-bbbb/IncomingWebhook/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: empty port, Outlook webhook with :443": "Hook: https://outlook.office.com:/webhook/1234/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: leading zeros, six digits, Outlook webhook with :443": "Hook: https://outlook.office.com:000443/webhook/1234/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: empty port, Zapier webhook with a five-digit port": "Hook: https://hooks.zapier.com:/hooks/catch/123456/abcdefg1234567/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: leading zeros, six digits, Zapier webhook with a five-digit port": "Hook: https://hooks.zapier.com:000443/hooks/catch/123456/abcdefg1234567/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-534: empty port, Telegram bot URL with :443": "Bot: https://api.telegram.org:/bot123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZ012345/getMe",
+    "PH-534: leading zeros, six digits, Telegram bot URL with :443": "Bot: https://api.telegram.org:000443/bot123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZ012345/getMe",
+    "PH-544: Anthropic key glued after an underscore (OPENAI_<key>)": "Set OPENAI_sk-ant-AbCdEfGhIj1 in the env.",
+    "PH-544: Anthropic key followed by a non-ASCII letter": "Set sk-ant-AbCdEfGhIj1é in the env.",
+    "PH-544: OpenAI key glued after an underscore (OPENAI_<key>)": "Set OPENAI_sk-proj-Q9w8E7r6T5y4U3i2O1p0A9s8D7f6G5h4J3k2L1 in the env.",
+    "PH-544: OpenAI key followed by a non-ASCII letter": "Set sk-proj-Q9w8E7r6T5y4U3i2O1p0A9s8D7f6G5h4J3k2L1é in the env.",
+    "PH-544: AWS access key id key glued after an underscore (OPENAI_<key>)": "Set OPENAI_AKIAIOSFODNN7EXAMPLE in the env.",
+    "PH-544: AWS access key id key followed by an underscore suffix": "Set AKIAIOSFODNN7EXAMPLE_prod in the env.",
+    "PH-544: GitHub ghp key glued after an underscore (OPENAI_<key>)": "Set OPENAI_ghp_Q9w8E7r6T5y4U3i2O1p0A9s8D7f6G5h4J3k2 in the env.",
+    "PH-544: GitHub ghp key followed by an underscore suffix": "Set ghp_Q9w8E7r6T5y4U3i2O1p0A9s8D7f6G5h4J3k2_prod in the env.",
+    "PH-544: GitHub fine-grained key glued after an underscore (OPENAI_<key>)": "Set OPENAI_github_pat_Q9w8E7r6T5y4U3i2O1p0A9s8D7f6G5 in the env.",
+    "PH-544: GitHub fine-grained key followed by a non-ASCII letter": "Set github_pat_Q9w8E7r6T5y4U3i2O1p0A9s8D7f6G5é in the env.",
+    "PH-544: Google API key glued after an underscore (OPENAI_<key>)": "Set OPENAI_AIzaQ9w8E7r6T5y4U3i2O1p0A9s8D7f6G5h4J3k in the env.",
+    "PH-544: Google API key followed by an underscore suffix": "Set AIzaQ9w8E7r6T5y4U3i2O1p0A9s8D7f6G5h4J3k_prod in the env.",
+    "PH-544: Slack token key glued after an underscore (OPENAI_<key>)": "Set OPENAI_xoxb-1234567890-abcdefghij in the env.",
+    "PH-544: Slack token key followed by a non-ASCII letter": "Set xoxb-abcdefghijké in the env.",
+    "PH-544: JWT key glued after an underscore (OPENAI_<key>)": "Set OPENAI_eyJhbGciOiJI.eyJzdWIiOiIx.SflKxwRJSMeKKF2QT4fw in the env.",
+    "PH-544: JWT key followed by a non-ASCII letter": "Set eyJhbGciOiJI.eyJzdWIiOiIx.SflKxwRJSMeKKF2QT4fwé in the env.",
+    "PH-544: SendGrid key glued after an underscore (OPENAI_<key>)": "Set OPENAI_SG.Q9w8E7r6T5y4U3i2O1p0A9.Q9w8E7r6T5y4U3i2O1p0A9 in the env.",
+    "PH-544: SendGrid key followed by a non-ASCII letter": "Set SG.Q9w8E7r6T5y4U3i2O1p0A9.Q9w8E7r6T5y4U3i2O1p0A9é in the env.",
+    "PH-544: Google API key whose 35th character is a hyphen, then a glued suffix (was refused before this change)": "Read the key from creds/AIzaSyBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB-prod.json first.",
+    "PH-544: Google API key whose 35th character is an underscore, then a glued suffix": "Read the key from creds/AIzaSyBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB_prod.json first.",
+    "PH-527 pin: URL parameter TOKEN, short value only this rule reads": "Docs: https://api.example.com/v1/usage?TOKEN=s3cr3tkey",
+    "PH-527 pin: URL parameter SECRET, short value": "Docs: https://api.example.com/v1/usage?SECRET=abc12345",
+    "PH-527 pin: URL parameter AUTH, punctuation in the value": "Docs: https://api.example.com/v1/usage?AUTH=Hunter2!Sup3r",
+    "PH-527 pin: URL parameter APIKEY, short value": "Docs: https://api.example.com/v1/usage?APIKEY=abc12345",
+    "PH-527 pin: URL parameter API_KEY, short value": "Docs: https://api.example.com/v1/usage?API_KEY=abc12345",
+    "PH-527 pin: URL parameter ACCESS_TOKEN, percent-escape in the value": "Docs: https://api.example.com/v1/usage?ACCESS_TOKEN=Rk8vQz3Tm%2FWpL9xJ4bN7cYs2E",
+    "PH-527 pin: URL parameter KEY, short value": "Docs: https://api.example.com/v1/usage?KEY=abc12345",
+    "PH-527 pin: Slack services path, ids not in the T/B shape": "Hook: https://hooks.slack.com/SERVICES/X00000000/Y00000000/abcdefghijklmnopqrstuv",
+    "PH-527 pin: Slack triggers path": "Hook: https://hooks.slack.com/TRIGGERS/X00000000/abcdefghijklmnopqrstuv",
+    "PH-527 pin: Slack workflows path": "Hook: https://hooks.slack.com/WORKFLOWS/X00000000/abcdefghijklmnopqrstuv",
+    "PH-527 pin: Slack host uppercase, ids not in the T/B shape": "Hook: https://HOOKS.slack.com/services/X00000000/Y00000000/abcdefghijklmnopqrstuv",
+    "PH-527 pin: Telegram host word api": "Bot: https://API.telegram.org/bot123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZ012345/getMe",
+    "PH-527 pin: Discord api segment": "Hook: https://discord.com/API/webhooks/123456789012345678/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7qRk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-527 pin: Discord version segment": "Hook: https://discord.com/api/V10/webhooks/123456789012345678/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7qRk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-527 pin: Teams host word webhook": "Hook: https://acme.WEBHOOK.office.com/webhookb2/aaaaaaaa-bbbb/IncomingWebhook/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-527 pin: Outlook path word webhook": "Hook: https://outlook.office.com/WEBHOOK/1234/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-527 pin: Zapier host word hooks": "Hook: https://HOOKS.zapier.com/hooks/catch/123456/abcdefg1234567/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-527 pin: Zapier path word standard": "Hook: https://hooks.zapier.com/hooks/STANDARD/123456/abcdefg1234567/Rk8vQz3TmWpL9xJ4bN7cYs2EaB7q",
+    "PH-527: slack webhook without a scheme, uppercase host": "HOOKS.SLACK.COM/services/T024BE7LD/B01ABCDEFG/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "PH-527: slack webhook without a scheme, title-case host": "Hooks.Slack.Com/services/T024BE7LD/B01ABCDEFG/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "PH-527: slack webhook without a scheme, uppercase host and path word": "HOOKS.SLACK.COM/SERVICES/T024BE7LD/B01ABCDEFG/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "PH-527: slack webhook without a scheme, lowercase team and bot ids": "hooks.slack.com/services/t024be7ld/b01abcdefg/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "hugging face token": "export it: hf_QwErTyUiOpAsDfGhJkLzXcVbNm1234567890",
+    "linear api key": "lin_api_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0 opens the board",
+    "airtable personal access token": "pat0123456789abcd.0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "PH-544 follow-up: a hugging face prefix inside a snake_case identifier (moved from must_not_fire, now correctly caught)": "the hf_QwErTyUiOpAsDfGhJkLzXcVbNm1234567890_cache directory",
+    "PH-544 follow-up: a hugging face prefix as the tail of an identifier (moved from must_not_fire, now correctly caught)": "the my_hf_QwErTyUiOpAsDfGhJkLzXcVbNm1234567890 variable",
+    "PH-544 follow-up: an oauth client secret in an underscore run (moved from must_not_fire, now correctly caught)": "set client_secret_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1 in the env",
+    "PH-544 follow-up: notion token glued to a leading underscore": "our_ntn_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3 value",
+    "PH-544 follow-up: notion token glued to a trailing underscore": "the token ntn_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3_here is set",
+    "PH-544 follow-up: legacy notion token glued to a trailing underscore": "the old one was secret_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0U1_rotated recently",
+    "PH-544 follow-up: stripe live key glued to a leading underscore": "our_sk_live_51HxYzAbCdEfGhIjKlMnOpQrSt is set",
+    "PH-544 follow-up: stripe live key glued to a trailing underscore": "the key sk_live_51HxYzAbCdEfGhIjKlMnOpQrSt_prod is live",
+    "PH-544 follow-up: linear api key glued to a leading underscore": "our_lin_api_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0 opens the board",
+    "PH-544 follow-up: linear api key glued to a trailing underscore": "the key lin_api_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0_prod opens the board",
+    "PH-544 follow-up: airtable token glued to a leading underscore": "our_pat0123456789abcd.0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef is set",
+    "PH-544 follow-up: airtable token glued to a trailing underscore": "pat0123456789abcd.0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef_prod is set"
+  },
+  "must_not_fire": {
+    "_note": "Ordinary content. A rule that refuses these turns away a stranger who cannot see the rule and cannot fix what they do not understand. Every entry is a shape somebody would plausibly write in an honest passport.",
+    "a stripe test key in documentation": "use sk_test_51HxYzAbCdEfGhIjKlMnOpQrSt in development",
+    "a notion prefix too short to be a token": "ntn_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5 is not a token",
+    "a hugging face prefix too short to be a token": "hf_QwErTyUiOpAsDfGhJk is short",
+    "the conventional aws env var name": "AWS_SECRET_ACCESS_KEY is the name of the variable",
+    "a secret-prefixed snake_case identifier": "my_secret_token_value_A1b2C3d4E5f6G7h8I9j0K1l2M3n4 is a variable name",
+    "slack documentation prose": "See hooks.slack.com/services for the webhook docs.",
+    "PH-534: an explicit port on a host that is not a webhook host": "https://example.com:443/services/T024BE7LD/B01ABCDEFG/aBcDeFgHiJkLmNoPqRsTuVwX",
+    "PH-534: slack documentation prose with a port and no token": "See hooks.slack.com:443/services for the webhook docs.",
+    "PH-544: a hyphenated word that ends in sk, task-scheduler": "the task-scheduler-configuration-manager-v2 service restarts nightly",
+    "PH-544: risk-assessment prose": "see the risk-assessment-framework-for-the-team document",
+    "PH-544: mask-tokenizer prose": "set the mask-tokenizer-config-values-for-training option",
+    "PH-544: disk-usage prose": "the disk-usage-report-generator-tool prints a summary",
+    "PH-527: slack documentation prose, uppercase host": "See HOOKS.SLACK.COM/SERVICES for the webhook docs.",
+    "a slack webhook path with too short a final segment": "hooks.slack.com/services/T024BE7LD/B01ABCDEFG/short",
+    "a linear prefix too short to be a key": "lin_api_A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6 short",
+    "an airtable prefix with no dotted hex tail": "pat0123456789abcd is just a prefix",
+    "a git sha in a changelog": "fixed in 09cccbf, see a3f9c2e1b7d4058a6c9e2f1a4b7d0c3e5f8a9b2c",
+    "a sha1 checksum": "sha1: da39a3ee5e6b4b0d3255bfef95601890afd80709",
+    "a gpg fingerprint": "fingerprint F3EF5F62A87FC27A22E643F714CE4FF5015AA242 signed it",
+    "a uuid": "the run id was 6f1c2a94-3b7e-4d18-9a52-0c8e7b1f4d63",
+    "a plain https url": "See https://example.com/docs for detail.",
+    "an ssh remote": "git@github.com:org/repo.git",
+    "the word patient in prose": "The patient0123456789 record was anonymised."
+  },
+  "scrub_residue": {
+    "_why": "PH-544 round 2. A rule that matches only the head of a token leaves its tail in scrub's own output, and the upload gate then accepts that output: sk-ant- keys are base64url and carry underscores, the Anthropic class had none, and once its trailing boundary stopped needing a word/non-word transition it matched the head and destroyed the sk- the OpenAI rule needed. run_tests.sh asserts that after scrub() no 8-character run of the secret survives and that the output passes the gate. Bodies must draw from the full base64url alphabet; a generator that never emits an underscore returns 0 and proves nothing.",
+    "PH-544 residue: sk-ant- key with underscores, bare": {
+      "text": "The key is sk-ant-api03-8JopEQqVDQeO_yhdhKiUfnmcbAnepDPhXmH-pThKrJIAqaMvWaW here.",
+      "secret": "sk-ant-api03-8JopEQqVDQeO_yhdhKiUfnmcbAnepDPhXmH-pThKrJIAqaMvWaW"
+    },
+    "PH-544 residue: sk-ant- key with underscores after ANTHROPIC_API_KEY=": {
+      "text": "ANTHROPIC_API_KEY=sk-ant-api03-8JopEQqVDQeO_yhdhKiUfnmcbAnepDPhXmH-pThKrJIAqaMvWaW",
+      "secret": "sk-ant-api03-8JopEQqVDQeO_yhdhKiUfnmcbAnepDPhXmH-pThKrJIAqaMvWaW"
+    },
+    "PH-544 residue: sk-ant- key with underscores glued after an underscore": {
+      "text": "Set OPENAI_sk-ant-api03-8JopEQqVDQeO_yhdhKiUfnmcbAnepDPhXmH-pThKrJIAqaMvWaW in the env.",
+      "secret": "sk-ant-api03-8JopEQqVDQeO_yhdhKiUfnmcbAnepDPhXmH-pThKrJIAqaMvWaW"
+    },
+    "PH-544 residue: sk-ant- key alternating underscore and hyphen": {
+      "text": "Set sk-ant-api03-Ab_Cd-Ef_Gh-Ij_Kl-Mn_Op-Qr_St-Uv_Wx-Yz_0123456789_AbCdEfGh in the env.",
+      "secret": "sk-ant-api03-Ab_Cd-Ef_Gh-Ij_Kl-Mn_Op-Qr_St-Uv_Wx-Yz_0123456789_AbCdEfGh"
+    },
+    "PH-544 residue: sk-proj- key with an underscore and a hyphen": {
+      "text": "Set OPENAI_sk-proj-Q9w8E7r6T5y4U3i2O1p0_A9s8D7f6G5h4J3k2L1-Zx in the env.",
+      "secret": "sk-proj-Q9w8E7r6T5y4U3i2O1p0_A9s8D7f6G5h4J3k2L1-Zx"
+    },
+    "PH-544 residue: github_pat_ key": {
+      "text": "Set GH_github_pat_11ABCDEFG0aBcDeFgHiJk_LmNoPqRsTuVwXyZ0123456789abcdefghijklmnopqrstuvwxyz012345678901 in the env.",
+      "secret": "github_pat_11ABCDEFG0aBcDeFgHiJk_LmNoPqRsTuVwXyZ0123456789abcdefghijklmnopqrstuvwxyz012345678901"
+    },
+    "PH-544 residue: Google key with _ and - inside": {
+      "text": "Maps key: AIzaSy_BCDEFGHIJKLMNOPQRSTUVWXYZ0123-45 here.",
+      "secret": "AIzaSy_BCDEFGHIJKLMNOPQRSTUVWXYZ0123-45"
+    },
+    "PH-544 residue: JWT with an underscore in each segment": {
+      "text": "Bearer eyJhbGciOi_JI.eyJzdWIiOi-Ix.SflKxwRJSMe_KKF2QT4fw sent.",
+      "secret": "eyJhbGciOi_JI.eyJzdWIiOi-Ix.SflKxwRJSMe_KKF2QT4fw"
+    },
+    "PH-544 residue: SendGrid key with _ and -": {
+      "text": "Set MAIL_SG.Ab_CdEfGhIjKlMnOpQrSt.Ab-CdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQ in the env.",
+      "secret": "SG.Ab_CdEfGhIjKlMnOpQrSt.Ab-CdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQ"
+    },
+    "PH-529 residue: empty-user redis URL, then a user:password postgres URL, comma-joined": {
+      "text": "SENTINELS=redis://:Abcpass99xyz@h1,postgres://admin:S3cretPw9xyz@h2/db",
+      "secret": "S3cretPw9xyz"
+    },
+    "PH-529 residue: empty-user redis URL, then a user:password redis URL, with ports": {
+      "text": "DSN=redis://:Abcpass99xyz@h1:6379,redis://app:Hunter2xyz@h2:6379/0",
+      "secret": "Hunter2xyz"
+    },
+    "PH-529 residue: two empty-user redis URLs, comma-joined, the second password": {
+      "text": "SENTINELS=redis://:Firstpass77xyz@h1,redis://:Secondpass88xyz@h2/db",
+      "secret": "Secondpass88xyz"
+    },
+    "PH-529 residue: empty-user URL, semicolon, user:password URL": {
+      "text": "DSN=redis://:Abcpass99xyz@h1;postgres://admin:S3cretPw9xyz@h2/db",
+      "secret": "S3cretPw9xyz"
+    },
+    "PH-529 residue: &amp;sig value runs through a ?, and a fragment credential follows": {
+      "text": "cb https://h.io/cb?x=1&amp;sig=AAAAAAAAAAAAAAAA?token=abc#access_token=Zq9wXk2pLm4n",
+      "secret": "Zq9wXk2pLm4n"
+    },
+    "PH-529 residue: empty-user redis URL, then a postgres URL with a different password (critic B)": {
+      "text": "DATABASES=redis://:Pw1made@h1,postgres://dbuser:Pw2madeup99@dbhost/prod",
+      "secret": "Pw2madeup99"
+    },
+    "PH-529 residue (r2 B): &amp;sig value runs through a comma into a postgres URL whose user holds an &": {
+      "text": "https://cdn.example/f?x=1&amp;sig=AAAAAAAAAAAAAAAA,postgres://ad&min:s3cretpw@dbhost:5432/app",
+      "secret": "s3cretpw"
+    },
+    "PH-529 residue (r2 B): &amp;sig value glued to a postgres URL whose password starts with #": {
+      "text": "https://cdn.example/f?x=1&amp;sig=AAAAAAAAAAAAAAAApostgres://admin:#s3cretpw99@dbhost:5432/app",
+      "secret": "s3cretpw99"
+    },
+    "PH-529 residue (r2 B): &amp;sig value runs through a comma into a password= assignment holding a #": {
+      "text": "https://cdn.example/f?x=1&amp;sig=AAAAAAAAAAAAAAAA,password=abc#def12345678",
+      "secret": "def12345678"
+    },
+    "PH-529 residue (r2 A): postgres password holding &amp;key= (the TOKEN_URL opener cuts the DB_URL)": {
+      "text": "DATABASE_URL=postgres://app:hunter2secret&amp;key=xyz@db.example.com/prod",
+      "secret": "hunter2secret"
+    },
+    "PH-529 residue (r2 A): postgres password holding &#38;auth=": {
+      "text": "see postgres://app:Zq9vLm2wxp&#38;auth=1@db.example.com/prod",
+      "secret": "Zq9vLm2wxp"
+    },
+    "PH-529 residue (r2 A): empty-user redis URL, comma, api_key= whose value holds a slash": {
+      "text": "CACHE=redis://:abc@cache.local,api_key=AbCd/x7Kq2mZp9Lw3Nd8Rt",
+      "secret": "x7Kq2mZp9Lw3Nd8Rt"
+    },
+    "PH-529 residue (r2 A): empty-user redis URL, semicolon, password= whose value holds a slash": {
+      "text": "urls: redis://:abc@h1;password=Hunter2/x9secretword",
+      "secret": "x9secretword"
+    },
+    "PH-529 residue: &amp;sig value runs into an empty-user redis URL whose password holds an & (the two new rules must share their spans)": {
+      "text": "https://cdn.example/f?x=1&amp;sig=AAAAAAAAAAAAAAAA,redis://:Zq&zpass9988@h1/x",
+      "secret": "zpass9988"
+    }
+  }
+}

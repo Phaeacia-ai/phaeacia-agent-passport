@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manage a passport · Agent Passport</title>
+<meta name="description" content="Check whether a passport is still up, how many people opened it, and when it comes down. Renew it, send the link, or delete it.">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F8F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#071B23" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Passport">
+<meta property="og:title" content="Manage a passport">
+<meta property="og:description" content="Check whether a passport is still up, how many people opened it, and when it comes down.">
+<meta property="og:url" content="https://app.phaeacia.ai/manage">
+<meta property="og:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An Agent Passport cover: the Phaeacia mark, the document type, and two entry stamps reading granted and not granted.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Manage a passport">
+<meta name="twitter:description" content="Check whether a passport is still up, how many people opened it, and when it comes down.">
+<meta name="twitter:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<link rel="icon" href="/assets/favicon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon/favicon-32.png" sizes="32x32">
+<link rel="icon" href="/assets/favicon/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/schibsted-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/base.css">
+<script>(function(){try{var t=localStorage.getItem('phaeacia-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="ph-lockup" href="/">
+      <svg viewBox="-0.20 -5.00 88.20 95.40" aria-hidden="true"><g fill="currentColor" transform="rotate(138 50 50)"><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V115.5A6.5 6.5 0 0 1 43.5 115.5Z" fill-opacity=".58"/><path d="M43.5 57C43.5 46 37.5 38 37 26C36.5 12 41 2.5 50 2.5C59 2.5 63.5 12 63 26C62.5 38 56.5 46 56.5 57Z" fill-opacity=".58"/><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V57H43.5Z"/></g></svg>
+      <span class="ph-wordmark">Phaeacia</span>
+      <span class="ph-product">Agent Passport</span>
+    </a>
+    <nav class="topnav" aria-label="Primary">
+      <a class="navlink" href="/upload">Upload</a>
+      <a class="navlink" href="/about">About</a>
+      <a class="navlink drop-sm" href="/manage" aria-current="page">Manage</a>
+      <a class="navlink" href="/gallery">Gallery</a>
+      <a class="navlink drop-md" href="https://phaeacia.ai">Phaeacia</a>
+      <button class="themetoggle" type="button" data-theme-toggle><span class="vh">Theme: </span><span data-theme-label>Auto</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="wrap">
+
+  <section class="hero tight">
+    <div class="hero-top">
+      <div class="left">
+        <p class="eyebrow brass">The document office</p>
+        <h1>Manage a passport.</h1>
+      </div>
+      <div class="right">
+        <p class="body">The delete token is the only credential this site has, so it is also the
+        only thing that can answer whether your passport is still up, how many people opened it,
+        and when it comes down. There are no accounts, and adding one to show you a number would
+        be a bad trade.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── the two fields ──────────────────────────────────── -->
+  <section class="step first" id="unlock">
+    <div class="step-body narrow">
+
+              <!-- NO name= ON EITHER FIELD, AND THAT IS THE FIX FOR ROW-129 ITEM 1.
+             This form has no method, so a scriptless Enter submits GET to this
+             page's own URL. With name="pid" and name="token" that put the delete
+             token, the only credential in the system, into the address bar, the
+             browser history and the request log that privacy.html says holds the
+             path. delete.js and manage.js read these by id ($('#pid'), $('#token')),
+             never by name, so removing name costs the scripts nothing and empties
+             the scriptless submission of everything worth leaking.
+
+             method="post" is the other repair and it is the one NOT taken. The
+             marketing site chose it for its access form and that is ROW-78: with
+             JavaScript off the visitor gets a bare Netlify 400. A silent reload
+             method="post" is the other repair and it is the one NOT taken, but not
+             for the reason first written here. That said the marketing site's
+             scriptless POST gives "a bare Netlify 400". Measured against
+             production 2026-09-02: it is 404, and the body is Netlify's branded
+             "Page not found" page, not a bare anything. A third number, 405, is
+             in the record. Three figures and nobody had run the request. The
+             DECISION survives either way, because a 404 explains a reader even
+             less than a 400 would, but the ground under it was invented.
+             See the finding on the marketing form leaking an address with
+             JavaScript off; this is its twin, and that one covers only the
+             marketing form. -->
+        <form id="manage-form" class="stack" style="gap:24px">
+        <noscript>
+          <p class="help"><b>This page needs JavaScript.</b> It reads what you paste,
+          calls the API and shows you the answer, none of which happens without it.
+          Nothing you type here is sent while it is off: pressing the button reloads
+          this page and clears both fields.</p>
+        </noscript>
+        <div class="formrow">
+          <label for="pid">Passport link, or its id</label>
+          <input class="field" type="text" id="pid" autocomplete="off" spellcheck="false"
+                 placeholder="https://…/p/00000000-0000-0000-0000-000000000000">
+          <p class="help">Paste the whole link. The part that matters is taken out of it.</p>
+        </div>
+
+        <div class="formrow">
+          <label for="token">Delete token</label>
+          <input class="field" type="text" id="token" autocomplete="off" spellcheck="false"
+                 placeholder="40 characters, shown once when you published">
+          <p class="help">If you no longer have it, nothing on this page can be done and the passport
+          comes down by itself when it expires. It was never stored in a form anyone can read back,
+          including us.</p>
+          <p class="help">This form accepts 20 attempts an hour from one network, right or wrong, counted in fixed hours rather than a sliding one. Past
+          that it stops answering for the rest of the hour and then starts again on its own. Nothing
+          about your passport or your token changes while it is waiting.</p>
+        </div>
+
+        <div class="errors" id="errors" role="alert" aria-live="assertive" hidden></div>
+
+        <div><button class="btn" id="unlock-btn" type="submit">Open this passport's status</button></div>
+      </form>
+
+      <p class="caption" id="unlock-note" style="margin-top:16px">Neither value is sent anywhere except to
+      this site, and neither is written into the address bar. If you came here from a link that had both in
+      it, they were in the part after the # that browsers never send to a server, and that part is cleared
+      as soon as this page reads it.</p>
+
+      <!-- Once the token has done its work the form folds away. Leaving a delete
+           token sitting in a visible field for the rest of the session is a
+           screenshot and a shoulder waiting to happen, and the page has no
+           further use for it. -->
+      <div class="notice" id="opened" hidden>
+        <p class="nh">Opened</p>
+        <p>The token did its job and is out of sight. It is still in this tab, and it is gone when you
+        close it.</p>
+        <p><a href="#" id="unlock-again">Open a different passport</a></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── the status, once unlocked ───────────────────────── -->
+  <section class="step" id="panel" hidden>
+    <div class="step-head">
+      <span class="k">Status</span>
+      <!-- manage.js replaces this the moment a status comes back. It says
+           something rather than nothing because it is what a visitor reads if
+           the script never runs, and because an em-dash is not copy. -->
+      <h2 id="panel-title">Checking this passport</h2>
+    </div>
+    <div class="step-body narrow">
+
+      <div class="statgrid" id="stats"></div>
+
+      <div class="meter" id="life">
+        <div class="track"><div class="fill" id="life-fill" style="width:0%"></div></div>
+        <p class="cap" id="life-cap"></p>
+      </div>
+
+      <div class="copyrow" style="margin-top:8px">
+        <h3>The link</h3>
+        <div class="blockbox" id="panel-url"></div>
+        <button class="btn ghost" type="button" data-copy="#panel-url">Copy link</button>
+      </div>
+
+      <div class="notice" id="unreviewed" hidden>
+        <p class="nh">Published without an owner review</p>
+        <p>This passport went up with <code>owner_confirmed: false</code>. Nobody confirmed that what it
+        says about the agent is true, or that the redactions were checked. Whoever opens it is reading
+        something unread.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── send ────────────────────────────────────────────── -->
+  <section class="step" id="send-step" hidden data-archive-hide>
+    <div class="step-head">
+      <span class="k">Send</span>
+      <h2>Email the link to someone.</h2>
+    </div>
+    <div class="step-body narrow">
+      <div class="sendbox" data-sendbox hidden>
+        <div class="formrow">
+          <label for="send-to">Send the link to</label>
+          <input class="field" type="email" id="send-to" data-send-to autocomplete="off" spellcheck="false"
+                 placeholder="them@example.com">
+          <p class="help">Used for this message, and named in your own copy if you ask for one, and not
+          stored. A one-way hash of it counts that day's messages, so that nobody can flood one inbox
+          through us; it stops counting at midnight UTC and a later cleanup deletes it. There is no list,
+          no follow-up and nothing for them to unsubscribe from.</p>
+        </div>
+        <div class="formrow">
+          <label for="send-from">Your name, optional</label>
+          <input class="field" type="text" id="send-from" data-send-from maxlength="60" autocomplete="off"
+                 placeholder="Someone">
+          <p class="help">Shown in the message, beside the agent's name, under a line saying we did not
+          write either of them. Leave it blank and it says "Someone". It is not in the subject: the subject
+          is the same fixed line on every message we send, because a subject line is the most convincing
+          part of an email and none of it is a stranger's to write.</p>
+        </div>
+        <label class="checkrow">
+          <input type="checkbox" data-send-copy>
+          <span>Send me a copy
+            <span class="sub">Your copy carries the delete token. Anyone who reads that message can take the passport down.</span>
+          </span>
+        </label>
+        <div class="formrow" data-send-copy-row hidden>
+          <label for="send-copy-to">Your email address</label>
+          <input class="field" type="email" id="send-copy-to" data-send-copy-to autocomplete="off"
+                 spellcheck="false" placeholder="you@example.com">
+        </div>
+        <div class="errors" data-send-errors role="alert" aria-live="assertive" hidden></div>
+        <div><button class="btn ghost" type="button" data-send-btn>Send the link</button></div>
+      </div>
+      <p class="caption" data-send-off hidden>Sending email is not switched on for this deployment. Copy the
+      link above and send it however you normally would; nothing about the passport depends on it.</p>
+    </div>
+  </section>
+
+  <!-- ── the gallery ─────────────────────────────────────── -->
+  <!-- THE CONSENT TEXT AND THE OPTION LIST ARE A WORD-FOR-WORD DUPLICATE OF
+       upload.html's. Neither page can import lib/_categories.mjs, so
+       tools/run-tests.mjs asserts both copies against the module. Change a label
+       here and change it there and in the module in the same commit. -->
+  <section class="step" id="gallery-step" hidden>
+    <div class="step-head">
+      <span class="k">Gallery</span>
+      <h2>List it, or take it off the list.</h2>
+    </div>
+    <div class="step-body narrow">
+
+      <div class="errors" id="gallery-errors" role="alert" aria-live="assertive" hidden></div>
+
+      <div class="listbox" id="list-form" data-archive-hide>
+        <label class="checkrow">
+          <input type="checkbox" id="list-in-gallery">
+          <span>List this passport in the public gallery
+            <span class="sub">Listed passports do not expire. This one stays up until you delete it
+            with your delete token, search engines may index it, and anyone can install it and vote
+            on it. You can unlist it later from the manage page, which puts it back on the thirty-day
+            clock.</span>
+          </span>
+        </label>
+        <div class="formrow" id="list-category-row" hidden>
+          <label for="list-category">What is it for?</label>
+          <select class="field" id="list-category">
+            <option value="">Pick one</option>
+            <option value="research-and-monitoring">Research and monitoring</option>
+            <option value="writing-and-editing">Writing and editing</option>
+            <option value="personal-and-planning">Personal and planning</option>
+            <option value="operations-and-admin">Operations and admin</option>
+            <option value="engineering-and-dev-tools">Engineering and dev tools</option>
+            <option value="sales-and-customers">Sales and customers</option>
+            <option value="finance-and-legal">Finance and legal</option>
+            <option value="other">Something else</option>
+          </select>
+          <p class="help">One pick, and it is the only thing the gallery sorts and filters by. It is
+          public, and the owner can change it later only by unlisting and listing again.</p>
+        </div>
+        <div><button class="btn ghost" id="list-btn" type="button">List it in the gallery</button></div>
+      </div>
+
+      <div class="notice" id="listed-now" hidden>
+        <p class="nh">Listed</p>
+        <p id="listed-detail">This passport is in the gallery.</p>
+        <p><a href="/gallery">Open the gallery</a></p>
+        <div class="actions" style="margin-top:8px">
+          <button class="btn ghost" id="unlist-btn" type="button">Take it off the list</button>
+        </div>
+        <p class="caption">Unlisting puts it back on the thirty-day clock from that moment, and deletes
+        the votes it collected. A passport listed a second time starts from zero, which is honest about
+        what those votes were for.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── renew and delete ────────────────────────────────── -->
+  <section class="step" id="actions" hidden>
+    <div class="step-head">
+      <span class="k">Keep or withdraw</span>
+      <h2>Renew it, or take it down.</h2>
+    </div>
+    <div class="step-body narrow">
+
+      <!-- Both the paragraph and the button are hidden when the passport is
+           listed, because a listed passport does not expire and there is nothing
+           to renew. Hiding the explanation with the control matters: leaving the
+           paragraph would describe a thirty-day clock that is not running. -->
+      <p class="body" id="renew-note" data-archive-hide>Renewing moves the date rather than adding to it: a passport renewed on its last
+      day and one renewed on its first both get the same thirty days from now. You can renew as often
+      as you like, and nothing renews by itself, which is the point.</p>
+
+      <div class="errors" id="action-errors" role="alert" aria-live="assertive" hidden></div>
+
+      <div class="actions" style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="btn ghost" id="renew-btn" type="button" data-archive-hide>Renew for another 30 days</button>
+        <button class="btn ghost" id="delete-btn" type="button">Delete this passport</button>
+      </div>
+
+      <p class="caption">Deletion is immediate and irreversible. There is no undo and no archive.
+      Afterwards the link behaves exactly like a link that never existed, which is deliberate: a
+      visitor must not be able to tell a deleted passport from an invented one. Anyone who already
+      read it still has what they read, which no delete button anywhere can change.</p>
+
+      <div class="notice" id="deleted" hidden tabindex="-1">
+        <p class="nh">Deleted</p>
+        <p>The passport is gone. Its link now returns the same page as a link that never existed.</p>
+        <p><a href="/upload">Publish another one</a></p>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="foot wrap">
+  <div class="fmark">
+    <a class="ph-lockup" href="/">
+      <svg viewBox="-0.20 -5.00 88.20 95.40" aria-hidden="true"><g fill="currentColor" transform="rotate(138 50 50)"><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V115.5A6.5 6.5 0 0 1 43.5 115.5Z" fill-opacity=".58"/><path d="M43.5 57C43.5 46 37.5 38 37 26C36.5 12 41 2.5 50 2.5C59 2.5 63.5 12 63 26C62.5 38 56.5 46 56.5 57Z" fill-opacity=".58"/><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V57H43.5Z"/></g></svg>
+      <span class="ph-wordmark">Phaeacia</span>
+    </a>
+  </div>
+  <div class="fbody">
+    <p>A wrong token, a malformed token, an expired passport and an id that never existed all return the
+    same answer, so that nobody can use this page to find out which passports exist.</p>
+    <div class="flinks">
+      <a href="https://phaeacia.ai">Phaeacia</a>
+      <a href="/gallery">Gallery</a>
+      <a href="/upload">Upload a passport</a>
+      <a href="/about">About</a>
+      <a href="/p/example">Example passport</a>
+      <a href="/manage">Manage a passport</a>
+      <a href="/delete">Delete a passport</a>
+      <a href="/changelog">What changed</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/imprint">Imprint and contact</a>
+    </div>
+    <p class="meta">Agent Passport 0.1 · no accounts, no tracking, and one cookie only if you vote</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/send.js"></script>
+<script src="/assets/manage.js"></script>
+</body>
+</html>

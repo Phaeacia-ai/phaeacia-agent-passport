@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy · Agent Passport</title>
+<meta name="description" content="What this site stores and what it does not. No accounts, no tracking, and one cookie only if you vote.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F8F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#071B23" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Passport">
+<meta property="og:title" content="Privacy · Agent Passport">
+<meta property="og:description" content="What this site stores and what it does not. No accounts, no tracking, and one cookie only if you vote.">
+<meta property="og:url" content="https://app.phaeacia.ai/privacy">
+<meta property="og:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An Agent Passport cover: the Phaeacia mark, the document type, and two entry stamps reading granted and not granted.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy · Agent Passport">
+<meta name="twitter:description" content="What this site stores and what it does not. No accounts, no tracking, and one cookie only if you vote.">
+<meta name="twitter:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<link rel="icon" href="/assets/favicon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon/favicon-32.png" sizes="32x32">
+<link rel="icon" href="/assets/favicon/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/schibsted-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/base.css">
+<script>(function(){try{var t=localStorage.getItem('phaeacia-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="ph-lockup" href="/">
+      <svg viewBox="-0.20 -5.00 88.20 95.40" aria-hidden="true"><g fill="currentColor" transform="rotate(138 50 50)"><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V115.5A6.5 6.5 0 0 1 43.5 115.5Z" fill-opacity=".58"/><path d="M43.5 57C43.5 46 37.5 38 37 26C36.5 12 41 2.5 50 2.5C59 2.5 63.5 12 63 26C62.5 38 56.5 46 56.5 57Z" fill-opacity=".58"/><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V57H43.5Z"/></g></svg>
+      <span class="ph-wordmark">Phaeacia</span>
+      <span class="ph-product">Agent Passport</span>
+    </a>
+    <nav class="topnav" aria-label="Primary">
+      <a class="navlink" href="/upload">Upload</a>
+      <a class="navlink" href="/about">About</a>
+      <a class="navlink drop-sm" href="/manage">Manage</a>
+      <a class="navlink" href="/gallery">Gallery</a>
+      <a class="navlink drop-md" href="https://phaeacia.ai">Phaeacia</a>
+      <button class="themetoggle" type="button" data-theme-toggle><span class="vh">Theme: </span><span data-theme-label>Auto</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="wrap">
+
+  <section class="hero tight">
+    <div class="hero-top">
+      <div class="left">
+        <p class="eyebrow">Privacy</p>
+        <h1>What this site stores.</h1>
+      </div>
+      <div class="right">
+        <!-- THIS DATE TRACKS THE DISCLOSURE, NOT THE FILE, which is the rule
+             website/privacy.html states for its own copy. It said 2026-08-10 through
+             substantive commits on 08-17 and 08-23 and through today's, so it was
+             three changes stale when ROW-129 caught it.
+
+             Moved to 2026-09-24 for the address box on a held upload (PH-518) and the
+             boxes-that-take-an-address section that describes it.
+
+             Moved to 2026-09-21 for the optional feedback form hosted by Notion, and for
+             removing the false claim that the sender's copy is the only email carrying a
+             delete token (the hold-release email carries it too, PH-507).
+
+             Moved to 2026-09-17 for TypeSafe's addition to the processor list, PH-507.
+
+             Moved to 2026-09-05 for the factual review: cookie transmission, copy counting,
+             listing identifiers, cleanup timing and the fresh expiry after unlisting.
+
+             Moved to 2026-09-04 for the gallery: a listed passport no longer expires, voting
+             sets the first cookie this site has ever set, and there is a second counter beside
+             views. Each of those is a change to what is stored, not a rewording.
+
+             Moved to 2026-09-02 for changes a reader would notice: the Resend
+             paragraph in section 04 stopped contradicting the processor list in
+             section 05, the entity-status sentence went from section 05, and the
+             theme key is no longer written on a page load by a reader who never
+             touched the control, which is what section 01 promises.
+
+             Named by section rather than by direction or distance on purpose, and
+             then CHECKED, because naming a target is only half of it. The first
+             draft of this sentence said "the processor sentence above" for
+             something two hundred lines below. The second said section 03, on the
+             reasonable-sounding ground that a sentence about Resend belongs under
+             the heading "Email". It is in 04, "Deletion and hosting". Both drafts
+             were wrong in the paragraph explaining how to point at things. -->
+        <!-- (Section numbers are the rail numerals on this page, not counts of
+             anything, so they survive a section being reordered only if someone
+             renumbers the rails too. That is still better than a line distance,
+             which survives nothing.) -->
+        <p class="body">Last changed 2026-10-09. This applies to app.phaeacia.ai only. The company site
+        at <a href="https://phaeacia.ai">phaeacia.ai</a> has its own notice and this one does not describe
+        it. Below is the whole of it, in the order that matters.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec first">
+    <div class="rail"><span class="num">01</span><span class="label">Reading</span></div>
+    <div class="col">
+      <div class="legal">
+        <div class="block">
+          <h2>What is collected when you read a page</h2>
+          <p>Reading sets no cookie, first party or third. Voting is the only thing that sets one;
+          its later transmission with ordinary requests is described under Voting below. No analytics
+          product runs on any page: no tag manager, no advertising pixel, no session recorder, no heatmap,
+          no experiment framework. Our application does not keep a history of the pages you open or how
+          long you stay. The passport and setup-copy counters below record totals without identifying
+          readers.</p>
+          <p>Our server does count page requests. For each page it serves, it records the date, the
+          page's path, the host name of the site the link came from, if any, and the country the request
+          came from as a two-letter code, which our host works out from your connection, and nothing else: no
+          IP address, no browser signature, no cookie and no identifier of any kind, so two requests
+          from you look the same as one request each from two people. A passport page is recorded as
+          "a passport page", never by its link. A request that carries the Do Not Track or Global
+          Privacy Control signal is not counted at all, and neither is a request for a page that does not
+          exist. The counts live in our hosting account at
+          Netlify, a morning report reads them, and raw entries are deleted after 45 days.</p>
+          <p>Nothing loads from another domain either. Both typefaces are served from this site, as is
+          every script, stylesheet and image, and there are no embeds. While one of these pages is open,
+          your browser is talking to this site and to nowhere else, unless you follow the optional feedback
+          link, which opens a form hosted by Notion in a new tab.</p>
+          <p>Opening somebody's passport link adds one to a counter on that passport, so the person who
+          published it can see it was read. It records no time, no address, no browser and no referrer.</p>
+          <p>When the copy control on a passport page succeeds, the page asks us to add one to a second
+          counter on that passport. This count can miss copies if the request does not reach us or is
+          refused, and it does not tell us whether you installed the agent. Nothing about you is stored
+          with the counter. Copies made by selecting the text yourself are not counted.</p>
+          <p>The buttons that copy text for you elsewhere on this site work the same way: a successful
+          copy adds one to a count of these copies, and nothing about you is stored with it. A counting
+          request that never reaches us, or is refused, means the copy is not counted, and a copy made
+          by selecting the text yourself is not counted either.</p>
+          <p>Your theme choice is kept in your browser, and only if you use the theme control in the
+          header. It is not a cookie, it is not sent with any request, and clearing your site data
+          removes it. The one cookie this site sets is described under Voting below, and reading never
+          sets it.</p>
+        </div>
+
+        <div class="block">
+          <h3>Voting, and the one cookie</h3>
+          <p>A passport listed in the gallery can be voted up or down. Voting is the only action that
+          sets a cookie, named <span class="mono">pv</span>. A vote attempt can set it even if the vote
+          cannot be recorded. It holds a random identifier generated here and a signature proving this
+          site issued it, and nothing else. It is not derived from you, your file or your network, and it
+          is the only cookie
+          this site sets. After it is set, your browser also sends it with ordinary requests for pages,
+          images and other files on app.phaeacia.ai. Our application reads it only when you submit a vote;
+          it does not read it on an ordinary page load. Copy-count requests do not send it.</p>
+          <p>It is marked HttpOnly, so no script on any page can read it, and is set to last a year unless
+          your browser clears it sooner. Your votes are stored against that random identifier and the
+          passport listing you voted on. This limits one browser to one vote on each listing. Clearing
+          the cookie lets you vote again, and we would rather
+          say that than pretend one vote per person is something this design can deliver.</p>
+          <p>When a passport is deleted or unlisted, its former votes stop counting immediately. A
+          passport listed a second time starts from zero. We also delete the former vote records;
+          any records left by incomplete cleanup are retried later. Your identifier is used only for
+          voting: there is no account to attach it to and nothing else in our application reads it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail"><span class="num">02</span><span class="label">Publishing</span></div>
+    <div class="col">
+      <div class="legal">
+        <div class="block">
+          <h2>What publishing a passport stores</h2>
+          <p>There is no sign-up and no login anywhere on this site. Publishing a passport, opening
+          somebody's link, copying an install block and deleting a passport all work without an account
+          and without an email address.</p>
+          <p>Publishing stores the following, and nothing else:</p>
+          <ul>
+            <li><b>The text of the passport you uploaded</b>, as you sent it, so it can be rendered at
+            its link. The step before the upload button says plainly that publishing puts it on a public
+            web page.</li>
+            <li><b>A random identifier</b>, the long unguessable part of the link. It is generated here
+            and is not derived from you, from your file, or from your network.</li>
+            <li><b>A hash of the delete token.</b> The token itself is shown to you once and never
+            stored, which is why nobody, ourselves included, can reissue it for you. A passport released
+            from review is the exception when its link cannot be mailed to you, because you left no
+            address or the message could not be sent: its link is then shown once, to the person
+            reviewing it here, and is not sent to you.</li>
+            <li>For a passport released from review, the number of that review and when its record ends,
+            so that deleting the passport deletes that record too. It holds nothing of yours.</li>
+            <li><b>One integer counting views</b>, kept apart from the passport itself so that a page
+            still loading while somebody deletes their passport cannot write it back.</li>
+            <li><b>One integer counting copies</b>, kept the same way, counting successful uses of the
+            copy control whose counting requests we receive and accept.</li>
+            <li><b>Whether it is listed in the gallery</b>, and if it is, which of the eight categories
+            you picked and the date you listed it. Both are shown publicly on the gallery card. A random
+            identifier distinguishes this listing from earlier listings of the same passport and is
+            stored with its votes and any category changes too. It identifies the listing, not a visitor.</li>
+            <li><b>Two counts of votes</b>, up and down, for a listed passport, and the time those counts
+            were last updated. The counts are shown on the card and on the passport page. Who voted is
+            covered under Voting above.</li>
+            <li><b>Two dates and a small number:</b> when it was published, when it expires, and how many
+            times it has been renewed.</li>
+            <li><b>A one-way hash of the file, for one hour</b>, so the site notices the same passport
+            being uploaded twice by accident and hands back the link you already have.</li>
+            <li><b>A short record of the passport's shape</b>, described in the next section.</li>
+          </ul>
+          <p>Nothing is attached to any of that about who published it: no author, no organisation, no
+          session and no upload address. A passport is not associated with a person, because the system
+          never learns which person it was.</p>
+        </div>
+
+        <div class="block">
+          <h3>The record of what was published</h3>
+          <p>Publishing writes one short record describing the shape of the passport: which capabilities
+          from the format's fixed list it named, whether the agent runs on a schedule, how many rows its
+          consent table had, and about twenty further counts and fixed values of the same kind. We keep it
+          to see what kinds of agents people build, which is what decides what gets built next.</p>
+          <p>It holds no text you wrote. Not the title, not the description, not the agent's name, not one
+          sentence of the file. It carries the date but not the time, and no identifier of any kind, so
+          nothing in it points back at your passport or at you.</p>
+          <p>It is one of two things here that are kept when a passport is deleted or expires; the other is
+          described next. Since it holds no identifier there is nothing in it to look up and nothing to
+          remove. The honest limit: on a quiet day there may be only one passport published, so somebody
+          holding both this record and your passport could work out which row was yours. Somebody holding
+          only the record cannot.</p>
+          <p>Every upload that reaches the check on the passport text, described in section 05, leaves one
+          more short row. It holds the date, whether the check answered, the scores it gave the consent
+          table, the name of the model that answered, and, for the check for passwords, one score, the
+          number of the line it scored highest and how many lines it looked at. It holds no text you wrote
+          and no identifier of any kind. Like the record above, it is kept when the passport is deleted or
+          expires.</p>
+        </div>
+
+        <div class="block">
+          <h3>What a refused upload leaves</h3>
+          <p>Not every upload becomes a passport. A file can be too large, or missing a section, or
+          still carrying something that looks like a credential. A refused upload leaves one row: the
+          date, and which refusal it was. It holds no text you wrote. What is stored is a code from the
+          fixed list of refusals this site ships, not the sentence you were shown, because that
+          sentence sometimes quotes your own file back at you to say what was wrong with it. The code
+          is kept and the quotation is not.</p>
+          <p>It leaves the same hashed-address entry that rate limiting writes for every attempt.
+          An upload turned away for arriving too fast is the exception: it is refused before anything
+          reads it, so it leaves that entry and no row. That is deliberate. The entry clears itself and
+          the row does not, so counting somebody who knocked too often would turn a trace that expires
+          into one that stays.</p>
+          <p>We keep it because a refusal nobody can see is a refusal nobody can fix. The honest limit,
+          and it is sharper than the one under the record of what was published: a refusal and the
+          retry a minute later are the same person, so on a quiet day a run of rows describes one
+          person's session rather than one attempt. The row carries the date and not the time, which
+          blunts that without removing it.</p>
+        </div>
+
+        <div class="block">
+          <h3>When publishing is stopped for a review</h3>
+          <p>A passport that nobody confirmed the description of is stopped rather than published.
+          Getting past that stop is one of several places the site has to remember something between two
+          of your requests. The others are the duplicate check, the rate limit, gallery votes, the check on a
+          delete link and a held upload, each described elsewhere on this page. What it keeps here is random and holds nothing of yours: it
+          only means anything when it
+          comes back alongside the same file, which is how your retry is recognised as the same upload
+          rather than a new one.</p>
+          <p>It stops working after fifteen minutes. If you come back it is used and gone; if you close
+          the tab and never return, it is deleted by the same sweep that clears expired passports.</p>
+        </div>
+
+        <div class="block">
+          <h3>Rate limiting</h3>
+          <p>Upload, deletion, status, email, vote and copy-count requests are counted per source address
+          to limit flooding, and emails are counted a second time per passport so one link cannot become
+          a small mailing. Emails are also counted per recipient address, until midnight UTC, so that
+          nobody can flood one inbox through us, and for the whole site, a count that records no address
+          at all. What is written down is a one-way hash of the source address or the recipient address,
+          never the address itself. For an IPv6 source address it is a hash of the network block, the
+          first half of the address, which one home or office usually shares, so everybody on that
+          network shares one count. Each entry stops contributing to the limit when its time window ends
+          and is removed by later scheduled cleanup. Incomplete cleanup is retried. That is a count
+          against a pseudonym rather than a list of who used the site or who was sent what; it is not
+          anonymity, and we would rather say so than call it that.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail"><span class="num">03</span><span class="label">Email</span></div>
+    <div class="col">
+      <div class="legal">
+        <div class="block">
+          <h2>The boxes that take an address</h2>
+          <p>Two appear only after you have published a passport, and a third appears only if an upload is
+          held for review. None is a step you have to pass. Ignoring the first two changes nothing about
+          your passport or its link. Ignoring the third means we cannot write to you, so if the passport
+          is published you will not receive the link that lets you delete or renew it. Nothing anywhere
+          on this site asks for an address before you can use it.</p>
+
+          <p><b>Sending the link.</b> You may ask us to email your passport's link to somebody. One message
+          is sent to that address. The address is used for that message, and named in your own copy if you
+          ask for one, and is not stored or added to a list. A one-way hash of it counts that day's
+          messages to the address, so that nobody can flood one inbox through us; it stops counting at
+          midnight UTC and a later scheduled cleanup deletes it, as the rate-limiting block above
+          describes. There is nothing for the recipient to
+          unsubscribe from because there is nothing they were subscribed to. If you ask for your own copy,
+          your address is treated the same way. That copy carries your delete token, so anyone who can read
+          that mailbox can take the passport down.</p>
+
+          <p><b>Hearing what comes next.</b> You may leave your own address to be told when this stops
+          being a testbuild. This one is kept, which is the difference between the two, and it is why the
+          box has a checkbox you have to tick rather than a default you have to notice. The address goes on
+          one list held at Resend and is used for occasional notes about what changed. It is not sold, not
+          shared with anyone else, and not used for anything but that. Every message carries an unsubscribe
+          link, and unsubscribing leaves your address on a suppression list so that it sticks; ask us
+          instead and the record is deleted outright.</p>
+
+          <p><b>Leaving an address on a held upload.</b> If a passport is held for review, its text sits
+          in a separate store here for up to 5 days, until a person publishes it, refuses it, or the 5
+          days run out, and then it is deleted, within about an hour after that. If you leave an address
+          on that screen, it is stored as you typed it, in a separate store of its own, and deleted when
+          the hold ends.
+          It is used for one message: the passport's link if it is published, or the reason if it is not,
+          and it goes to Resend for that one delivery. Each hold also sends one alert to one address of
+          ours, which names the hold's number, the date it was made and the listing you asked for, and
+          carries none of your text.</p>
+
+          <p>All three go through Resend, an email delivery provider, whose systems handle the address in
+          order to deliver the mail and who keep their own delivery records as any mail provider does. For
+          the first box and the third that is the whole of Resend's involvement. For the second, Resend
+          also holds the list itself.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail"><span class="num">04</span><span class="label">Deletion and hosting</span></div>
+    <div class="col">
+      <div class="legal">
+        <div class="block">
+          <h2>Deletion, expiry and where this runs</h2>
+          <p>A passport published without a gallery listing expires after thirty days unless you renew
+          it. A listed passport does not expire. Unlisting removes it from the gallery and gives its link
+          a fresh thirty-day expiry; the link continues to work during that time. With the link and the
+          delete token you can remove a passport at <a href="/manage">the manage page</a> or
+          <a href="/delete">the delete page</a>.</p>
+          <p>When deletion succeeds, the passport text is removed immediately and permanently. We also
+          remove its view counter, copy counter, gallery card, saved category changes and votes. Some of that cleanup may finish
+          later, and scheduled cleanup retries what remains. A gallery page already open or cached may
+          still show the old card. There is no soft delete and no tombstone, because a tombstone would
+          answer the question of whether a passport ever existed at that link, which the not-found
+          response is written to refuse. An expired link, a
+          deleted link and a link that never existed are the same page, the same status and the same
+          headers. The record of the passport's shape is not covered by this, for the reason given
+          above.</p>
+        </div>
+
+        <div class="block">
+          <h3>Server logs and the companies involved</h3>
+          <p>The site runs on Netlify, which serves the pages, runs the small programs behind the upload
+          and delete endpoints, and holds the stored passports in its own key-value storage in the same
+          account. Netlify's servers necessarily receive your request in order to answer it and keep
+          ordinary request logs containing an IP address, a timestamp, the path and a user agent, under
+          their retention policy for the plan this site runs on. Those logs exist to run and defend the
+          server. Our page counter above is a separate record and does not read them. We do not query them to build profiles, and do not
+          join them to stored passports.</p>
+          <!-- "Netlify and Resend are the only other companies involved" came out on
+               2026-09-02, ROW-129. It was contradicted forty lines down by this page's own
+               processor list, which names three: Netlify, Resend and Cloudflare. Two counts
+               of the same set, in one document, and the one a reader meets first was the
+               wrong one.
+
+               The list is the authority and this sentence now defers to it rather than
+               restating it, because a count restated in two places is a count that drifts.
+               That is what happened here: Cloudflare was added to the list under ROW-126 and
+               this sentence was not revisited.
+
+               Added 2026-09-17, PH-507: TypeSafe was added to the list. It now names four:
+               Netlify, Resend, Cloudflare and TypeSafe. This comment's account of what
+               happened in September is unchanged; only the count below it is current.
+
+               Updated 2026-09-21: Notion was added for the optional feedback form. It now
+               names five: Netlify, Resend, Cloudflare, Notion and TypeSafe. -->
+          <p>Resend delivers all three optional emails described above and holds the list the second one
+          subscribes you to. The processors involved are named in full in section 05.</p>
+          <p>The page you see after publishing a passport links to an optional feedback form, and so does
+          the copy of your passport link that you can ask us to email you. The form is hosted by Notion
+          (Notion Labs, Inc., United States), not by us. Following a link opens it in a new tab and takes
+          you off this site: your browser contacts Notion, which sees your IP address as any site would and may set its own cookies.
+          From our pages we pass no referrer; a link in an email is opened by your mail program, which we
+          do not control. What you type into the form is stored by Notion on our behalf, and we read it.
+          If you do not follow the link, nothing is sent anywhere.</p>
+        </div>
+
+        <div class="block">
+          <h3>Where the agent itself goes, and what reaches us</h3>
+          <p>The passport does. Uploading it is what reaches us, and once published, it is stored and
+          served at its link for as long as it stays published. A passport is a description of an
+          agent: what it is for, when it runs, what it reads, what it puts in front of you, and one to
+          three real examples of its output. That is the file's whole purpose.</p>
+          <p>The agent itself does not, and neither does its execution: capture runs inside the
+          assistant you already use, install runs inside the recipient's, and the agent never runs on
+          our side. The one thing on our side that does call a model is the check on the passport text
+          described in section 05, which runs only after you upload and only on what you uploaded. A
+          passport names the kinds of access an agent needs and never a credential value, and an upload
+          that still carries a recognisable credential is refused and not stored. The description
+          travels, the execution does not.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail"><span class="num">05</span><span class="label">Responsibility and rights</span></div>
+    <div class="col">
+      <div class="legal">
+        <div class="block">
+          <h2>Who is responsible, and what you can ask for</h2>
+          <!-- THE ENTITY-STATUS SENTENCE CAME OUT ON 2026-09-02, ROW-137. It read "There is
+               no company behind this yet; the entity is in formation and until it exists the
+               responsible party is a person." website/privacy.html was cut to the controller
+               line alone under ROW-127, and commit d962861 on that repo establishes the rule
+               this follows: a comment is part of the page, so neither the text nor a comment
+               may assert company status. The controller line says who is responsible, which
+               is the only thing this section has to say.
+
+               "Full details" also went. It pointed at an imprint that now carries FEWER
+               facts than this paragraph did, so it promised the reader something the link
+               does not deliver. -->
+          <p>The controller is Raffael Hüberli, St. Gallen, Switzerland, reachable at
+          <span class="slot">{{CONTACT_EMAIL}}</span>. Contact details are on the
+          <a href="/imprint">imprint</a>.</p>
+          <p>The basis for storing a passport is your request: you uploaded it and asked for it to be
+          published. The basis for keeping your address on the list is your consent, given by ticking the
+          box, and you can withdraw it at any time with the unsubscribe link in any message or by asking.
+          Withdrawing does not affect anything sent before you did. The basis for the counts described
+          above, and for the rate limiting, is our legitimate interest in understanding and defending a
+          service we run; for the count per recipient address it is also the recipient's interest in not
+          having their inbox flooded through us. Five processors act on
+          instruction: Netlify, which serves the site and stores the passports, Resend, which sends the
+          optional email, Cloudflare, which resolves this domain, Notion, which hosts the optional
+          feedback form and holds what you type into it, and TypeSafe, a United States company,
+          which checks the passport text, the words you wrote and any personal detail they hold, for what
+          our own checks and a secret scan might still miss. All five are companies with United
+          States parents. For now its result does not change whether a passport is accepted. TypeSafe's
+          published privacy policy says it does not train its models on what is sent to it. TypeSafe does
+          not state a deletion period for what it reads; its policy commits only to keeping it 'as long as
+          reasonably necessary.'</p>
+          <p>Under Swiss data protection law and the GDPR you may ask what is held about you, ask for it
+          to be corrected, ask for a copy, and ask for it to be erased. You may also complain to a
+          supervisory authority: in Switzerland the Federal Data Protection and Information Commissioner,
+          and in the EU the authority where you live.</p>
+          <p>The honest version here is short. What you can ask us to remove is the passport you
+          published, which you can also delete yourself with the token you were given, your address on
+          the list, if you ticked the box, and your address from the suppression list described above,
+          which unsubscribing leaves behind on purpose, and anything you typed into the optional feedback
+          form, which is held by Notion: ask us and we will delete it or have it deleted, if you tell us which entry is yours. The record of the passport's shape, the
+          refusal count and the row of the check hold no identifier at all, so there is nothing in any of
+          them to find or to remove. The rate-limiting entries
+          are one exception, and the block above says it plainly rather than claiming otherwise: they
+          are keyed by a hash of your network address, or of an email address a link was sent to, that is
+          a pseudonym and not anonymity, and they stop counting when their window has passed and a later
+          scheduled cleanup deletes them. The copy TypeSafe holds is the other: once it has
+          been sent, we cannot promise its removal, because TypeSafe states no fixed deletion period.
+          Write to
+          <span class="slot">{{CONTACT_EMAIL}}</span> and it is answered without a process.</p>
+        </div>
+
+        <div class="block">
+          <h3>Changes</h3>
+          <p>If this changes, the date at the top changes with it. This page describes how the site
+          behaves today and does not describe anything that is planned, because a privacy page that
+          promises the future is worth nothing to the person reading it now.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="foot wrap">
+  <div class="fmark">
+    <a class="ph-lockup" href="/">
+      <svg viewBox="-0.20 -5.00 88.20 95.40" aria-hidden="true"><g fill="currentColor" transform="rotate(138 50 50)"><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V115.5A6.5 6.5 0 0 1 43.5 115.5Z" fill-opacity=".58"/><path d="M43.5 57C43.5 46 37.5 38 37 26C36.5 12 41 2.5 50 2.5C59 2.5 63.5 12 63 26C62.5 38 56.5 46 56.5 57Z" fill-opacity=".58"/><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V57H43.5Z"/></g></svg>
+      <span class="ph-wordmark">Phaeacia</span>
+    </a>
+  </div>
+  <div class="fbody">
+    <p>Reading any page here stores nothing about you. Our server counts the request by date, page, country and
+    referring site, with no identifier, and opening a passport adds to its view counter.
+    Successful copies made with a passport's copy control, or with one of the buttons that copy text
+    elsewhere on this site, are counted when the counting request is received and accepted. Voting sets the one
+    cookie described above; your browser then sends it with ordinary page
+    and file requests too. A successful deletion removes the passport text immediately. Removal of its
+    counters, gallery card, saved category changes and votes can finish later through scheduled cleanup. The record of the
+    passport's shape, refusal counts and rate-limiting entries are described here too, and deleting a
+    passport does not reach them.</p>
+    <div class="flinks">
+      <a href="https://phaeacia.ai">Phaeacia</a>
+      <a href="/gallery">Gallery</a>
+      <a href="/upload">Upload a passport</a>
+      <a href="/about">About</a>
+      <a href="/p/example">Example passport</a>
+      <a href="/manage">Manage a passport</a>
+      <a href="/delete">Delete a passport</a>
+      <a href="/changelog">What changed</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/imprint">Imprint and contact</a>
+    </div>
+    <p class="meta">Agent Passport 0.1 · no accounts, no tracking, and one cookie only if you vote</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

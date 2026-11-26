@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What changed · Agent Passport</title>
+<meta name="description" content="What has changed on Agent Passport, in plain language, newest first. One entry per change you could notice.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F8F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#071B23" media="(prefers-color-scheme: dark)">
+
+<!-- ══ HAND-WRITTEN, AND NOT GENERATED FROM GIT. ═══════════════════════════
+
+     This page exists for somebody who is not going to read a commit log and
+     should not have to. That rules out generating it: a commit log is a record
+     of what was DONE, and this is a record of what somebody would NOTICE. Most
+     commits belong in neither. The four entries below came from the ten merges
+     dated 2026-08-23. I wrote eleven and a critic counted; then I wrote that the
+     router "is not one of them", which is true of the router COMMIT and false of
+     its landing. Three of the ten are the router's own: the route-census merge
+     into its branch, the pending-guard merge, and the merge of main before it
+     landed. A count is easy to check and a causal clause beside it is not.
+
+     THE RULES, so the next person adding an entry does not have to guess:
+
+       One entry per user-visible change. If a reader of this site could not
+       have noticed it, it does not go here, however much work it was.
+
+       Plain language, and no term used without being explained in the same
+       sentence. "A content security policy, which is a list the browser
+       enforces of where a page may load things from" costs eight words and is
+       the entire reason this page exists.
+
+       Newest first, dated, and dates never change. An entry is what was true
+       on the day it shipped. If it later stops being true, the honest fix is a
+       new entry saying so, not an edit to the old one.
+
+       Say what got worse or is still missing. An entry saying a thing is not
+       out yet is worth more than four saying things shipped.
+
+     Nothing checks any of this. tools/check-route-table.py knows this route
+     exists and nothing more. ═══════════════════════════════════════════════ -->
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent Passport">
+<meta property="og:title" content="What changed">
+<meta property="og:description" content="What has changed on Agent Passport, in plain language, newest first.">
+<meta property="og:url" content="https://app.phaeacia.ai/changelog">
+<meta property="og:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An Agent Passport cover: the Phaeacia mark, the document type, and two entry stamps reading granted and not granted.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://app.phaeacia.ai/assets/og/og-card.png">
+<link rel="icon" href="/assets/favicon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon/favicon-32.png" sizes="32x32">
+<link rel="icon" href="/assets/favicon/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/schibsted-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/ship.css">
+<script>(function(){try{var t=localStorage.getItem('phaeacia-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="ph-lockup" href="/">
+      <svg viewBox="-0.20 -5.00 88.20 95.40" aria-hidden="true"><g fill="currentColor" transform="rotate(138 50 50)"><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V115.5A6.5 6.5 0 0 1 43.5 115.5Z" fill-opacity=".58"/><path d="M43.5 57C43.5 46 37.5 38 37 26C36.5 12 41 2.5 50 2.5C59 2.5 63.5 12 63 26C62.5 38 56.5 46 56.5 57Z" fill-opacity=".58"/><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V57H43.5Z"/></g></svg>
+      <span class="ph-wordmark">Phaeacia</span>
+      <span class="ph-product">Agent Passport</span>
+    </a>
+    <nav class="topnav" aria-label="Primary">
+      <a class="navlink" href="/upload">Upload</a>
+      <a class="navlink" href="/about">About</a>
+      <a class="navlink drop-sm" href="/manage">Manage</a>
+      <a class="navlink" href="/gallery">Gallery</a>
+      <a class="navlink drop-md" href="https://phaeacia.ai">Phaeacia</a>
+      <button class="themetoggle" type="button" data-theme-toggle><span class="vh">Theme: </span><span data-theme-label>Auto</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-top">
+      <div class="left">
+        <p class="eyebrow brass">Agent Passport · spec 0.1</p>
+        <h1>What changed.</h1>
+        <p class="lede">Everything on this site that you could have noticed changing, newest first, in
+        plain words. Written by hand, so it says what a change means rather than what was edited.</p>
+      </div>
+      <div class="right">
+        <div class="callout quiet">
+          <p class="t">What is not here</p>
+          <p>Work nobody could see: tests, internal tools, and the arguments behind the decisions. Those
+          live in the code and its history, and they are the larger half.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec first">
+    <div class="rail"><span class="num">23 Aug</span><span class="label">2026</span></div>
+    <div class="col">
+      <h2>The front door stops assuming you already have a passport.</h2>
+      <ul class="log">
+        <li>
+          <h3>The first page is a choice now, not an upload box</h3>
+          <p>Opening this site used to drop you straight onto "Upload a passport", which only makes sense
+          if you are already holding the file. If you were not, the only thing here for you was a link
+          back to the company site. The front page now asks whether you have one yet and sends you to
+          <a href="/create">how to make one</a> or to <a href="/upload">the upload</a>.</p>
+          <p>The upload itself is unchanged and now lives at <span class="mono">/upload</span>. If you
+          bookmarked it, either as the address of this site or as the older
+          <span class="mono">/share</span>, that bookmark still works and now opens this new front page
+          instead of the drop box. One extra click until you re-bookmark it.</p>
+        </li>
+        <li>
+          <h3>A new page explains how a passport gets made</h3>
+          <p><a href="/create">This one</a>. It asks one question, where your agent actually does its
+          work, and explains what happens on each answer. <b>Neither of the two capture tools it
+          describes is available yet</b>, and the page says so rather than pretending otherwise. It
+          points at the access form on the company site if you want to hear when that changes.</p>
+        </li>
+        <li>
+          <h3>Uploads are checked much harder for secrets</h3>
+          <p>A passport is meant to name the kinds of access an agent needs and never an actual password
+          or key. The check that enforces that when you upload was weak: tested against nine deliberately
+          planted credentials it caught one. It now catches all nine.</p>
+          <p>This is the check that runs here, on the file you upload, and it is the one that matters
+          most for a passport written by hand or in a chat window, because on that route there is nothing
+          else looking.</p>
+        </li>
+        <li>
+          <h3>Published passport pages carry a stricter security policy</h3>
+          <p>A passport page shows text somebody else wrote and uploaded. It now sends a content security
+          policy, which is a list the browser itself enforces of where the page is allowed to load
+          anything from, and a refusal to be displayed inside another site's frame. Every other page here
+          already had both; the passport page, which is the one showing a stranger's words, was the one
+          that did not.</p>
+        </li>
+      </ul>
+      <p class="caption">Dates on this page do not change. If something here stops being true, it gets a
+      new entry saying so rather than a quiet edit.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="rail"><span class="num">Before</span><span class="label">this page</span></div>
+    <div class="col">
+      <h2>Earlier changes were not written down for readers.</h2>
+      <p class="body">This page starts on 23 August 2026, which is the day it was written. Everything
+      before that happened without a plain-language record, and the honest thing is to say so rather than
+      to reconstruct entries after the fact from a commit log nobody wrote for you. What the site does
+      today is described in full on <a href="/about">the about page</a>, including
+      <a href="/about#rules">the three rules</a> and every route this app has.</p>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="foot wrap">
+  <div class="fmark">
+    <a class="ph-lockup" href="/">
+      <svg viewBox="-0.20 -5.00 88.20 95.40" aria-hidden="true"><g fill="currentColor" transform="rotate(138 50 50)"><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V115.5A6.5 6.5 0 0 1 43.5 115.5Z" fill-opacity=".58"/><path d="M43.5 57C43.5 46 37.5 38 37 26C36.5 12 41 2.5 50 2.5C59 2.5 63.5 12 63 26C62.5 38 56.5 46 56.5 57Z" fill-opacity=".58"/><path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V57H43.5Z"/></g></svg>
+      <span class="ph-wordmark">Phaeacia</span>
+    </a>
+  </div>
+  <div class="fbody">
+    <p>Agent Passport is a product beneath Phaeacia. Publishing a passport, opening one and deleting one
+    need no account and no email.</p>
+    <div class="flinks">
+      <a href="https://phaeacia.ai">Phaeacia</a>
+      <a href="/gallery">Gallery</a>
+      <a href="/upload">Upload a passport</a>
+      <a href="/about">About</a>
+      <a href="/p/example">Example passport</a>
+      <a href="/manage">Manage a passport</a>
+      <a href="/delete">Delete a passport</a>
+      <a href="/changelog">What changed</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/imprint">Imprint and contact</a>
+    </div>
+    <p class="meta">Agent Passport 0.1 · no accounts, no tracking, and one cookie only if you vote</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

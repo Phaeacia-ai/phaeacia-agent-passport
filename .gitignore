@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+.DS_Store
+node_modules
+
+# Local Netlify folder
+.netlify
+
+# Left over from passport-to-page.py --standalone, which is gone. Kept ignored so
+# pages generated before it was removed stay out of the history.
+*-passport.html
+
+# Written by publish.py next to the passport it published. Holds the delete
+# token, which is the one copy in existence and is nobody else's business.
+*-passport.link.md
+
+# Tool cache: absolute paths and session ids from whoever ran it last.
+.impeccable/hook.cache.json
+
+# Claude Code's own local settings and per-agent worktree scratch space. Never
+# tracked here; it is machine and session state, not product.
+.claude/

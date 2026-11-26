@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<title>Passport card harness · Agent Passport</title>
+<link rel="icon" href="/assets/favicon/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/schibsted-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/dm-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/card.css">
+<script>(function(){
+  /* Same pre-paint theme resolution as every page, plus ?theme= so the harness
+     can be rendered headlessly in either mode without touching localStorage. */
+  var t=null;
+  try{t=new URLSearchParams(location.search).get('theme');}catch(e){}
+  /* Written through to the same key site.js reads, or site.js would put the
+     stored preference back over the top of the query string on load. */
+  if(t==='light'||t==='dark'){try{localStorage.setItem('phaeacia-theme',t);}catch(e){}}
+  if(t!=='light'&&t!=='dark'){try{t=localStorage.getItem('phaeacia-theme');}catch(e){t=null;}}
+  if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);
+})();</script>
+<style>
+  /* Harness chrome only. Nothing here ships; it exists so every edge case can
+     be looked at side by side at a real width. */
+  .h-wrap { max-width: 1560px; margin-inline: auto; padding: 32px 32px 112px; }
+  .h-head { display: flex; flex-wrap: wrap; gap: 16px; align-items: baseline; justify-content: space-between; margin-bottom: 32px; }
+  .h-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(560px, 1fr)); gap: 48px 32px; }
+  .h-case { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .h-case .pc { max-width: none; }
+  /* ?only=N renders one case on its own, at the bitmap's logical width, which
+     is the only way to look at the fine detail at 1:1. */
+  body.one .h-grid { grid-template-columns: 1fr; }
+  body.one .h-case .pc { max-width: 1200px; }
+  .h-title { font-family: var(--ph-mono); font-size: var(--ph-t-micro); letter-spacing: var(--ph-tr-micro); text-transform: uppercase; color: var(--ph-brass); margin: 0; }
+  .h-what { font-size: var(--ph-t-small); color: var(--ph-mute); margin: 0; max-width: 62ch; }
+  @media (max-width: 640px) { .h-wrap { padding-inline: 20px; } .h-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="h-wrap">
+
+  <div class="h-head">
+    <div>
+      <p class="eyebrow brass">Harness, not a route</p>
+      <h1 style="font-size:var(--ph-t-h1)">Passport card, every case worth looking at.</h1>
+      <p class="lede">Each card below is drawn by <code>assets/card.js</code> from fixture data held in this
+      file. Nothing loads from another host. The card itself is always the light treatment, because a
+      downloaded PNG carries no theme; the page around it follows yours.</p>
+    </div>
+    <button class="btn ghost" type="button" data-theme-toggle><span class="vh">Theme: </span><span data-theme-label>Auto</span></button>
+  </div>
+
+  <p class="h-what" id="h-overflow">Measuring the page width.</p>
+
+  <div class="h-grid" id="grid"></div>
+
+</div>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/card.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var CASES = [
+    {
+      note: 'The repository example. Five capabilities, four installable, one declared only.',
+      data: {
+        title: 'Daily Brief',
+        name: 'daily-brief',
+        created: '2026-08-06',
+        envelope: 'read-notify',
+        capture_path: 'file',
+        id: 'example',
+        url: 'https://app.phaeacia.ai/p/example',
+        owner_confirmed: true,
+        validated_at: '2026-08-08T09:12:00Z',
+        passport_version: '0.1',
+        losses: 0,
+        declared: 5,
+        installable: 4,
+        capabilities: [
+          { label: 'Fetch news from the web', granted: true },
+          { label: 'Read your calendar', granted: true },
+          { label: 'Run on a schedule', granted: true },
+          { label: 'Remember your preferences', granted: true },
+          { label: 'Send email', granted: false }
+        ]
+      }
+    },
+    {
+      note: 'One capability, granted. The row sits a fixed step under the meta rule and the slack collects above the machine-readable zone, the way a passport page carries its slack.',
+      data: {
+        title: 'Morning tide check',
+        name: 'tide-check',
+        created: '2026-07-19',
+        envelope: 'read-notify',
+        capture_path: 'browser',
+        id: '7f1c9a2e-0b44-4d51-9d0e-2a6c8f31bb02',
+        owner_confirmed: false,
+        passport_version: '0.1',
+        declared: 1,
+        installable: 1,
+        capabilities: [
+          { label: 'Read a public tide table', granted: true }
+        ]
+      }
+    },
+    {
+      note: 'Six capabilities, every one of them granted. The densest the stamp band ever gets.',
+      data: {
+        title: 'Inbox triage and daily digest',
+        name: 'inbox-triage',
+        created: '2026-08-01',
+        envelope: 'read-notify',
+        capture_path: 'file',
+        id: 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d',
+        owner_confirmed: true,
+        validated_at: '2026-08-02T14:00:00Z',
+        passport_version: '0.1',
+        losses: 2,
+        declared: 6,
+        installable: 6,
+        capabilities: [
+          { label: 'Read your mail', granted: true },
+          { label: 'Read your calendar', granted: true },
+          { label: 'Read your task list', granted: true },
+          { label: 'Search the web', granted: true },
+          { label: 'Run on a schedule', granted: true },
+          { label: 'Report back in chat', granted: true }
+        ]
+      }
+    },
+    {
+      note: 'Nothing installable. Three capabilities, all declared only, all stamped in the refusal colour.',
+      data: {
+        title: 'Invoice chaser',
+        name: 'invoice-chaser',
+        created: '2026-05-30',
+        envelope: 'read-notify',
+        capture_path: 'file',
+        id: 'c0ffee00-dead-4bee-9f00-123456789abc',
+        owner_confirmed: true,
+        validated_at: '2026-06-01T08:30:00Z',
+        passport_version: '0.1',
+        losses: 4,
+        declared: 3,
+        installable: 0,
+        capabilities: [
+          { label: 'Send a reminder email to a customer', granted: false },
+          { label: 'Write a row into the accounting sheet', granted: false },
+          { label: 'Post a message into the finance channel', granted: false }
+        ]
+      }
+    },
+    {
+      note: 'Long everything. A title that runs past two lines, capability labels written as sentences, and a seventh capability that does not fit.',
+      data: {
+        title: 'Weekly competitive intelligence digest for the go to market team, covering pricing, hiring and product launches across eleven named competitors',
+        name: 'weekly-competitive-intelligence-digest-go-to-market',
+        created: '2026-04-11',
+        envelope: 'read-notify',
+        capture_path: 'browser',
+        id: 'd4e5f6a7-b8c9-4d0e-8f1a-2b3c4d5e6f70',
+        owner_confirmed: true,
+        validated_at: '2026-04-12T11:45:00Z',
+        passport_version: '0.1',
+        losses: 1,
+        declared: 7,
+        installable: 3,
+        capabilities: [
+          { label: 'Read the shared competitive research folder, including every subfolder created since the start of the quarter', granted: true },
+          { label: 'Search the public web for pricing pages and job advertisements', granted: true },
+          { label: 'Run every Monday at seven in the morning in your own timezone', granted: true },
+          { label: 'Write the digest back into the team wiki as a new page each week', granted: false },
+          { label: 'Send the digest to the go to market mailing list', granted: false },
+          { label: 'Update the competitor tracker spreadsheet in place', granted: false },
+          { label: 'Post a summary into the sales channel', granted: false }
+        ]
+      }
+    },
+    {
+      note: 'Hostile input. Markup, a script tag, a right to left override, zero width joiners, newlines, an unbroken identifier, an unknown envelope and capture path, an unstated signature, and a capability with no label at all.',
+      data: {
+        title: '<script>alert(1)</' + 'script> "Quarterly" ‮ report‬ & <img src=x onerror=alert(2)>\nsecond line',
+        name: 'agent​​_with_a_very_long_unbroken_identifier_that_will_not_wrap_anywhere_at_all_0123456789',
+        created: 'not a date at all',
+        envelope: 'write-anything-everywhere-forever',
+        capture_path: 'telepathy',
+        id: '../../etc/passwd',
+        url: 'javascript:alert(3)',
+        owner_confirmed: 'maybe',
+        capabilities: [
+          { label: '  Read  \n  your   files  ', granted: true },
+          { label: '', granted: true },
+          { label: '‮reversed label‬ with an override', granted: false },
+          { label: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', granted: false }
+        ]
+      }
+    },
+    {
+      note: 'No capabilities and almost no fields. What the card does when it is handed nearly nothing.',
+      data: { id: 'bare' }
+    },
+    {
+      note: 'Seventy capabilities, thirty five of them installable, and the caller passes wrong totals alongside them. The header must read 70 and 35 off the array, and the last line must account for the sixty five that are not stamped.',
+      data: (function () {
+        var caps = [];
+        for (var i = 1; i <= 70; i++) {
+          caps.push({ label: 'Capability number ' + i + ' on a long passport', granted: i % 2 === 1 });
+        }
+        return {
+          title: 'Everything everywhere',
+          name: 'seventy-capabilities',
+          created: '2026-03-02',
+          envelope: 'read-notify',
+          capture_path: 'file',
+          id: 'e7e7e7e7-1111-4222-8333-444455556666',
+          owner_confirmed: true,
+          passport_version: '0.1',
+          losses: 12,
+          declared: 3,          /* deliberately wrong: the array is the truth */
+          installable: 99,
+          capabilities: caps
+        };
+      })()
+    },
+    {
+      note: 'Counts but no capability array, which is what a caller that has only the summary can give. Four declared, two installable, nothing to stamp, and the line says so without the word more.',
+      data: {
+        title: 'Summary only',
+        name: 'summary-only',
+        created: '2026-02-14',
+        envelope: 'read-notify',
+        capture_path: 'browser',
+        id: 'f0f0f0f0-2222-4333-8444-555566667777',
+        owner_confirmed: false,
+        passport_version: '0.1',
+        losses: 0,
+        declared: 4,
+        installable: 2
+      }
+    }
+  ];
+
+  var grid = document.getElementById('grid');
+
+  /* ?only=N isolates one case at 1:1. Read with URLSearchParams and coerced to
+     a number, so nothing off the query string reaches the page as text. */
+  var only = NaN;
+  try { only = parseInt(new URLSearchParams(window.location.search).get('only'), 10); } catch (e) {}
+  var list = CASES;
+  if (only >= 1 && only <= CASES.length) {
+    list = [CASES[only - 1]];
+    document.body.className = 'one';
+  }
+
+  /* ?w=N narrows the column the cards are mounted in. Headless Chrome will not
+     give a viewport below 500 CSS px, so this is the only way to look at the
+     component in the 350px column a 390px phone actually leaves it. The phone
+     media query is live at 500px, so what you see is the phone treatment in a
+     phone-width column. Clamped to a sane range and never printed as text. */
+  var again = false;
+  try { again = new URLSearchParams(window.location.search).get('rerender') === '1'; } catch (e) {}
+
+  var w = NaN;
+  try { w = parseInt(new URLSearchParams(window.location.search).get('w'), 10); } catch (e) {}
+  if (w >= 200 && w <= 1600) grid.style.maxWidth = w + 'px';
+
+  list.forEach(function (c, i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'h-case';
+
+    var h = document.createElement('p');
+    h.className = 'h-title';
+    h.textContent = 'Case ' + (list === CASES ? i + 1 : only);
+    wrap.appendChild(h);
+
+    var note = document.createElement('p');
+    note.className = 'h-what';
+    note.textContent = c.note;
+    wrap.appendChild(note);
+
+    var mount = document.createElement('div');
+    wrap.appendChild(mount);
+    grid.appendChild(wrap);
+
+    window.PassportCard.render(mount, c.data).then(function (card) {
+      /* Proves the returned handle is the contract's shape without downloading
+         seven files: the demo only reports what it got back. */
+      var p = document.createElement('p');
+      p.className = 'h-what';
+      p.textContent = 'render() resolved with a ' + card.canvas.width + ' by ' + card.canvas.height +
+        ' canvas and a download() of type ' + (typeof card.download) +
+        '. Document faces loaded: ' + (card.fontsLoaded ? 'yes' : 'no') + '.';
+      wrap.appendChild(p);
+      /* Encode it here too, so a screenshot of this page records that the
+         bitmap really does turn into a PNG and how big the file is. A card
+         that is too heavy to paste into a chat is a broken card. */
+      card.canvas.toBlob(function (b) {
+        p.textContent += b ? ' PNG encodes to ' + Math.round(b.size / 1024) + ' KB.'
+                           : ' PNG encoding returned nothing.';
+      }, 'image/png');
+
+      /* ?rerender=1 calls render() a second time into the same element. The
+         success state will do exactly that if the person publishes again
+         without a reload, and the failure mode is two cards stacked in one
+         mount plus a leaked blob URL, which a single-shot demo never shows. */
+      if (again) {
+        window.PassportCard.render(mount, c.data).then(function () {
+          var q = document.createElement('p');
+          q.className = 'h-what';
+          q.textContent = 'Rendered a second time into the same element. Canvases now in this mount: ' +
+            mount.querySelectorAll('canvas').length + '.';
+          wrap.appendChild(q);
+        });
+      }
+    })['catch'](function (err) {
+      var p = document.createElement('p');
+      p.className = 'h-what';
+      p.textContent = 'render() rejected: ' + err.message;
+      wrap.appendChild(p);
+    });
+  });
+  /* An overflow watchdog, printed on the page. "The page body never scrolls
+     horizontally" is in the accessibility floor and it is the one failure a
+     screenshot of the visible area cannot show you: an overflowing page just
+     looks cropped. This prints the numbers so the screenshot carries them. */
+  function checkWidth() {
+    var doc = document.documentElement;
+    var out = document.getElementById('h-overflow');
+    var over = doc.scrollWidth - doc.clientWidth;
+    out.textContent = 'Viewport ' + doc.clientWidth + 'px, page ' + doc.scrollWidth + 'px. ' +
+      (over > 0 ? 'HORIZONTAL OVERFLOW of ' + over + 'px.' : 'No horizontal overflow.');
+    out.style.color = over > 0 ? 'var(--pp-refused)' : 'var(--ph-mute)';
+  }
+  window.addEventListener('load', checkWidth);
+  window.addEventListener('resize', checkWidth);
+  setTimeout(checkWidth, 1200);
+})();
+</script>
+</body>
+</html>

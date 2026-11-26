@@ -1,0 +1,486 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   ship.css: the front door.
+
+   Loaded by / and /about only, after tokens.css and base.css. Everything a
+   page needs that base.css does not already carry lives here, and nothing
+   here overrides a component base.css owns except the two rules marked as
+   such at the bottom of section 2.
+
+   THEMING CONTRACT, same as tokens.css: every custom property below is
+   declared once on bare :root. The dark blocks change VALUES only, and they
+   change one value, the ink weight of the engraving. No colour is declared
+   for the first time inside a media query or a [data-theme] block.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* The engraving is one ink at one weight. It is the primary sea colour,
+     held well back so it never competes with the box it sits above. */
+  --ship-ink:   var(--ph-deep);
+  --ship-alpha: .34;
+  /* 72, not 56. At 56 the arrived ship measured 1.94:1 against the page and read
+     as a print artefact rather than an object anyone placed there, and the cargo
+     on its deck was a pale rectangle with two dashes in it. It had only ever been
+     looked at enlarged, which is the exact mistake of judging a drawing at a
+     magnification nobody sees it at. Still well under the berth's 104 and still
+     unmistakably chrome beside a headline. */
+  --ship-h:     72px;   /* chrome size: beside a headline, after arrival    */
+  --berth-h:    104px;  /* control size: the drop target on the front door  */
+  /* The ink lifts when a file is aboard. The berth is a control now, not a
+     decoration beside one, and a control that has been used says so. */
+  --ship-alpha-laden: .62;
+  --board-w:    780px;  /* the front door is one column, and this is it.    */
+}
+
+/* Night: the sea colour inverts to a light sea against a dark ground, and a
+   light ink at .34 disappears. The value moves, the colour does not. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --ship-alpha: .46; --ship-alpha-laden: .78; }
+}
+:root[data-theme="dark"] { --ship-alpha: .46; --ship-alpha-laden: .78; }
+
+/* ── 1. the board: one column, one action ─────────────────────────────── */
+
+/* margin-inline is 0, not auto, and that is the whole of finding 2.
+   Centring a 780px column inside a 1160px .wrap put the front door's left edge
+   at 323px at 1440, while the header lockup and every other page's h1 sit at
+   165 and .col and the footer body sit at 365. Four left edges stacked up in
+   one screen and the headline was 158px inboard of the h1 on every other route.
+   Starting at the .wrap padding edge puts this page on the same line as the
+   lockup above it and the h1 on /about. .afters and .landed repeat it, so the
+   front door, the success screen and the footer share one edge. */
+.board {
+  max-width: var(--board-w);
+  margin-inline: 0;
+  padding-block: var(--ph-block) 0;
+}
+/* The headline block and the ship, side by side. The ship takes space this
+   block was already holding open on a wide screen, which is why deleting the
+   band above the panel cost the page nothing and bought it 71px. */
+.board-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--ph-5);
+  margin-bottom: var(--ph-5);
+}
+.board-words { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.board-head h1 {
+  /* The display step is sized for a page that opens with an argument. This
+     page opens with a box, and the headline is a label on it, so it takes
+     the h1 step rather than the display step and the box stays on the first
+     screen at 390. */
+  font-size: var(--ph-t-h1);
+}
+.board-head .lede { max-width: 62ch; }
+
+/* ── 2. the deck: the framed upload panel ─────────────────────────────── */
+
+.deck {
+  border: 1px solid var(--ph-line);
+  border-radius: var(--ph-r-lg);
+  background: var(--ph-card);
+}
+
+/* The waterline is this element's bottom border, so it runs the full width
+   of the panel and the ship is registered against it by layout rather than
+   by a number inside the drawing. Nothing is drawn below it.
+
+   The band used to be 133px tall with a 196px drawing floating in the middle
+   of 778px, which is a lot of panel spent on nothing. The mark is small now,
+   so the band is only as tall as the mark, and the mark sits at the left,
+   flush with the padding of the panel body below it. What is left of the
+   band is not empty space, it is the rest of the waterline. */
+/* No border and no band. The waterline used to be the panel's top edge, which
+   made a full-width rule indistinguishable from an ordinary divider with a
+   small glyph parked in one corner of it. The ship carries its own water in the
+   drawing: the oars run out of the bottom of the viewBox, so the bottom edge of
+   the box IS the waterline and nothing has to be drawn under it. That is also
+   what lets the same node be dropped into a second container later without
+   bringing a sea with it. */
+.harbour, .berth-water { flex: none; line-height: 0; }
+.ship {
+  display: block;
+  height: var(--ship-h);
+  width: auto;
+  max-width: 100%;
+  color: var(--ship-ink);
+  opacity: var(--ship-alpha);
+  /* Rotation happens about the point the ship floats on, not the box centre.
+     Rocking about the middle of the box lifts the hull off the water. */
+  transform-origin: 50% 100%;
+  transition: opacity .3s ease;
+}
+/* One stroke weight at every size, which a scaled SVG does not give you for
+   free. The fills scale with the box; only the spars are stroked. */
+.ship path { vector-effect: non-scaling-stroke; }
+
+.deck-body {
+  padding: var(--ph-pad);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.deck-body > .caption { max-width: var(--ph-measure); }
+
+/* ── 2a. the berth: the ship IS the drop target ───────────────────────── */
+
+/* The overrides. The drop zone is a well inside a card here rather than a
+   card on paper, so it needs the deeper ground. The well is also tighter than
+   the base 24px: this is the hero control of the page, not a step in a wizard.
+
+   SIDE BY SIDE, NOT STACKED, and that is the load-bearing decision. A large
+   ship with a drop box beneath it is the 778x71 band that was deleted, rebuilt
+   at a larger size: a picture paying for its own height directly above the one
+   control this route exists for. Beside the words, the ship costs the height of
+   the controls it stands next to and nothing more, because a file input, its
+   hint and its filename line already stack to about the height of the drawing.
+   The berth is 104px of ship against 104px of control.
+
+   The state lives on data-berth and only there. The .over class base.css
+   defines is not used on this element: two mechanisms for one state is how a
+   drag stops showing anything when only one of them gets updated. */
+/* The boundary is a CONTROL boundary now, not a decorative dash. base.css draws
+   .drop with --ph-line, which measures 1.33:1 against the page: fine for a small
+   box inside a form, not fine for the thing this whole route exists to hit, which
+   WCAG 1.4.11 wants at 3:1. The old well announced its extent only once you were
+   already dragging over it. Scoped to this page rather than changed in base.css,
+   because every other .drop on the site is still an ordinary form field. */
+.deck .drop {
+  border-color: var(--ph-mute);
+  background: var(--ph-paper-deep);
+  padding: 16px 18px;
+  gap: var(--ph-5);
+  flex-direction: row;
+  align-items: center;
+}
+.deck .drop[data-berth="over"] {
+  background: var(--ph-shoal-soft);
+  border-color: var(--ph-deep);
+}
+
+/* A dimmed berth must not take drops, and `pointer-events: none` is NOT the way
+   to do it. Tried and rejected: it makes the well transparent to hit testing, so
+   a file dropped on it lands on an ancestor with no drop handler, and the browser
+   default for that is to NAVIGATE TO THE FILE. The user loses the page and the
+   pasted passport with it, which is far worse than the bug being fixed. The guard
+   lives in share.js's drop handler instead, where it can still preventDefault. */
+
+/* The words hold the height so the ship moves LESS when #picked appears.
+   Without the min-height the drawing jumped 15px the moment a file was chosen,
+   which is the one instant the user is looking straight at it.
+
+   IT REDUCES THE JUMP, IT DOES NOT REMOVE IT, and this comment used to claim
+   otherwise. Measured on a real file pick, settled: 4px with a short filename,
+   13px when the filename wraps to a second line, because #picked pushes the
+   column past the 104px floor rather than fitting inside it. 13px is most of
+   the 15px this was written to fix, so on a long name the min-height buys
+   almost nothing. If that matters, the fix is to stop #picked adding height,
+   by reserving its line or truncating the name, not a larger floor. */
+.berth-words {
+  flex: 1 1 auto; min-width: 0;
+  min-height: var(--berth-h);
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 10px; align-items: flex-start;
+}
+.berth-water .ship { height: var(--berth-h); }
+
+/* Nothing about the drawing may take a pointer event. The hit area is the
+   container: dropping on the sail and dropping on the empty half of the well
+   are the same gesture, and dragleave must not fire because the cursor crossed
+   an SVG path. */
+.berth-water, .berth-water * { pointer-events: none; }
+
+/* A file is aboard. The ink lifts, and the cargo is on the deck. */
+.deck .drop[data-berth="loaded"] .ship,
+.deck .drop[data-berth="waiting"] .ship,
+.deck .drop[data-berth="stopped"] .ship { opacity: var(--ship-alpha-laden); }
+
+/* STOPPED HAS TO SURVIVE THE MOTION BEING OFF.
+
+   It did not. Settled computed styles for `stopped` were byte-identical to
+   `loaded`: same ground, same border, same ink, no animation. The entire signal
+   that publishing had been refused was a 0.46s rotation, after which the berth
+   looked exactly as it had before the button was pressed. And under
+   prefers-reduced-motion, `loaded`, `waiting` and `stopped` were all three
+   indistinguishable, because the reduced-motion block cancels the looping wait
+   rotation along with the one-shots. The one cue separating "working" from
+   "refused" was switched off for exactly the people who cannot rely on motion.
+
+   So the refusal holds in the border, which is a colour and not a movement. It
+   is the losses ink, the same one the passport uses for a capability it will not
+   install, and it is deliberately quieter than the error text below: the words
+   say what went wrong, this only says the thing on the deck did not leave. */
+.deck .drop[data-berth="stopped"] { border-color: var(--pp-refused); }
+/* The cargo travels with the ship, so its VISIBILITY is a class on the node and
+   not a rule about where the node lives. Its ARRIVAL animation is scoped to the
+   berth: reparenting an element restarts its animations, and without this scope
+   the file drops onto the deck a second time on the success screen, having
+   already been loaded there once. */
+.ship .cargo { opacity: 0; }
+.ship.laden .cargo { opacity: 1; }
+.deck .drop .ship.laden .cargo { animation: cargo-aboard .42s cubic-bezier(.22,.85,.3,1); }
+
+/* Three motions, and each one is a state the page is already in. Nothing here
+   invents a state, and nothing here is on the path of any value the user needs:
+   every one of these can fail to run and the page is still correct.
+
+   take   the file lands and the hull takes the weight
+   check  the ship is pulled up short: refused file, rate limit, owner gate.
+          It rocks BACKWARDS, against the direction it is pointed, because the
+          whole point of tying the reward to success is that a stop must not
+          look like a departure.
+   arrive it has changed ends of the page. Entering from the left, because the
+          ship points right and a ship that arrives backwards is a shipwreck. */
+@keyframes cargo-aboard {
+  0%   { opacity: 0; transform: translateY(-34px); }
+  62%  { opacity: 1; transform: translateY(2px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ship-take {
+  0%, 100% { transform: rotate(0deg); }
+  32%      { transform: rotate(1.5deg); }
+  68%      { transform: rotate(-.7deg); }
+}
+@keyframes ship-check {
+  0%, 100% { transform: rotate(0deg) translateX(0); }
+  42%      { transform: rotate(-2deg) translateX(-7px); }
+  74%      { transform: rotate(.6deg) translateX(2px); }
+}
+@keyframes ship-arrive {
+  from { opacity: 0; transform: translateX(-58px); }
+  to   { opacity: var(--ship-alpha-laden); transform: none; }
+}
+/* THE WAIT. Modelled at 3 to 6 seconds with a tail past 8, from 14 sequential
+   store round trips, and possibly as low as 2.4s if the handler is later
+   parallelised. No successful publish has ever been timed against production;
+   see the long note in share.js. Long enough that the ship must not stand still,
+   and too WIDE to time anything against.
+
+   Working, not leaving. It rocks in place and NEVER TRANSLATES, because the one
+   reading this must not borrow is the departure, which belongs to the link
+   coming back. And it loops with no end state, because nothing on this page
+   knows how far along the server is: a motion that visibly progressed, or a bar
+   timed to an average, would claim a progress it cannot measure and would be
+   wrong at both ends of a 2-to-10-second range. A loop is right at either. There
+   is no upload to track either: the body is 8.5 KB and gone almost immediately,
+   and fetch exposes no upload progress in any case.
+
+   2.6s a cycle, which is about one cycle on the fastest plausible publish and
+   three or four on a slow one. Both read as working. */
+@keyframes ship-wait {
+  0%, 100% { transform: rotate(-.5deg); }
+  50%      { transform: rotate(.9deg); }
+}
+.deck .drop[data-berth="waiting"] .ship {
+  opacity: var(--ship-alpha-laden);
+  animation: ship-wait 2.6s ease-in-out infinite;
+}
+
+/* The line beside it. Styled as a caption rather than an error, because nothing
+   has gone wrong: this is the normal cost of publishing. */
+.waitline {
+  font-size: var(--ph-t-small); color: var(--ph-mute);
+  max-width: var(--ph-measure);
+}
+/* State and motion are separate mechanisms. data-berth holds, and drives the
+   ground and the ink; a rock- class plays once and share.js takes it off again.
+   Driving a one-shot off the state attribute means restarting it requires
+   flipping the state and back, and that frame of wrong state runs the ink
+   transition backwards in full view. */
+.deck .drop.rock-take  .ship { animation: ship-take  .52s ease-out; }
+.deck .drop.rock-check .ship { animation: ship-check .46s ease-out; }
+#landed-harbour .ship {
+  height: var(--ship-h);
+  /* Laden ink, because it is laden: the cargo is still on the deck. At the
+     resting .34 the whole thing was a watermark. */
+  opacity: var(--ship-alpha-laden);
+  animation: ship-arrive .6s cubic-bezier(.2,.72,.25,1);
+}
+
+/* What is switched off here is motion, and after the fix above, none of it is
+   the only carrier of anything: the cargo, the lifted ink, the refusal border and
+   the ship's position in the page are all still correct with every animation
+   cancelled. That sentence was false when it was first written. `ship-wait` was
+   at that point the only thing distinguishing waiting from stopped in the berth,
+   so cancelling it erased a distinction rather than an ornament.
+
+   The wait keeps a still cue too. Without it, a reduced-motion user watching a
+   berth that has stopped moving cannot tell "in flight" from "finished": the
+   text below carries it, but the berth should not contradict the text. */
+@media (prefers-reduced-motion: reduce) {
+  .ship, .ship .cargo { animation: none !important; transition: none !important; }
+  .deck .drop[data-berth="waiting"] { border-style: solid; border-color: var(--ph-mute); }
+}
+
+/* THE FILE BUTTON.
+
+   Left to the user agent this is a grey macOS "Choose File" bevel with
+   near-black label text, which in dark mode is a light grey box holding dark
+   text inside a dark panel: the cheapest element on the page, and the one the
+   whole route exists for. It gets the .btn.ghost treatment. It cannot get the
+   class itself, because it is a pseudo-element the browser owns, so the
+   values are restated here rather than shared. They are the same tokens
+   .btn.ghost uses, so the two stay in step.
+
+   The input's own text, "No file chosen" and then the file name, is
+   suppressed. It is a second status line saying the same thing as #picked
+   below it, in the browser's words rather than ours, and #picked already
+   carries the name and the byte count. Suppressing it costs nothing to a
+   screen reader: the input keeps its real <label>, and the chosen file is
+   read from the input's value, not from that text. */
+.deck .drop input[type="file"] {
+  color: transparent;                    /* hides "No file chosen"           */
+  min-height: 0;                         /* the button carries the tap target */
+  border: 0; background: none;
+  /* 3px of room on every side. The focus ring below is drawn on the button,
+     which is a pseudo-element the input clips to its own box, so with no
+     padding the ring survives only on the side where the input is wider than
+     the button. Rendered and looked at: without this you get a lone bracket
+     floating to the right of the button. */
+  padding: 3px;
+}
+.deck .drop input[type="file"]::file-selector-button {
+  appearance: none; -webkit-appearance: none; cursor: pointer;
+  font-family: var(--ph-sans); font-size: var(--ph-t-micro);
+  letter-spacing: 0; text-transform: none;
+  background: transparent; color: var(--ph-deep);
+  border: 1px solid var(--ph-line); border-radius: var(--ph-r-md);
+  min-height: 44px; padding: 12px 22px; margin: 0 12px 0 0; line-height: 1;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.deck .drop input[type="file"]:hover::file-selector-button {
+  background: var(--ph-card); border-color: var(--ph-deep); color: var(--ph-deep);
+}
+/* The input goes disabled when the paste box is in use. The wrapper already
+   dims, but the cursor still promises a click that does nothing. */
+.deck .drop input[type="file"]:disabled::file-selector-button { cursor: not-allowed; }
+/* The ring belongs on the button, not on a transparent text box beside it. */
+.deck .drop input[type="file"]:focus-visible { outline: none; }
+.deck .drop input[type="file"]:focus-visible::file-selector-button {
+  outline: 2px solid var(--ph-deep); outline-offset: 1px;
+}
+
+/* The same rule again for the WebKit spelling, which is what Safari before
+   16.4 understands. It has to be a separate block: a selector list containing
+   one pseudo-element the browser does not know throws the whole rule away, so
+   sharing it would take the styling out in every browser instead of adding it
+   in one. Only the visible treatment is duplicated. On that Safari the button
+   would otherwise inherit the transparent colour set above and lose its label,
+   which is worse than the default bevel this replaces. */
+.deck .drop input[type="file"]::-webkit-file-upload-button {
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+  font-family: var(--ph-sans); font-size: var(--ph-t-micro);
+  letter-spacing: 0; text-transform: none;
+  background: transparent; color: var(--ph-deep);
+  border: 1px solid var(--ph-line); border-radius: var(--ph-r-md);
+  min-height: 44px; padding: 12px 22px; margin: 0 12px 0 0; line-height: 1;
+}
+.deck .drop input[type="file"]:hover::-webkit-file-upload-button {
+  background: var(--ph-card); border-color: var(--ph-deep); color: var(--ph-deep);
+}
+.deck .drop input[type="file"]:focus-visible::-webkit-file-upload-button {
+  outline: 2px solid var(--ph-deep); outline-offset: 1px;
+}
+
+/* The line for somebody who has no passport yet. It is under the box, in the
+   caption step, and it deliberately does not get a button. */
+.board .aside {
+  max-width: var(--board-w);
+  margin-top: var(--ph-4);
+}
+
+/* ── 3. the short reassurance under the fold ──────────────────────────── */
+
+.afters {
+  max-width: var(--board-w);
+  margin-inline: 0;
+  padding-block: var(--ph-stack) var(--ph-band);
+  border-top: 1px solid var(--ph-line);
+  margin-top: var(--ph-stack);
+  display: flex; flex-direction: column; gap: var(--ph-5);
+}
+.facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: var(--ph-5); list-style: none;
+}
+.facts li { display: flex; flex-direction: column; gap: 6px; }
+.facts .k {
+  font-family: var(--ph-sans); font-size: var(--ph-t-micro);
+  letter-spacing: 0; text-transform: none;
+  color: var(--ph-brass);
+}
+.facts .v {
+  font-size: var(--ph-t-small); line-height: 1.55; color: var(--ph-mute);
+}
+
+/* ── 4. the success state ─────────────────────────────────────────────── */
+
+.landed {
+  max-width: var(--board-w);
+  margin-inline: 0;
+  padding-block: var(--ph-block) var(--ph-band);
+  display: flex; flex-direction: column; gap: var(--ph-stack);
+}
+.landed h1 { font-size: var(--ph-t-h1); }
+/* Publishing moves focus here so the change of view is announced. This element
+   is not in the tab order, so suppressing the ring costs a keyboard user
+   nothing: there is no way to arrive at it by tabbing and wonder where you are.
+   Every control inside it keeps the ring base.css gives it. */
+.landed:focus, .landed:focus-visible { outline: none; }
+/* Same shape as .board-head, and deliberately: the ship left one headline block
+   and arrived at another, so the two ends of the page hold it identically. */
+.landed-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--ph-5);
+}
+.landed-words { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.landed-head .lede { max-width: 62ch; }
+/* Empty until share.js moves the ship into it. It must take no room in that
+   state: a deployment where the move never happens shows a headline, not a
+   headline with a hole beside it. */
+#landed-harbour:empty { display: none; }
+.landed section { display: flex; flex-direction: column; gap: var(--ph-4); }
+
+/* The card is drawn by assets/card.js into #card-mount. This page owns the
+   call site and nothing else: no border, no heading and no placeholder, so a
+   deployment without that file shows an empty box rather than a broken one. */
+.cardbox { display: flex; flex-direction: column; gap: var(--ph-4); align-items: flex-start; }
+.cardbox #card-mount { max-width: 100%; }
+.cardbox #card-mount canvas,
+.cardbox #card-mount img,
+.cardbox #card-mount svg { max-width: 100%; height: auto; display: block; }
+
+/* ── 5. phones ────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  /* NO SHIP BELOW 640, AND THE REASON IS FUNCTION RATHER THAN PIXELS.
+
+     There is no drag and drop on a phone. A phone user taps the button and picks
+     a file from a sheet, so down here the ship is not a container that anything
+     is dropped onto: it is decoration that happens to enclose the control. On
+     desktop it earns its space by being the thing you drop on, and it costs the
+     first screen nothing: the PUBLISH BUTTON sits 8px HIGHER than before it
+     existed, because the 60px ship that used to sit beside the headline was
+     driving that block's height. Stacked on a phone it pushed the publish button
+     20px DOWN, which is the exact direction the 778x71 band was deleted for.
+
+     The figure used to read "the page comes out 8px SHORTER" and that was the
+     wrong measurement of the right thing. Re-measured against HEAD~1: at 1440
+     the document is 8px TALLER (1717 against 1709) and the button is 8px higher
+     (783 against 791). At 390 both improve, page 44px shorter and button 60px
+     higher. Document height was never the quantity that mattered here; what the
+     778x71 band was deleted for was distance to the one control on the page.
+
+     Measurements move and that argument does not, which is why it is written this
+     way round. If drag and drop ever arrives on phones, reopen it.
+
+     It goes from BOTH ends of the page. Hiding it only in the berth would leave
+     share.js reparenting it onto the success screen, and a ship arriving on a
+     page it was never on is worse than no ship at all. Hiding the destination
+     too means the JavaScript needs no branch: it still moves the node, and the
+     node is still nowhere to be seen. */
+  .berth-water, #landed-harbour { display: none; }
+
+  :root { --ship-h: 44px; }
+  .board-head, .landed-head { flex-direction: column; align-items: flex-start; gap: var(--ph-4); }
+  .deck .drop { padding: 14px 14px; flex-direction: column; align-items: flex-start; gap: var(--ph-4); }
+  .berth-words { min-height: 0; }
+  .board { padding-top: var(--ph-5); }
+  .afters { padding-block: var(--ph-block) var(--ph-band); }
+}

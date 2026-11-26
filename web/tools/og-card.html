@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!-- Source for assets/og/og-card.png, the generic social card. Rendered once, at
+     1200x630, from this directory so the relative font paths resolve:
+
+       cd web/tools && chrome --headless=new --disable-gpu --hide-scrollbars \
+         --window-size=1200,630 --allow-file-access-from-files \
+         --virtual-time-budget=3000 --user-data-dir=/tmp/og-profile \
+         --screenshot=../assets/og/og-card.png og-card.html
+
+     --headless=new, because the old headless mode hung without exiting on
+     Chrome 152 (2026-09-06). --allow-file-access-from-files, because the fonts
+     are file:// URLs relative to this file and Chrome treats each file as its
+     own origin. tools/shoot.mjs renders at device scale 2 and cannot be told
+     otherwise, so it is not the tool for a 1200x630 asset.
+
+     The machine-readable strip is a SPECIMEN row, not a real passport's. It is
+     what mrz() in lib/_render.mjs emits for a row whose name and title are
+     SPECIMEN, whose envelope is read-notify and whose every other field is
+     empty, character for character: PA (a Type A document, which is the only
+     type this product issues and what the label at the top says; the specimen
+     describes no agent but it is a specimen OF this document type, and a card
+     reading Type A above a strip opening PX contradicted itself, which a critic
+     caught after PX was tried), no issue date, no check date, capture path X,
+     spec version blank (V<<, the encoder's own null; a first draft wrote V00,
+     which asserts a version that was never issued), zero capabilities, zero
+     installable, zero losses, owner N. All five check digits validate under
+     that file's checkDigit. No stored passport can produce this row, because
+     the validator requires a real `created` date and this one has none.
+     PHA as issuer is the one field that still asserts something (this site
+     stored the file); the encoder has no filler for it.
+
+     Until ROW-169 (2026-09-06) this strip was the daily-brief example's real row
+     as of 2026-08-07, and the card served it for every passport on both hosts.
+     Anyone who decoded it got a well-formed code for the wrong agent in a state
+     that no longer existed. Do not put a real row back here: this card is the
+     og:image for every passport that has no card of its own, including deleted
+     and unknown ids, which is exactly where a real strip is worst.
+
+     Colours are the Phaeacia v2.5 dark roles (brand/DESIGN-GUIDE.md, Colour
+     table, Dark column), checked against the dark block of web/assets/tokens.css
+     on design/v2.5-adoption at 4e02ca5: ground #071B23, primary text #F7F8F5,
+     secondary #B8C9CB, #7FC3D0 for the mark (the guide's table calls that role
+     Tide; in tokens.css it is --ph-deep and --ph-shoal, and --ph-tide there is
+     the hover value #A2D6DF), brass #E6BF84 for the one emphasis label, success
+     #9FD6B2 and error #FFB4A8 for the stamps, separator #4F6E78 for the frame.
+     The strip is the secondary colour at opacity .65, which composites to
+     #7A8C90, 5.0:1 on the ground: it is meant to be decoded (that is what the
+     check digits are for), so it is text and gets the text target, and it is
+     the quietest text on the card because it is the row a reader is least
+     meant to act on. It sits unboxed: the first draft's bordered slab made it
+     the most object-like thing in the bottom third, and the separator colour
+     tried after that was 3.2:1, which the guide allows for rules and not for
+     text. The headline follows the v2.5 cover: Schibsted Grotesk at
+     weight 400, not tracked mono capitals. The stamps' double rule is two real
+     borders with a gap, not a border plus an inset shadow: under rotation the
+     shadow renders as a wobbling line that reads as misregistration. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:"Schibsted Grotesk";src:url("../assets/fonts/schibsted-grotesk-latin-wght-normal.woff2") format("woff2-variations");font-weight:400 900;}
+@font-face{font-family:"DM Mono";src:url("../assets/fonts/dm-mono-latin-400-normal.woff2") format("woff2");font-weight:400;}
+@font-face{font-family:"DM Mono";src:url("../assets/fonts/dm-mono-latin-500-normal.woff2") format("woff2");font-weight:500;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{background:#071B23;font-family:"Schibsted Grotesk",sans-serif;-webkit-font-smoothing:antialiased;font-synthesis-weight:none}
+.frame{position:absolute;inset:32px;border:1px solid #4F6E78;border-radius:8px}
+.card{position:absolute;inset:0;padding:72px 80px 62px;display:flex;flex-direction:column;justify-content:space-between}
+.top{display:flex;align-items:center;justify-content:space-between}
+.lock{display:flex;align-items:center;gap:16px}
+.lock svg{height:58px;width:auto;display:block}
+.word{font-size:32px;font-weight:600;letter-spacing:-.025em;color:#F7F8F5}
+.type{font-family:"DM Mono",monospace;font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:#E6BF84}
+.mid{display:grid;grid-template-columns:1fr 372px;gap:56px;align-items:center}
+.doct{font-size:70px;font-weight:400;letter-spacing:-.034em;color:#F7F8F5;line-height:1.04}
+.sub{margin-top:22px;font-size:24px;line-height:1.42;color:#B8C9CB;max-width:27ch;letter-spacing:0}
+.stamps{display:flex;flex-direction:column;gap:26px;align-items:flex-start;padding-left:24px}
+.stamp{border:3px solid;border-radius:5px;padding:3px;font-family:"DM Mono",monospace;text-transform:uppercase}
+.stamp .in{border:1px solid;border-radius:2px;padding:10px 20px 9px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.stamp .a{font-size:25px;font-weight:500;letter-spacing:.08em;line-height:1}
+.stamp .b{font-size:12px;letter-spacing:.12em;opacity:.92}
+.g{color:#9FD6B2;transform:rotate(-3deg)}
+.n{color:#FFB4A8;transform:rotate(2.4deg);margin-left:64px}
+.bot{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
+.mrz{font-family:"DM Mono",monospace;font-size:19px;line-height:1.75;letter-spacing:.14em;color:#B8C9CB;opacity:.65;white-space:nowrap}
+.site{font-family:"DM Mono",monospace;font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:#B8C9CB;padding-bottom:4px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="frame"></div>
+<div class="card">
+  <div class="top">
+    <div class="lock">
+      <svg viewBox="-0.20 -5.00 88.20 95.40"><g fill="#7FC3D0" transform="rotate(138 50 50)">
+        <path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V115.5A6.5 6.5 0 0 1 43.5 115.5Z" fill-opacity=".58"/>
+        <path d="M43.5 57C43.5 46 37.5 38 37 26C36.5 12 41 2.5 50 2.5C59 2.5 63.5 12 63 26C62.5 38 56.5 46 56.5 57Z" fill-opacity=".58"/>
+        <path d="M43.5 32.5A6.5 6.5 0 0 1 56.5 32.5V57H43.5Z"/>
+      </g></svg>
+      <span class="word">Phaeacia</span>
+    </div>
+    <div class="type">Type A &middot; Read-notify</div>
+  </div>
+
+  <div class="mid">
+    <div>
+      <div class="doct">Agent<br>Passport</div>
+      <div class="sub">One file that describes an agent well enough to rebuild it, and what did not survive the move.</div>
+    </div>
+    <div class="stamps">
+      <div class="stamp g"><div class="in"><span class="a">Granted</span><span class="b">Installs in v0.1</span></div></div>
+      <div class="stamp n"><div class="in"><span class="a">Not granted</span><span class="b">Declared only</span></div></div>
+    </div>
+  </div>
+
+  <div class="bot">
+    <div class="mrz">
+      <div>PAPHASPECIMEN&lt;&lt;SPECIMEN&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+      <div>SPECIMEN&lt;2PHA&lt;&lt;&lt;&lt;&lt;&lt;0X&lt;&lt;&lt;&lt;&lt;&lt;0V&lt;&lt;C00I00L00N&lt;56</div>
+    </div>
+    <div class="site">app.phaeacia.ai</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-passport.org/schemas/passport-0.1.json",
+  "title": "Agent Passport Schema v0.1",
+  "type": "object",
+  "required": [
+    "passport",
+    "name",
+    "title",
+    "created",
+    "envelope",
+    "capture_path",
+    "source_stack",
+    "owner_confirmed",
+    "scrub",
+    "summary",
+    "spec",
+    "needs",
+    "golden_examples",
+    "losses"
+  ],
+  "properties": {
+    "passport": {
+      "const": "0.1"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9.-]{0,63}$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "created": {
+      "type": "string",
+      "format": "date"
+    },
+    "capture_path": {
+      "enum": [
+        "file",
+        "browser"
+      ]
+    },
+    "source_stack": {
+      "type": "string"
+    },
+    "owner_confirmed": {
+      "type": "boolean"
+    },
+    "scrub": {
+      "type": "string"
+    },
+    "envelope": {
+      "const": "read-notify"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Derived from section 1"
+    },
+    "needs": {
+      "type": "array",
+      "description": "Derived from section 2 consent table",
+      "items": {
+        "type": "object",
+        "required": [
+          "capability",
+          "why",
+          "required",
+          "required_label",
+          "if_skipped",
+          "installable",
+          "installable_label"
+        ],
+        "properties": {
+          "capability": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "required_label": {
+            "type": "string"
+          },
+          "if_skipped": {
+            "type": "string"
+          },
+          "installable": {
+            "type": "boolean"
+          },
+          "installable_label": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "description": "The section 3 functional spec, parsed from YAML. validate.py does not require any key here, so neither does this schema; it describes the shape of the keys a passport may carry.",
+      "required": [],
+      "properties": {
+        "confirmed_by_owner": {
+          "type": "boolean"
+        },
+        "goal": {
+          "type": "object",
+          "required": [
+            "value",
+            "confidence"
+          ],
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ]
+            }
+          }
+        },
+        "trigger": {
+          "type": "object",
+          "required": [
+            "value",
+            "confidence"
+          ],
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ]
+            }
+          }
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "what",
+              "capability_ref",
+              "access",
+              "criticality"
+            ],
+            "properties": {
+              "what": {
+                "type": "string"
+              },
+              "capability_ref": {
+                "type": "string"
+              },
+              "access": {
+                "enum": [
+                  "open",
+                  "credentialed"
+                ]
+              },
+              "binding": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string"
+              },
+              "criticality": {
+                "enum": [
+                  "core",
+                  "optional"
+                ]
+              },
+              "fidelity": {
+                "enum": [
+                  "exact",
+                  "lossy"
+                ]
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            }
+          }
+        },
+        "processing": {
+          "type": "object",
+          "properties": {
+            "sections": {
+              "type": "string"
+            },
+            "style": {
+              "type": "string"
+            },
+            "length": {
+              "type": "string"
+            },
+            "ordering": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ]
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "format": {
+              "type": "string"
+            },
+            "delivery": {
+              "type": "string"
+            },
+            "audience": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ]
+            }
+          }
+        },
+        "comparison_mode": {
+          "enum": [
+            "structural",
+            "exact",
+            "input_relative"
+          ]
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "capability_ref",
+              "status"
+            ],
+            "properties": {
+              "capability_ref": {
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "used",
+                  "declared_only"
+                ]
+              }
+            }
+          }
+        },
+        "personal_slots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "question",
+              "why",
+              "required"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "why": {
+                "type": "string"
+              },
+              "default": {},
+              "required": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "state": {
+          "type": "object",
+          "required": [],
+          "properties": {
+            "keeps": {
+              "type": [
+                "string",
+                "array"
+              ]
+            },
+            "granularity": {
+              "type": "string"
+            },
+            "why": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ]
+            }
+          }
+        },
+        "tacit_notes": {
+          "type": "string"
+        },
+        "verification": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "check",
+              "evidence"
+            ],
+            "properties": {
+              "check": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "golden_examples": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "losses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "what": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "practice": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "capabilities_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "capabilities_declared": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "description": "Shape of the JSON projection of an Agent Passport. It describes the output of tools/to_json.py, which refuses any passport tools/validate.py refuses. It is NOT a gate: acceptance is decided by validate.py and web/lib/_validate.mjs alone."
+}

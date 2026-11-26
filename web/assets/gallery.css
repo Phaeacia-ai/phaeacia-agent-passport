@@ -1,0 +1,158 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   /gallery only. Loaded after tokens.css and base.css, by lib/_gallery-render.mjs
+   and by nothing else.
+
+   Every colour here is a token from tokens.css, so both themes work without a
+   line of dark-mode CSS in this file: the tokens are what change, and that is
+   the whole reason the theming contract at the top of tokens.css says no colour
+   may be declared for the first time inside a media query.
+
+   The vote control is NOT here. It renders on a listed passport page too, and
+   that page loads base.css and recipient.css and never this file, so a vote rule
+   here would style it on one of the two surfaces it appears on. It is in
+   base.css beside the other shared controls.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── the filter and sort rows ────────────────────────────────────────────
+   Two navs, not one, and each says what it is for. A single row of nine
+   category links and three sort links reads as twelve equal choices, and a
+   screen reader user gets no boundary between "what it is for" and "in what
+   order". */
+.gfilters, .gsorts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.gsorts { margin-top: -8px; }
+
+.gfilter, .gsort {
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding: 4px 12px; border-radius: var(--ph-r-pill);
+  border: 1px solid var(--ph-mute); background: var(--ph-card);
+  color: var(--ph-mute); text-decoration: none;
+  font-size: var(--ph-t-small); line-height: 1.3;
+}
+.gfilter:hover, .gsort:hover { border-color: var(--ph-mute); color: var(--ph-ink); }
+.gfilter.on, .gsort.on {
+  background: var(--ph-deep); border-color: var(--ph-deep); color: var(--ph-paper);
+}
+.gfilter.on:hover, .gsort.on:hover {
+  background: var(--ph-tide); border-color: var(--ph-tide); color: var(--ph-paper);
+}
+
+/* The sort row is the quieter of the two, because the filter is the choice a
+   reader came to make and the order is a preference about the answer.
+   Human controls retain the v2.5 sans type treatment. */
+.gsort {
+  font-family: var(--ph-sans); font-size: var(--ph-t-micro);
+  letter-spacing: 0; text-transform: none;
+}
+
+/* ── the grid ────────────────────────────────────────────────────────────
+   auto-fill rather than auto-fit: with auto-fit a single card stretches to the
+   full 1160px of the wrap and reads as a banner rather than as one of a set.
+   288px is the smallest width at which the facts line stops wrapping to three
+   rows, measured on the page rather than picked. */
+/* NOT align-items: start. The cards carry different amounts of text and one of
+   them carries the unconfirmed line, so with start they end at three different
+   heights and the vote controls sit at three different points down the row. The
+   default stretch plus margin-top: auto on .gfoot puts every vote control and
+   every meta line on the same baseline across the row, which is what makes the
+   grid readable as a set rather than as three separate boxes. */
+.gcards {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+  gap: 12px;
+}
+
+.gcard {
+  /* position: relative is load-bearing. The title's anchor carries a ::after
+     covering the whole card, which is how the card is clickable with only one
+     link in the accessibility tree and without wrapping a <form> in an <a>.
+     See the note in lib/_gallery-render.mjs. */
+  position: relative;
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 20px; border: 1px solid var(--ph-line); border-radius: var(--ph-r-md);
+  background: var(--ph-card);
+}
+.gcard:hover { border-color: var(--ph-deep); }
+
+.gtitle { font-size: var(--ph-t-h3); font-weight: 600; letter-spacing: -.014em; max-width: none; }
+.gtitle a { color: var(--ph-ink); text-decoration: none; }
+.gtitle a::after { content: ""; position: absolute; inset: 0; border-radius: var(--ph-r-md); }
+.gcard:hover .gtitle a { color: var(--ph-deep); }
+/* The focus ring belongs on the card, not on the two words of the title, because
+   the card is what the link activates. */
+.gtitle a:focus-visible { outline: none; }
+.gtitle a:focus-visible::after { outline: 2px solid var(--ph-deep); outline-offset: 3px; }
+
+.gsummary { font-size: var(--ph-t-small); line-height: 1.55; color: var(--ph-mute); }
+
+.gfacts {
+  display: flex; flex-wrap: wrap; gap: 4px 10px;
+  font-family: var(--ph-sans); font-size: var(--ph-t-micro);
+  letter-spacing: 0; text-transform: none; color: var(--ph-mute);
+}
+/* Ink, not brass, and this is the one place on the card where a colour was
+   chosen and then measured rather than the other way round. Brass on the card
+   ground computes 3.84:1 at 11px in light mode, read off the rendered page and
+   not off the token, which is below the 4.5 an 11px run needs.
+
+   DESIGN-GUIDE section 4 fails brass in light mode at 3.6:1 and then carves out
+   three uses where it stays legal: "eyebrows, section numerals, rules". A
+   category label on a card is none of the three. It is a word a reader reads to
+   tell one card from another, so the carve-out does not reach it and the 4.5
+   floor applies. Ink separates the category from its two mute siblings on the
+   same line without asking a colour to do work at a size where it cannot. */
+.gfacts .gcat { color: var(--ph-ink); }
+
+.gunconfirmed {
+  font-size: var(--ph-t-micro); font-family: var(--ph-sans);
+  letter-spacing: 0; text-transform: none;
+  color: var(--pp-refused);
+}
+
+/* A column, not a row. The meta line is about sixty characters and the card is
+   288px at its narrowest, so side by side it wraps to two lines and squeezes the
+   vote buttons against them; measured on the page at 1280 with three cards, not
+   guessed at. Stacked, both are readable at every width the grid produces. */
+.gfoot {
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
+  margin-top: auto; padding-top: 10px; border-top: 1px solid var(--ph-line-soft);
+}
+.gmeta { font-size: var(--ph-t-micro); color: var(--ph-mute); line-height: 1.4; }
+
+/* ── the empty state ─────────────────────────────────────────────────────
+   A real block rather than one grey line, because on a new gallery this is the
+   page, and a page whose entire content is an apology in 15px reads as broken
+   rather than as empty. */
+.gempty {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 40px 24px; border: 1px dashed var(--ph-line); border-radius: var(--ph-r-md);
+  background: var(--ph-card);
+}
+.gempty .glede { font-size: 1.1875rem; line-height: 1.5; color: var(--ph-ink); }
+.gempty p { font-size: var(--ph-t-small); color: var(--ph-mute); }
+
+/* ── the pager ───────────────────────────────────────────────────────────
+   Previous and Next stay in place when they are unusable, as a dimmed span
+   rather than disappearing: a control that vanishes moves everything beside it
+   and makes the last page a different layout from every other one. */
+.gpager { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.gpage {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 4px 16px;
+  border: 1px solid var(--ph-line); border-radius: var(--ph-r-md);
+  background: var(--ph-card); color: var(--ph-deep); text-decoration: none;
+  font-size: var(--ph-t-small);
+}
+.gpage:hover { border-color: var(--ph-deep); background: var(--ph-paper-deep); }
+.gpage.off { color: var(--ph-mute); opacity: .5; }
+.gpage.off:hover { border-color: var(--ph-line); background: var(--ph-card); }
+.gpageof {
+  font-family: var(--ph-sans); font-size: var(--ph-t-micro);
+  letter-spacing: 0; text-transform: none; color: var(--ph-mute);
+}
+
+/* ── narrow ──────────────────────────────────────────────────────────────
+   640 is the app's one phone breakpoint, set in tokens.css, and this file uses
+   the same one rather than introducing a second. */
+@media (max-width: 640px) {
+  .gcards { grid-template-columns: 1fr; }
+  .gcard { padding: 16px; }
+  .gfoot { justify-content: flex-start; }
+}

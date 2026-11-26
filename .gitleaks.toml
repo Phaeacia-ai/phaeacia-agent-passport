@@ -1,0 +1,181 @@
+# Secret scanning for the passport repo.
+#
+# This repo has a problem most repos do not: it deliberately contains strings
+# that look exactly like secrets, because the scrubber has to be tested against
+# every secret shape it must catch. So the allowlist below is load bearing, and
+# it is also the single place a real secret could hide from this scanner.
+#
+# Rule for editing it: allowlist a **path that exists to hold fake secrets**, or
+# a **specific literal in prose**. Never allowlist a rule globally, never
+# allowlist a directory that also holds real code, and never add an entry
+# without saying in the description why the thing is not a secret.
+#
+# Run locally:
+#   gitleaks git . --redact          # full history
+#   gitleaks dir . --redact          # working tree
+#   gitleaks git --staged --redact   # what you are about to commit
+
+title = "Phaeacia secret scanning"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = """
+tools/fixtures/ holds deliberately fake credentials: Anthropic, OpenAI and GitHub
+key shapes, the canonical RFC example JWT, and a set of near-misses that must NOT
+be scrubbed. They are the scrubber's test corpus. If a real secret is ever pasted
+into this directory it will not be caught here, so do not put anything real in it.
+"""
+paths = ['''(^|/)tools/fixtures/''']
+
+[[allowlists]]
+description = """
+Local development artefacts, never committed: both are in .gitignore and `gitleaks
+git` cannot see them. Only the working-tree scan reaches them, and `netlify dev`
+writes real stored blobs into .netlify/blobs-serve/, which contain delete token
+**hashes**. Excluded so that a local scan stays quiet enough to be worth running.
+This is the one broad path exclusion in this file and it is safe only because
+neither directory holds repository code. Do not extend the pattern.
+"""
+paths = ['''(^|/)(node_modules|\.netlify)/''']
+
+[[allowlists]]
+description = """
+An illustrative upload response in specification prose. Forty hex characters
+showing the shape of a delete token, not a live one. If this value ever changes
+the scan fails and the change gets re-reviewed, which is the intended behaviour.
+"""
+paths = ['''(^|/)site/spec/upload-validation\.md$''']
+regexes = ['''ec456d9f6ea7b9566210479a1e18c91f8139847c''']
+
+[[allowlists]]
+description = """
+One synthetic Slack trigger URL, in the two harnesses that assert the webhook
+rule refuses it. Its host and path shape are real by necessity: a probe for a
+vendor-keyed rule cannot be written any other way, and a probe that does not
+look like the thing does not test the rule. The workspace id T012AB3CD and the
+two path segments are invented and address nothing.
+
+Scoped to that one workspace id and path prefix, and to the three harness
+files that assert against it, not to a rule or a directory, so any OTHER webhook URL in either file is still refused, and this
+one is still refused everywhere else in the repository. The regex is the
+shared prefix of the two truncations the harnesses use, so lengthening either
+vector does not silently widen the exception. gitleaks flags only the
+Slack shape; the Discord, Teams and Zapier probes beside it are not caught by
+any of its rules, which is one reason our own rule exists.
+"""
+paths = ['''(^|/)(web/tools/(parity\.mjs|run-endpoint-tests\.mjs)|tools/run_tests\.sh)$''']
+regexes = ['''https://hooks\.slack\.com/triggers/T012AB3CD/8912345678901/8f3c1a9b2d4e6f70a1b2''']
+
+[[allowlists]]
+description = """
+Two synthetic vectors asserting that the URL rule's placeholder exclusion is
+anchored to the WHOLE value. Each is a placeholder word followed by
+credential-shaped hex, and each MUST still be refused by the rule: they are the
+regression test for the version of that exclusion which let a real credential
+through whenever a placeholder word sat in front of it.
+
+A probe for this cannot avoid looking like a credential. That is the point of
+it: a vector that does not look like the thing does not test the rule, and this
+one is caught by gitleaks' generic-api-key for the same reason our own rule
+catches it, which is the behaviour being asserted.
+
+Scoped to the two exact strings and to the one harness file that asserts them,
+not to a rule and not to a directory, so any other credential shape in that file
+is still refused and these two are still refused everywhere else in the
+repository. Both values are invented and authorise nothing. If either changes,
+the scan fails and the change gets re-reviewed, which is intended.
+"""
+paths = ['''(^|/)tools/run_tests\.sh$''']
+regexes = [
+  '''YOUR9f2a8b7c6d5e4f3a2b1c0d9e8f7a6b5c''',
+  '''REDACTED9f2a8b7c6d5e4f3a2b1c0d9e8f''',
+]
+
+# ── Vendor shapes the product gates refuse and the default ruleset does not ──
+#
+# Added 2026-09-04. On 2026-08-31 path W's fourth run put a planted Notion
+# integration token into an emitted passport, and the commit holding that
+# passport passed this scanner: "no leaks found". ROW-108 then closed the shape
+# at the upload endpoint, in preflight.py and in scrub.py, and not here, so the
+# one credential shape this repo has watched leak was still invisible to the
+# tool that guards its history. Measured before adding, gitleaks 8.30.1 with
+# the default ruleset: of the seven vendor prefixes preflight.py refuses in
+# prose, it catches Stripe, Slack webhook and Linear and passes Notion (both
+# forms), Hugging Face and Airtable.
+#
+# Patterns mirror tools/preflight.py's, rewritten for Go's RE2, which has no
+# lookaround: the ASCII non-word boundary is a capturing group on each side and
+# secretGroup picks the token. Lower bounds, not documented lengths, for the
+# reason preflight.py gives at length: a rule with the vendor's exact length
+# passes every false-positive test and never fires on the real token.
+#
+# ONE THING THESE RULES STILL DO NOT CATCH, measured. The planted value from
+# the 2026-08-31 run, ntn_51829377402aBcDeFgHiJkLmNoPqRsTuVwXyZ0123456789, is
+# matched by the rule below and then dropped by gitleaks' default global
+# allowlist, whose stopword list contains the alphabet and is applied
+# case-insensitively; a rule cannot opt out of it. So that exact commit would
+# still pass. A real token is not an alphabet run and is caught (verified on a
+# shape with the same length and a random body). For the next pre-registered
+# run: plant values with no dictionary word or alphabet run in them, or the
+# scanner is not part of what the run tests.
+#
+# THE ALLOWLIST IS PER VALUE, NEVER PER PATH. The first draft allowlisted
+# verification/runs/ for each rule, on the argument that run outputs carry a
+# planted credential on purpose. HAL's objection, which stands: that directory
+# is the one place in this repository that holds transcripts of a model being
+# handed somebody's configuration, so it is the single most likely place for a
+# REAL token of the same shape to land, and a path allowlist blinds exactly the
+# rule that matters exactly there. Worse, the note above says the next run
+# plants realistic-shaped values, so the directory the path would cover is
+# about to hold values indistinguishable from real ones. So: each planted
+# value is allowlisted by its literal, with the run that named it. A different
+# token of the same shape in a run directory still fires, which is the event
+# these rules exist for. Extending this list is a conscious act per run.
+
+[[rules]]
+id = "phaeacia-notion-integration-token"
+description = "Notion integration token (ntn_ prefix), the shape that leaked on 2026-08-31"
+regex = '''(?:^|[^A-Za-z0-9_])(ntn_[A-Za-z0-9]{40,})(?:[^A-Za-z0-9_]|$)'''
+secretGroup = 1
+[[rules.allowlists]]
+description = """
+The planted value of the four 2026-08-31 path W runs (verification/runs/2026-08-31-path-w*
+on branch path-w-first-run), named in record/findings/prereg-path-w-first-run.md. Synthetic:
+it is an alphabet run and the default stopword allowlist would drop it anyway, see above.
+Listed so the allowlist says what is known-synthetic rather than relying on that accident.
+"""
+regexes = ['''ntn_51829377402aBcDeFgHiJkLmNoPqRsTuVwXyZ0123456789''']
+
+[[rules]]
+id = "phaeacia-notion-legacy-token"
+description = "Legacy Notion integration token (secret_ prefix)"
+regex = '''(?:^|[^A-Za-z0-9_])(secret_[A-Za-z0-9]{32,})(?:[^A-Za-z0-9_]|$)'''
+secretGroup = 1
+
+[[rules]]
+id = "phaeacia-huggingface-token"
+description = "Hugging Face token (hf_ prefix), lower bound on length"
+regex = '''(?:^|[^A-Za-z0-9_])(hf_[A-Za-z0-9]{32,})(?:[^A-Za-z0-9_]|$)'''
+secretGroup = 1
+
+[[rules]]
+id = "phaeacia-airtable-pat"
+description = "Airtable personal access token (pat + 14 alphanumerics + dot + 64 hex)"
+regex = '''(?:^|[^A-Za-z0-9_])(pat[A-Za-z0-9]{14}\.[0-9a-f]{64})(?:[^A-Za-z0-9_]|$)'''
+secretGroup = 1
+
+[[allowlists]]
+description = """
+Commit c173d3e7 (branch path-w-arm-h1, 2026-09-08) holds the arm B run transcripts of the
+ext.write experiment. The scripted owner in the monday-update fixture pastes a PLANTED Notion
+token, ntn_51829377..., so that the scrubber can be graded on removing it; the transcripts
+record the owner saying it. It is not a credential, it never was one, and the record documents
+the plant (record/findings/path-w-first-run-valid-passport-but-not-ready.md). The workflow
+scans every remote branch, so once that branch was pushed on 2026-09-16 every run went red,
+including runs on main. Scoped to the one commit rather than to verification/runs/, because
+transcripts are exactly where a REAL leak by a capture model would show up, and those must
+still fail the scan.
+"""
+commits = ['''c173d3e7cac884951be658e96c6f1f1290ab5fb6''']

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Blocks a commit that would introduce a secret.
+#
+# Since 2026-09-30 the hook that runs is NOT this file but a copy of it outside the
+# repository: ~/.config/git/hooks/phaeacia/pre-commit, reached through
+# `git config core.hooksPath` on each clone. A hook inside the repository would run
+# whatever the last push put here, as you, on your machine (security review
+# 2026-09-30, H5). So: edit this file, get it reviewed and merged, then copy it by hand
+#   cp .githooks/pre-commit ~/.config/git/hooks/phaeacia/pre-commit
+# Set up once per machine:  mkdir -p ~/.config/git/hooks/phaeacia && cp .githooks/pre-commit ~/.config/git/hooks/phaeacia/
+# Once per clone:           git config core.hooksPath ~/.config/git/hooks/phaeacia
+# Check:                    git config core.hooksPath   (must not say .githooks)
+#
+# This only scans what is staged, so it is fast enough to sit in front of every
+# commit. CI still scans the whole history, because a hook is advisory and can be
+# skipped with --no-verify. Skipping it is sometimes right; doing so silently is
+# not, which is why CI is the one that actually gates.
+
+set -euo pipefail
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "pre-commit: gitleaks not installed, skipping the secret scan." >&2
+  echo "            brew install gitleaks" >&2
+  exit 0
+fi
+
+if ! gitleaks git --staged --redact --no-banner --exit-code 1; then
+  cat >&2 <<'MSG'
+
+pre-commit: a staged change looks like a secret and the commit was stopped.
+
+If it is real:      remove it, then rotate it. It is already on disk and may
+                    already be in your shell history.
+If it is not:       add a scoped entry to .gitleaks.toml with a description
+                    saying why, then commit again.
+To override anyway: git commit --no-verify   (CI will still catch it)
+
+MSG
+  exit 1
+fi
